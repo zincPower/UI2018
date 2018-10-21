@@ -2,6 +2,7 @@ package com.zinc.class2_flowlayout;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,6 +15,10 @@ import java.util.List;
  * @description 流式 布局
  */
 public class FlowLayout extends ViewGroup {
+
+    private String TAG = "FlowLayout";
+    private int onMeasureCount = 0;
+    private int onLayoutCount = 0;
 
     public FlowLayout(Context context) {
         this(context, null, 0);
@@ -40,6 +45,12 @@ public class FlowLayout extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+        Log.i(TAG, "onMeasure: " + onMeasureCount++);
+
+        // 7.0 会进行两次绘制，所以需要先进行清理
+        lstHeight.clear();
+        lstLineView.clear();
 
         // 获取父亲的 模式 和 宽高
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
@@ -134,6 +145,8 @@ public class FlowLayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+
+        Log.i(TAG, "onLayout: " + onLayoutCount++);
 
         int left, top, right, bottom;
 
