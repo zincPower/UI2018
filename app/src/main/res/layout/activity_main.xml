@@ -1,83 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.zinc.class2_flowlayout.FlowLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@android:color/black">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TextView
-            style="@style/text_flag_01"
-            android:text="hello" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            style="@style/text_flag_01"
-            android:text="hello,hi" />
+            <Button
+                android:id="@+id/lsn_2"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="2讲：定义ui流程" />
 
-        <TextView
-            style="@style/text_flag_01"
-            android:text="你是我的"
-            android:textSize="18sp" />
+            <Button
+                android:id="@+id/lsn_3"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="3讲：paint使用（gradient、shader）" />
 
-        <TextView
-            style="@style/text_flag_01"
-            android:text="hello,man" />
+            <Button
+                android:id="@+id/lsn_4"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="4讲：paint使用（滤色、xfermode）" />
 
-        <TextView
-            style="@style/text_flag_01"
-            android:text="helloview" />
+            <Button
+                android:id="@+id/lsn_5"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="5讲：canvas（save、restore、layer）" />
 
-        <TextView
-            style="@style/text_flag_01"
-            android:text="view" />
+            <Button
+                android:id="@+id/lsn_6"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="6讲：drawable的level、gravity" />
 
-        <TextView
-            style="@style/text_flag_01"
-            android:text="我是你的"
-            android:textSize="20sp" />
+            <Button
+                android:id="@+id/lsn_7"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="7讲：贝塞尔曲线" />
 
-        <TextView
-            style="@style/text_flag_01"
-            android:text="he" />
+        </LinearLayout>
 
-        <TextView
-            style="@style/text_flag_01"
-            android:text="hello" />
-
-        <TextView
-            style="@style/text_flag_01"
-            android:text="textview" />
-
-        <TextView
-            style="@style/text_flag_01"
-            android:text="view" />
-
-        <TextView
-            style="@style/text_flag_01"
-            android:text="hello,view" />
-
-        <TextView
-            style="@style/text_flag_01"
-            android:text="hello,mt" />
-
-        <TextView
-            style="@style/text_flag_01"
-            android:text="hel" />
-
-        <TextView
-            style="@style/text_flag_01"
-            android:text="hel" />
-
-        <TextView
-            style="@style/text_flag_01"
-            android:text="hel2" />
-
-    </com.zinc.class2_flowlayout.FlowLayout>
-
-
+    </ScrollView>
 
 </LinearLayout>

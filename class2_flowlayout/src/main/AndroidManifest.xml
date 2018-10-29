@@ -1,2 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zinc.class2_flowlayout" />
+    package="com.zinc.class2_flowlayout" >
+    <application>
+        <activity android:name=".ClientActivity"/>
+    </application>
+</manifest>

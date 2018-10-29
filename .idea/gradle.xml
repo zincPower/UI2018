@@ -11,6 +11,8 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/class2_flowlayout" />
             <option value="$PROJECT_DIR$/class3_paint" />
+            <option value="$PROJECT_DIR$/class4_xfermode" />
+            <option value="$PROJECT_DIR$/class5_canvas" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

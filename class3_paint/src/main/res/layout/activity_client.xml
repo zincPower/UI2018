@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tile_mode"
+        style="@style/textview_button"
+        android:text="图片拉伸(Tile Mode)" />
+
+    <TextView
+        android:id="@+id/zoom"
+        style="@style/textview_button"
+        android:text="放大镜 和 雷达 效果" />
+
+    <TextView
+        android:id="@+id/bitmap_control"
+        style="@style/textview_button"
+        android:text="图片处理(BitmapShader)" />
+
+    <TextView
+        android:id="@+id/gradient"
+        style="@style/textview_button"
+        android:text="心形渐变（Gradient）" />
+
+    <TextView
+        android:id="@+id/running_text"
+        style="@style/textview_button"
+        android:text="跑动的文字" />
+
+</LinearLayout>

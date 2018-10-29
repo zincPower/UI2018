@@ -22,7 +22,7 @@
         android:layout_height="45dp"
         android:text="圆角" />
 
-    <com.zinc.class3_paint.widget.ShapeDrawableView
+    <com.zinc.class3_paint.widget.BitmapShaderView
         android:id="@+id/shape_view"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
