@@ -33,10 +33,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, com.zinc.class4_xfermode.ClientActivity.class));
                 break;
             case R.id.lsn_5:
-                //TODO implement
+                startActivity(new Intent(this, com.zinc.class5_canvas.ClientActivity.class));
                 break;
             case R.id.lsn_6:
-                //TODO implement
+                startActivity(new Intent(this, com.zinc.class6_drawable_gravity.ClientActivity.class));
                 break;
             case R.id.lsn_7:
                 //TODO implement

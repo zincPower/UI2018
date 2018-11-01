@@ -10,7 +10,7 @@
         android:hardwareAccelerated="false"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="com.zinc.class7_bezier.BezierActivity"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

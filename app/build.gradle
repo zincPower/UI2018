@@ -26,4 +26,7 @@ dependencies {
     implementation project(":class2_flowlayout")
     implementation project(":class3_paint")
     implementation project(":class4_xfermode")
+    implementation project(":class5_canvas")
+    implementation project(":class6_drawable_gravity")
+    implementation project(":class7_bezier")
 }

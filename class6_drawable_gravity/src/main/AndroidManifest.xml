@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zinc.class5_canvas" >
+    package="com.zinc.class6_drawable_gravity" >
 
     <application>
 
