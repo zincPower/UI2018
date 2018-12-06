@@ -6,14 +6,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Point;
 import android.graphics.PointF;
+import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -30,9 +31,15 @@ public class BezierView extends View {
     private static final int MAX_ORDER = 7;
     private static final int X_TYPE = 1;
     private static final int Y_TYPE = 2;
+    // 有效触碰的范围
+    private static final int TOUCH_REGION_WIDTH = 30;
+
     // 帧数：1000，即1000个点来绘制一条线
     private static final int FRAME = 1000;
+
+    // handler 事件
     private static final int HANDLE_EVENT = 12580;
+
     // 准备状态
     private static final int PREPARE = 0x0001;
     // 运行状态
@@ -41,7 +48,7 @@ public class BezierView extends View {
     private static final int STOP = 0x0004;
 
     // 当前状态
-    private int state = 0;
+    private int mState = 0;
     // 普通线的宽度
     private int LINE_WIDTH;
     // 贝塞尔曲线的宽度
@@ -91,6 +98,8 @@ public class BezierView extends View {
 
     // 绘制时，贝塞尔曲线的点
     private PointF mCurBezierPoint;
+    // 当前选中的点
+    private PointF mCurSelectPoint;
 
     public BezierView(Context context) {
         super(context, null);
@@ -107,7 +116,7 @@ public class BezierView extends View {
         POINT_RADIO_WIDTH = dpToPx(4);
 
         // 初始化为准备状态
-        state |= PREPARE;
+        mState |= PREPARE;
 
         mHandler = new MyHandler(this);
 
@@ -151,20 +160,22 @@ public class BezierView extends View {
         mIntermediatePaint.setStrokeWidth(LINE_WIDTH);
 
         mBezierPath = new Path();
-        mBezierPointList = buildBezierPoint();
-        for (int i = 0; i < mBezierPointList.size(); ++i) {
-            PointF point = mBezierPointList.get(i);
-            if (i == 0) {
-                mBezierPath.moveTo(point.x, point.y);
-            } else {
-                mBezierPath.lineTo(point.x, point.y);
-            }
-        }
+//        mBezierPointList = buildBezierPoint();
+//        prepareBezierPath();
 
     }
 
+
+
     public void start() {
-        state = RUNNING;
+
+        mBezierPath.reset();
+
+        mState = RUNNING;
+
+        mBezierPointList = buildBezierPoint();
+        prepareBezierPath();
+
         calculateIntermediateLine();
         setCurBezierPoint(mBezierPointList.get(0));
         invalidate();
@@ -180,7 +191,7 @@ public class BezierView extends View {
         // 绘制贝塞尔曲线
         canvas.drawPath(mBezierPath, mBezierPaint);
 
-        if (state == RUNNING) {
+        if (mState == RUNNING) {
             // 画中间阶层的线
             mPointPaint.setStyle(Paint.Style.FILL);
             for (int i = 0; i < mIntermediateDrawList.size(); ++i) {
@@ -344,6 +355,17 @@ public class BezierView extends View {
 
     }
 
+    private void prepareBezierPath(){
+        for (int i = 0; i < mBezierPointList.size(); ++i) {
+            PointF point = mBezierPointList.get(i);
+            if (i == 0) {
+                mBezierPath.moveTo(point.x, point.y);
+            } else {
+                mBezierPath.lineTo(point.x, point.y);
+            }
+        }
+    }
+
     /**
      * 计算坐标 [贝塞尔曲线的核心关键]
      *
@@ -397,6 +419,69 @@ public class BezierView extends View {
             return (1 - u) * calculatePointCoordinate(type, u, k - 1, p)
                     + u * calculatePointCoordinate(type, u, k - 1, p + 1);
 
+        }
+
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        // 没有在准备状态不能进行操作
+        if (mState != PREPARE) {
+            return true;
+        }
+
+        // 触碰的坐标
+        float x = event.getX();
+        float y = event.getY();
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                isLegalControlPoint(x, y);
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                if (mCurSelectPoint == null) {
+                    return true;
+                }
+
+                mCurSelectPoint.x = x;
+                mCurSelectPoint.y = y;
+                invalidate();
+
+                break;
+
+            case MotionEvent.ACTION_UP:
+                mCurSelectPoint = null;
+                break;
+        }
+
+        return true;
+    }
+
+    /**
+     * 获取 触碰点 范围内有效的 控制点
+     *
+     * @param x
+     * @param y
+     */
+    private void isLegalControlPoint(float x, float y) {
+
+        if (mCurSelectPoint == null) {
+
+            for (PointF controlPoint : mControlPointList) {
+                RectF pointRange = new RectF(controlPoint.x - TOUCH_REGION_WIDTH,
+                        controlPoint.y - TOUCH_REGION_WIDTH,
+                        controlPoint.x + TOUCH_REGION_WIDTH,
+                        controlPoint.y + TOUCH_REGION_WIDTH);
+
+                // 如果包含了就，返回true
+                if (pointRange.contains(x, y)) {
+                    mCurSelectPoint = controlPoint;
+                    return;
+                }
+
+            }
         }
 
     }
@@ -460,11 +545,11 @@ public class BezierView extends View {
     }
 
     private int getState() {
-        return state;
+        return mState;
     }
 
     private void setState(int state) {
-        this.state = state;
+        this.mState = state;
     }
 
     private int getRate() {
@@ -547,6 +632,5 @@ public class BezierView extends View {
 
         }
     }
-
 
 }

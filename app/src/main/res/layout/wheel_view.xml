@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <widget.WheelView
+        android:id="@+id/wheel_view_wv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <widget.LeanView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:bgColor="#f89b4b"
+        app:text="已撤销"
+        app:textColor="@android:color/white" />
+
+</LinearLayout>

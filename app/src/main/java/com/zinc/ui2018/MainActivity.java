@@ -1,5 +1,6 @@
 package com.zinc.ui2018;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +12,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         findViewById(R.id.lsn_2).setOnClickListener(this);
         findViewById(R.id.lsn_3).setOnClickListener(this);
         findViewById(R.id.lsn_4).setOnClickListener(this);

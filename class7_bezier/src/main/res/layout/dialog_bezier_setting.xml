@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rl_background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/shape_dialog_bg"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="是否显示降阶线"
+                android:textColor="#333333"
+                android:textSize="12sp" />
+
+            <Switch
+                android:id="@+id/reduce_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#dddddd" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="是否循环播放"
+                android:textColor="#333333"
+                android:textSize="12sp" />
+
+            <Switch
+                android:id="@+id/loop_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#dddddd" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:text="阶数（n）"
+                android:textColor="#333333"
+                android:textSize="12sp" />
+
+            <SeekBar
+                android:id="@+id/order_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="45dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#dddddd" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="是否只绘制路径"
+                android:textColor="#333333"
+                android:textSize="12sp" />
+
+            <Switch
+                android:id="@+id/path_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#dddddd" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:text="速率（n）"
+                android:textColor="#333333"
+                android:textSize="12sp" />
+
+            <SeekBar
+                android:id="@+id/rate_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="45dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

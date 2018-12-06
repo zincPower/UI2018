@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="lean_view_styleable">
+        <attr name="text" format="reference|string" />
+        <attr name="textSizeSp" format="float" />
+        <attr name="bgColor" format="color" />
+        <attr name="textColor" format="color" />
+    </declare-styleable>
+
+</resources>

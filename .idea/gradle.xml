@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/class5_canvas" />
             <option value="$PROJECT_DIR$/class6_drawable_gravity" />
             <option value="$PROJECT_DIR$/class7_bezier" />
+            <option value="$PROJECT_DIR$/class8_pathmeasure" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

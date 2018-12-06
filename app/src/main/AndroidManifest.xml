@@ -4,14 +4,12 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:hardwareAccelerated="false"
-        android:theme="@style/AppTheme">
-        <activity
-            android:name="com.zinc.class7_bezier.BezierActivity"
-            >
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name="widget.SliceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

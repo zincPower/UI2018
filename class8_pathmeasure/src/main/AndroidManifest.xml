@@ -1,6 +1,2 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zinc.class7_bezier" >
-
-
-
-</manifest>
+    package="com.zinc.class8_pathmeasure" />
