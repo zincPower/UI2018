@@ -24,7 +24,7 @@ import android.view.View;
  * 注意的是，要和google的示例一模一样需要在manifest中增加
  * android:hardwareAccelerated="false"
  * 关闭硬件加速，其实就是避开 openGL 的绘制
- * 否则Clear、Darken、Lighten会和示例中的不太一样
+ * 否则Clear、Darken、Lighten会和示例中的不太一样  k
  */
 public class GoogleXFerModeView extends View {
 

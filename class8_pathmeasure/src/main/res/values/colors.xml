@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+
+    <color name="color_purple">#DA8AE5</color>
+    <color name="color_blue">#39B0E8</color>
+    <color name="color_yellow">#FFC76D</color>
+    <color name="color_white">#ffffff</color>
+
+    <color name="color_wave_blue">#503bff</color>
+    <color name="color_boat_blue">#8293ff</color>
+
+</resources>

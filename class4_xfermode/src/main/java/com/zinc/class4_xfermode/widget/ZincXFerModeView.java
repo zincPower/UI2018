@@ -1,6 +1,7 @@
 package com.zinc.class4_xfermode.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
@@ -8,16 +9,21 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.Xfermode;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.zinc.class4_xfermode.R;
+import com.zinc.class4_xfermode.activity.XFerModeItemActivity;
 
 /**
  * @author Jiang zinc
@@ -33,7 +39,7 @@ public class ZincXFerModeView extends View {
 
     private String TAG = "XFerModeView";
 
-    private static final Xfermode[] sModes = {
+    public static final Xfermode[] sModes = {
             new PorterDuffXfermode(PorterDuff.Mode.CLEAR),
             new PorterDuffXfermode(PorterDuff.Mode.SRC),
             new PorterDuffXfermode(PorterDuff.Mode.DST),
@@ -55,7 +61,7 @@ public class ZincXFerModeView extends View {
             new PorterDuffXfermode(PorterDuff.Mode.SCREEN)
     };
 
-    private static final String[] sLabels = {
+    public static final String[] sLabels = {
             "Clear", "Src", "Dst", "Xor",
             "SrcOver", "DstOver", "SrcIn", "DstIn",
             "SrcOut", "DstOut", "SrcATop", "DstATop",
@@ -102,6 +108,9 @@ public class ZincXFerModeView extends View {
 
     private Paint bitmapPaint;
 
+    private RectF mRangeRectF;
+    private PointF mCurPoint;
+
     // 背景
     private Shader itemBackground;
 
@@ -133,6 +142,9 @@ public class ZincXFerModeView extends View {
 
         dstBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.dst);
         srcBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.src);
+
+        mRangeRectF = new RectF();
+        mCurPoint = new PointF();
     }
 
     @Override
@@ -203,11 +215,11 @@ public class ZincXFerModeView extends View {
                 bitmapPaint.setXfermode(null);
                 // 画圆
 //                canvas.drawBitmap(dstBitmap, itemBorderWidth, itemBorderWidth, bitmapPaint);
-                canvas.drawBitmap(dstBitmap, null,rectF, bitmapPaint);
+                canvas.drawBitmap(dstBitmap, null, rectF, bitmapPaint);
                 bitmapPaint.setXfermode(sModes[row * 4 + col]);
                 // 画矩形
 //                canvas.drawBitmap(rectBitmap, itemBorderWidth, itemBorderWidth, bitmapPaint);
-                canvas.drawBitmap(srcBitmap, null,rectF, bitmapPaint);
+                canvas.drawBitmap(srcBitmap, null, rectF, bitmapPaint);
 
                 canvas.restoreToCount(layer);
             }
@@ -215,4 +227,60 @@ public class ZincXFerModeView extends View {
 
     }
 
+    int mDownSelIndex = -1;
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        float x = event.getX();
+        float y = event.getY();
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mDownSelIndex = getTouchIndex(x, y);
+                break;
+            case MotionEvent.ACTION_UP:
+                if(mDownSelIndex == -1) {
+                    return true;
+                }
+
+                if (mDownSelIndex == getTouchIndex(x, y)) {
+                    Intent intent = new Intent(getContext(), XFerModeItemActivity.class);
+                    intent.putExtra(XFerModeItemActivity.INDEX, mDownSelIndex);
+                    getContext().startActivity(intent);
+                }
+
+                mDownSelIndex = -1;
+
+                break;
+
+        }
+
+
+        return true;
+    }
+
+    private int getTouchIndex(float x, float y) {
+        for (int row = 0; row < 4; ++row) {
+            for (int col = 0; col < 4; ++col) {
+
+                float translateX = horizontalOffset / 2 + (horizontalOffset + itemWidth) * col;
+                float translateY = (verticalOffset + itemWidth + textSize) * row;
+
+                float translateYItem = textSize + verticalOffset;
+
+                mRangeRectF.set(translateX,
+                        translateY + translateYItem,
+                        translateX + itemWidth,
+                        translateY + itemWidth + translateYItem);
+
+                if (mRangeRectF.contains(x, y)) {
+                    return row * 4 + col;
+                }
+
+
+            }
+        }
+        return -1;
+    }
 }

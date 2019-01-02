@@ -1,5 +1,6 @@
 package com.zinc.class8_pathmeasure;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +14,8 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.OvershootInterpolator;
 
 /**
  * @author Jiang zinc
@@ -49,6 +52,8 @@ public class PlaneLoadingView extends View {
     private float mCurrentValue = 0;
 
     private Matrix mMatrix;
+
+    private ValueAnimator valueAnimator;
 
     public PlaneLoadingView(Context context) {
         super(context);
@@ -88,6 +93,27 @@ public class PlaneLoadingView extends View {
         mPathMeasure.setPath(mCirclePath, false);
 
         mMatrix = new Matrix();
+
+        valueAnimator = ValueAnimator.ofFloat(0, 1f);
+        valueAnimator.setDuration(5000);
+        // 匀速增长
+        valueAnimator.setInterpolator(new LinearInterpolator());
+        valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                // 第一种做法：通过自己控制，是箭头在原来的位置继续运行
+                mCurrentValue += 0.005;
+                if (mCurrentValue >= 1) {
+                    mCurrentValue -= 1;
+                }
+
+                // 第二种做法：直接获取可以通过估值器，改变其变动规律
+//                mCurrentValue = (float) animation.getAnimatedValue();
+
+                invalidate();
+            }
+        });
     }
 
     @Override
@@ -103,17 +129,20 @@ public class PlaneLoadingView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        //100  5000
-//        mCurrentValue += 0.005;
-//        if (mCurrentValue >= 1) {
-//            mCurrentValue -= 1;
-//        }
 
 //        mCurrentValue = 0.8333333333f;
 //        mCurrentValue = 0.1666666667f;
 //        mCurrentValue = 0.4166666667f;
+//        mCurrentValue = 0.75f;
+//        mCurrentValue = 0.5f;
 //        mCurrentValue = 0.25f;
-        mCurrentValue = 0;
+//        mCurrentValue = 0;
+
+//        mCurrentValue = 10 / 12f;
+//        mCurrentValue = 7 / 12f;
+//        mCurrentValue = 5 / 12f;
+//        mCurrentValue = 2 / 12f;
+
 
         // 画背景
         canvas.drawColor(Color.WHITE);
@@ -133,13 +162,11 @@ public class PlaneLoadingView extends View {
 
         // 计算角度
         float degree = (float) (Math.atan2(mTan[1], mTan[0]) * 180 / Math.PI);
-//        float degree = (float) (Math.atan2(mPos[1], mPos[0]) * 180 / Math.PI) - 90;
 
         Log.i("PlaneLoadingView_1", "------------pos[0] = " + mPos[0] + "; pos[1] = " + mPos[1]);
-        Log.i("PlaneLoadingView_2", "------------tan[0] = " + mTan[0] + "; tan[1] = " + mTan[1]);
+        Log.i("PlaneLoadingView_2", "------------tan[0](cos) = " + mTan[0] + "; tan[1](sin) = " + mTan[1]);
         Log.i("PlaneLoadingView_3", "path length = " + mPathMeasure.getLength() * mCurrentValue);
         Log.i("PlaneLoadingView_4", "degree = " + degree);
-        Log.i("PlaneLoadingView_5", "mmmm = " + (Math.atan2(mPos[1], mPos[0]) * 180 / Math.PI));
 
         // 重置矩阵
         mMatrix.reset();
@@ -155,7 +182,14 @@ public class PlaneLoadingView extends View {
 
         canvas.drawCircle(mPos[0], mPos[1], 3, mCirclePaint);
 
-//        invalidate();
-
     }
+
+    public void startLoading() {
+        valueAnimator.start();
+    }
+
+    public void stopLoading() {
+        valueAnimator.cancel();
+    }
+
 }

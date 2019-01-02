@@ -8,14 +8,16 @@
         android:id="@+id/btn_google"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:text="google示例xfermode"
-        />
+        android:text="google示例xfermode" />
 
     <Button
         android:id="@+id/btn_zinc"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:text="zinc示例xfermode"
-        />
+        android:text="zinc示例xfermode" />
+
+    <com.zinc.class4_xfermode.widget.ItemXFerModeView
+        android:layout_width="200dp"
+        android:layout_height="200dp" />
 
 </LinearLayout>

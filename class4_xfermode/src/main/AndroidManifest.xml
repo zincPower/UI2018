@@ -5,6 +5,7 @@
 
         <activity android:name=".activity.GoogleXFerModeActivity"/>
         <activity android:name=".activity.ZincXFerModeActivity"/>
+        <activity android:name=".activity.XFerModeItemActivity"/>
         <activity android:name=".ClientActivity" />
 
     </application>
