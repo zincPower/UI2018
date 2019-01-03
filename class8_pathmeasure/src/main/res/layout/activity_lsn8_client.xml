@@ -4,24 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.zinc.class8_pathmeasure.PlaneLoadingView
-        android:id="@+id/plane_loading_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
 
-    <Button
-        android:onClick="start"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="开始"
-        />
-
-    <Button
-        android:onClick="stop"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="停止"
-        />
 
 </LinearLayout>

@@ -22,7 +22,7 @@ import android.view.animation.OvershootInterpolator;
  * @date 创建时间：2018/11/5
  * @description
  */
-public class PlaneLoadingView extends View {
+public class PlaneLoadingView extends BaseView {
 
     private static final float DELAY = 0.005f;
 
@@ -30,11 +30,6 @@ public class PlaneLoadingView extends View {
     private float mPos[];
     // PathMeasure 测量过程中的正切
     private float mTan[];
-
-    // 宽度
-    private float mWidth;
-    // 高度
-    private float mHeight;
 
     // 圈的画笔
     private Paint mCirclePaint;
@@ -57,43 +52,43 @@ public class PlaneLoadingView extends View {
 
     public PlaneLoadingView(Context context) {
         super(context);
-        init(context);
     }
 
     public PlaneLoadingView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(context);
     }
 
     public PlaneLoadingView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
     }
 
-    private void init(Context context) {
+    protected void init(Context context) {
+        // 初始化 画笔 [抗锯齿、不填充、红色、线条2px]
         mCirclePaint = new Paint();
         mCirclePaint.setAntiAlias(true);
         mCirclePaint.setStyle(Paint.Style.STROKE);
         mCirclePaint.setColor(Color.RED);
         mCirclePaint.setStrokeWidth(2);
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        // 设置缩放
-        options.inSampleSize = 8;
         // 获取图片
-        mArrowBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.arrow, options);
+        mArrowBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.arrow, null);
 
+        // 初始化 圆路径 [圆心(0,0)、半径200px、顺时针画]
         mCirclePath = new Path();
         mCirclePath.addCircle(0, 0, 200, Path.Direction.CW);
 
+        // 初始化 装载 坐标 和 正余弦 的数组
         mPos = new float[2];
         mTan = new float[2];
 
+        // 初始化 PathMeasure 并且关联 圆路径
         mPathMeasure = new PathMeasure();
         mPathMeasure.setPath(mCirclePath, false);
 
+        // 初始化矩阵
         mMatrix = new Matrix();
 
+        // 初始化 估值器 [区间0-1、时长5秒、线性增长、无限次循环]
         valueAnimator = ValueAnimator.ofFloat(0, 1f);
         valueAnimator.setDuration(5000);
         // 匀速增长
@@ -103,7 +98,7 @@ public class PlaneLoadingView extends View {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 // 第一种做法：通过自己控制，是箭头在原来的位置继续运行
-                mCurrentValue += 0.005;
+                mCurrentValue += DELAY;
                 if (mCurrentValue >= 1) {
                     mCurrentValue -= 1;
                 }
@@ -117,44 +112,14 @@ public class PlaneLoadingView extends View {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        this.mWidth = getMeasuredWidth();
-        this.mHeight = getMeasuredHeight();
-
-    }
-
-    @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-
-//        mCurrentValue = 0.8333333333f;
-//        mCurrentValue = 0.1666666667f;
-//        mCurrentValue = 0.4166666667f;
-//        mCurrentValue = 0.75f;
-//        mCurrentValue = 0.5f;
-//        mCurrentValue = 0.25f;
-//        mCurrentValue = 0;
-
-//        mCurrentValue = 10 / 12f;
-//        mCurrentValue = 7 / 12f;
-//        mCurrentValue = 5 / 12f;
-//        mCurrentValue = 2 / 12f;
-
-
-        // 画背景
-        canvas.drawColor(Color.WHITE);
-
-        // 画坐标
-        canvas.drawLine(mWidth / 2, 0, mWidth / 2, mHeight, mCirclePaint);
-        canvas.drawLine(0, mHeight / 2, mWidth, mHeight / 2, mCirclePaint);
+        // 画网格和坐标轴
+        drawCoordinate(canvas);
 
         // 移至canvas中间
         canvas.translate(mWidth / 2, mHeight / 2);
 
-        // 画圆
+        // 画圆路径
         canvas.drawPath(mCirclePath, mCirclePaint);
 
         // 测量 pos(坐标) 和 tan(正切)
@@ -176,10 +141,13 @@ public class PlaneLoadingView extends View {
         mMatrix.postTranslate(mPos[0] - mArrowBitmap.getWidth() / 2,
                 mPos[1] - mArrowBitmap.getHeight() / 2);
 
+        // 画原点
         canvas.drawCircle(0, 0, 3, mCirclePaint);
 
+        // 画箭头，使用矩阵旋转
         canvas.drawBitmap(mArrowBitmap, mMatrix, mCirclePaint);
 
+        // 画在 箭头 图标的中心点
         canvas.drawCircle(mPos[0], mPos[1], 3, mCirclePaint);
 
     }

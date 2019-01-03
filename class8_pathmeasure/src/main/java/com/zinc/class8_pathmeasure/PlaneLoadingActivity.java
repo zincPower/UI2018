@@ -10,36 +10,24 @@ import android.view.View;
  * @date 创建时间：2018/11/5
  * @description
  */
-public class ClientActivity extends AppCompatActivity {
+public class PlaneLoadingActivity extends AppCompatActivity {
 
     PlaneLoadingView mPlaneLoadingView;
-
-    BoatWaveView mBoatWaveView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_boat_wave_view);
-//        setContentView(new ABCView(this));
-//        setContentView(new GetSegmentView(this));
-        setContentView(new PlaneLoadingView(this));
+        setContentView(R.layout.activity_plane_loading);
 
         mPlaneLoadingView = findViewById(R.id.plane_loading_view);
-//        mBoatWaveView = findViewById(R.id.boat_wave_view);
-    }
-
-    public static void main(String[] args) {
-
-        System.out.println(Math.atan2(45, 30));
-
     }
 
     public void start(View view) {
-        mBoatWaveView.startAnim();
+        mPlaneLoadingView.startLoading();
     }
 
     public void stop(View view) {
-        mBoatWaveView.stopAnim();
+        mPlaneLoadingView.stopLoading();
     }
 
 }

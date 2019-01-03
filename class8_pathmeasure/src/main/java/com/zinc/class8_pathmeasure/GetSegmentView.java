@@ -18,7 +18,7 @@ import android.view.View;
 public class GetSegmentView extends BaseView {
 
     // 测试 getSegment方法 的属性
-    Path mRectPath;   // 进行截取的矩形
+    Path mPath;   // 进行截取的路径
     Path mDst;      // 存放截取的路径
     PathMeasure mGetSegmentPathMeasure;
 
@@ -40,7 +40,7 @@ public class GetSegmentView extends BaseView {
     }
 
     protected void init(Context context) {
-        mRectPath = new Path();
+        mPath = new Path();
         mDst = new Path();
 
         mPaint = new Paint();
@@ -50,8 +50,9 @@ public class GetSegmentView extends BaseView {
         mPaint.setStyle(Paint.Style.STROKE);
 
         mGetSegmentPathMeasure = new PathMeasure();
-        mRectPath.addCircle(0, 0, 400, Path.Direction.CW);
-        mGetSegmentPathMeasure.setPath(mRectPath, false);
+        // 顺时针画 半径为400px的圆
+        mPath.addCircle(0, 0, 200, Path.Direction.CW);
+        mGetSegmentPathMeasure.setPath(mPath, false);
     }
 
     @Override
@@ -67,12 +68,12 @@ public class GetSegmentView extends BaseView {
         canvas.translate(mWidth / 2, mHeight / 2);
 
         mDst.moveTo(0, 0);
-        mDst.lineTo(200, 200);
+        mDst.lineTo(100, 100);
 
         mGetSegmentPathMeasure.getSegment(mGetSegmentPathMeasure.getLength() * 0.25f,
                 mGetSegmentPathMeasure.getLength() * 0.5f,
                 mDst,
-                true);
+                false);
 
         canvas.drawPath(mDst, mPaint);
     }
