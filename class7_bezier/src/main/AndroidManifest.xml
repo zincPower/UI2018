@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zinc.class7_bezier" >
+    package="com.zinc.class7_bezier">
 
-
+    <application>
+        <activity android:name=".BezierActivity" />
+    </application>
 
 </manifest>

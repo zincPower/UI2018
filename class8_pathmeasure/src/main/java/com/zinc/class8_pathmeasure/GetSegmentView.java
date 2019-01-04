@@ -18,11 +18,13 @@ import android.view.View;
 public class GetSegmentView extends BaseView {
 
     // 测试 getSegment方法 的属性
-    Path mPath;   // 进行截取的路径
-    Path mDst;      // 存放截取的路径
-    PathMeasure mGetSegmentPathMeasure;
+    private Path mPath;   // 进行截取的路径
+    private Path mDst;      // 存放截取的路径
+    private PathMeasure mGetSegmentPathMeasure;
 
-    Paint mPaint;
+    private Paint mPaint;
+
+    private boolean mStartWithMoveTo = false;
 
     public GetSegmentView(Context context) {
         super(context);
@@ -67,14 +69,23 @@ public class GetSegmentView extends BaseView {
         // 平移至画布中间
         canvas.translate(mWidth / 2, mHeight / 2);
 
+        // 重置dst，清空之前路径
+        mDst.reset();
+
         mDst.moveTo(0, 0);
         mDst.lineTo(100, 100);
 
         mGetSegmentPathMeasure.getSegment(mGetSegmentPathMeasure.getLength() * 0.25f,
                 mGetSegmentPathMeasure.getLength() * 0.5f,
                 mDst,
-                false);
+                mStartWithMoveTo);
 
         canvas.drawPath(mDst, mPaint);
     }
+
+    public void setStartWithMoveTo(boolean value) {
+        mStartWithMoveTo = value;
+        invalidate();
+    }
+
 }

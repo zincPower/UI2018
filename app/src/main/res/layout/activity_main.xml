@@ -49,6 +49,12 @@
                 android:layout_height="45dp"
                 android:text="7讲：贝塞尔曲线" />
 
+            <Button
+                android:id="@+id/lsn_8"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="8讲：PathMeasure" />
+
         </LinearLayout>
 
     </ScrollView>

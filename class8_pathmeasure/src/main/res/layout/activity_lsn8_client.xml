@@ -4,6 +4,40 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:onClick="onAbc"
+        android:text="基础api" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:onClick="onGetSegment"
+        android:text="get_Segment测试" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:onClick="onGetLength"
+        android:text="get_Length测试" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:onClick="onArrow"
+        android:text="实战——旋转的小箭头" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:onClick="onLoading"
+        android:text="实战——粘性loading" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:onClick="onBoat"
+        android:text="实战——乘风破浪的小船" />
 
 </LinearLayout>

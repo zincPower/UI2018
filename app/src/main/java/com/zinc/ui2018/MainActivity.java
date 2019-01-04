@@ -1,6 +1,5 @@
 package com.zinc.ui2018;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +17,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.lsn_5).setOnClickListener(this);
         findViewById(R.id.lsn_6).setOnClickListener(this);
         findViewById(R.id.lsn_7).setOnClickListener(this);
+        findViewById(R.id.lsn_8).setOnClickListener(this);
     }
 
     @Override
@@ -39,7 +39,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, com.zinc.class6_drawable_gravity.ClientActivity.class));
                 break;
             case R.id.lsn_7:
-                //TODO implement
+                startActivity(new Intent(this, com.zinc.class7_bezier.BezierActivity.class));
+                break;
+            case R.id.lsn_8:
+                startActivity(new Intent(this, com.zinc.class8_pathmeasure.activity.ClientActivity.class));
                 break;
         }
     }

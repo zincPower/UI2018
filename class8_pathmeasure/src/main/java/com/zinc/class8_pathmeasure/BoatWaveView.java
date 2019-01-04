@@ -71,6 +71,8 @@ public class BoatWaveView extends BaseView {
 
     // 浪花当前的偏移量
     private int mCurWaveOffset = 0;
+    // 小船的浪花偏移量
+    private int mBoatWaveOffset = 0;
 
     // 用于变换小船的
     private Matrix mMatrix;
@@ -110,6 +112,7 @@ public class BoatWaveView extends BaseView {
             public void onAnimationUpdate(ValueAnimator animation) {
                 mCurValue = (float) animation.getAnimatedValue();
                 mCurWaveOffset = (mCurWaveOffset + WAVE_OFFSET) % mWidth;
+                mBoatWaveOffset = (mBoatWaveOffset + WAVE_OFFSET/2) % mWidth;
 
                 postInvalidate();
             }
@@ -118,12 +121,11 @@ public class BoatWaveView extends BaseView {
     }
 
     /**
-     * 初始化浪花的路径
-     *
-     * @param path    路径
-     * @param length  浪花的宽度
-     * @param height  浪花的高度
-     * @param isClose 是否要闭合
+     * @param path       路径
+     * @param length     浪花的宽度
+     * @param height     浪花的高度
+     * @param isClose    是否要闭合
+     * @param lengthTime 浪花长的倍数
      */
     private void initPath(Path path, int length, int height, boolean isClose, float lengthTime) {
         // 初始化 小船的路径
@@ -162,7 +164,7 @@ public class BoatWaveView extends BaseView {
             WAVE_LENGTH = mWidth / 3;
 
             // 初始化 小船的浪路径
-            initPath(mBoatWavePath, BOAT_LENGTH, BOAT_WAVE_HEIGHT, true, 1);
+            initPath(mBoatWavePath, WAVE_LENGTH, BOAT_WAVE_HEIGHT, true, 2);
 
             // 初始化 浪的路径
             initPath(mWavePath, WAVE_LENGTH, WAVE_HEIGHT, true, 2);
@@ -178,9 +180,8 @@ public class BoatWaveView extends BaseView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+        drawCoordinate(canvas);
 
-//        canvas.translate(mCurWaveOffset / 2, 0);
         float length = mBoatPathMeasure.getLength();
         mBoatPathMeasure.getMatrix(length * mCurValue,
                 mMatrix,
@@ -191,6 +192,7 @@ public class BoatWaveView extends BaseView {
 
         // 画船的浪花
         canvas.save();
+        canvas.translate(-mBoatWaveOffset, 0);
         mWavePaint.setColor(mBoatBlue);
         canvas.drawPath(mBoatWavePath, mWavePaint);
         canvas.restore();
