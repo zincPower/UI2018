@@ -10,6 +10,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.zinc.lib_base.BaseView;
+
 /**
  * @author Jiang zinc
  * @date 创建时间：2019/1/2

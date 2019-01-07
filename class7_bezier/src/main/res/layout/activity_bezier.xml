@@ -28,26 +28,10 @@
             android:src="@drawable/icons_settings" />
 
         <ImageView
-            android:id="@+id/iv_restart"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_toLeftOf="@id/iv_setting"
-            android:padding="9.5dp"
-            android:src="@drawable/icons_restart" />
-
-        <ImageView
-            android:id="@+id/iv_pause"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_toLeftOf="@id/iv_restart"
-            android:padding="9.5dp"
-            android:src="@drawable/icons_pause" />
-
-        <ImageView
             android:id="@+id/iv_play"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_toLeftOf="@id/iv_pause"
+            android:layout_toLeftOf="@id/iv_setting"
             android:padding="9.5dp"
             android:src="@drawable/icons_play" />
 

@@ -1,4 +1,4 @@
-package com.zinc.class8_pathmeasure;
+package com.zinc.lib_base;
 
 import android.content.Context;
 import android.graphics.Canvas;

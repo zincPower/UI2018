@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 
+import com.zinc.lib_base.BaseView;
+
 /**
  * @author Jiang zinc
  * @date 创建时间：2018/11/5

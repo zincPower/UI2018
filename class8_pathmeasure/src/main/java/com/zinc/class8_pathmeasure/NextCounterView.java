@@ -11,6 +11,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import com.zinc.lib_base.BaseView;
+
 /**
  * @author Jiang zinc
  * @date 创建时间：2018/12/6

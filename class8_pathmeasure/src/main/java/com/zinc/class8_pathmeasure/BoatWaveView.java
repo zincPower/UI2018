@@ -1,6 +1,5 @@
 package com.zinc.class8_pathmeasure;
 
-import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,6 +12,8 @@ import android.graphics.PathMeasure;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+
+import com.zinc.lib_base.BaseView;
 
 /**
  * @author Jiang zinc

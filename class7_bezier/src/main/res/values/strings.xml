@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">class7_bezier</string>
+
+    <string name="rate">速率(%1$d)</string>
+    <string name="order">阶数(%1$d)</string>
+
 </resources>

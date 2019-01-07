@@ -8,6 +8,8 @@ import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.util.AttributeSet;
 
+import com.zinc.lib_base.BaseView;
+
 /**
  * @author Jiang zinc
  * @date 创建时间：2019/1/4
