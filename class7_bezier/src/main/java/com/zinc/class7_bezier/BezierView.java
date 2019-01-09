@@ -13,9 +13,9 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.MutableShort;
 import android.view.MotionEvent;
 
+import com.zinc.class7_bezier.activity.BezierActivity;
 import com.zinc.lib_base.BaseView;
 
 import java.util.ArrayList;
@@ -431,7 +431,7 @@ public class BezierView extends BaseView {
 
                 mIntermediateList.clear();
                 mIntermediateDrawList.clear();
-                if(mBezierPointList != null){
+                if (mBezierPointList != null) {
                     mBezierPointList.clear();
                 }
                 mBezierPath.reset();
@@ -511,17 +511,6 @@ public class BezierView extends BaseView {
      */
     private int getColor(String color) {
         return Color.parseColor(color);
-    }
-
-    /**
-     * 转换 dp 至 px
-     *
-     * @param dp dp像素
-     * @return
-     */
-    private int dpToPx(float dp) {
-        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
-        return (int) (dp * metrics.density + 0.5f);
     }
 
     /**

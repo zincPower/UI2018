@@ -2,7 +2,9 @@
     package="com.zinc.class7_bezier">
 
     <application>
-        <activity android:name=".BezierActivity" />
+        <activity android:name=".activity.ClientActivity" />
+        <activity android:name=".activity.BezierActivity" />
+        <activity android:name=".activity.CircleActivity" />
     </application>
 
 </manifest>

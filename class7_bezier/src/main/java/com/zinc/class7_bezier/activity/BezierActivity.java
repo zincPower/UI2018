@@ -1,4 +1,4 @@
-package com.zinc.class7_bezier;
+package com.zinc.class7_bezier.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.zinc.class7_bezier.dialog.BezierDialog;
+import com.zinc.class7_bezier.BezierView;
+import com.zinc.class7_bezier.R;
 
 /**
  * @author Jiang zinc

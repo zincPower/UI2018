@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, com.zinc.class6_drawable_gravity.ClientActivity.class));
                 break;
             case R.id.lsn_7:
-                startActivity(new Intent(this, com.zinc.class7_bezier.BezierActivity.class));
+                startActivity(new Intent(this, com.zinc.class7_bezier.activity.ClientActivity.class));
                 break;
             case R.id.lsn_8:
                 startActivity(new Intent(this, com.zinc.class8_pathmeasure.activity.ClientActivity.class));
