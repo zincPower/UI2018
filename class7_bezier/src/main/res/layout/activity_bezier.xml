@@ -37,7 +37,7 @@
 
     </RelativeLayout>
 
-    <com.zinc.class7_bezier.BezierView
+    <com.zinc.class7_bezier.widget.BezierView
         android:id="@+id/bezier_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

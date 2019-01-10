@@ -1,4 +1,4 @@
-package com.zinc.class7_bezier;
+package com.zinc.class7_bezier.utils;
 
 import android.graphics.PointF;
 import android.support.annotation.IntRange;

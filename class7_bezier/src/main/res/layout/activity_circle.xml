@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.zinc.class7_bezier.CircleBezierView
+    <com.zinc.class7_bezier.widget.CircleBezierView
         android:id="@+id/circle_bezier_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"

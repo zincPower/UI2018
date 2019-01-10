@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.zinc.class7_bezier.CircleBezierView;
+import com.zinc.class7_bezier.widget.CircleBezierView;
 import com.zinc.class7_bezier.R;
 
 /**

@@ -1,7 +1,6 @@
-package com.zinc.class7_bezier;
+package com.zinc.class7_bezier.widget;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,9 +11,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 
+import com.zinc.class7_bezier.utils.BezierUtils;
 import com.zinc.class7_bezier.activity.BezierActivity;
 import com.zinc.lib_base.BaseView;
 

@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.zinc.class7_bezier.dialog.BezierDialog;
-import com.zinc.class7_bezier.BezierView;
+import com.zinc.class7_bezier.widget.BezierView;
 import com.zinc.class7_bezier.R;
 
 /**

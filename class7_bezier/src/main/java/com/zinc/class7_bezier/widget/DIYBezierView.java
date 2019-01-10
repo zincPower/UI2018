@@ -1,4 +1,4 @@
-package com.zinc.class7_bezier;
+package com.zinc.class7_bezier.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -21,7 +21,7 @@ import java.util.List;
  * @date 创建时间：2019/1/9
  * @description
  */
-public class AnimBezierView extends BaseView {
+public class DIYBezierView extends BaseView {
 
     private static final String BEZIER_CIRCLE_COLOR = "#20A298";    //绿色
     private static final String NATIVE_CIRCLE_COLOR = "#F6A010";    //橙色
@@ -65,15 +65,23 @@ public class AnimBezierView extends BaseView {
     // 拽动状态
     private Status mStatus;
 
-    public AnimBezierView(Context context) {
+    // 是否显示辅助线
+    private boolean mIsShowHelpLine;
+
+    // 触碰的x轴
+    private float mLastX = -1;
+    // 触碰的y轴
+    private float mLastY = -1;
+
+    public DIYBezierView(Context context) {
         super(context);
     }
 
-    public AnimBezierView(Context context, @Nullable AttributeSet attrs) {
+    public DIYBezierView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public AnimBezierView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public DIYBezierView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -88,14 +96,28 @@ public class AnimBezierView extends BaseView {
         invalidate();
     }
 
+    /**
+     * 获取控制点
+     *
+     * @return
+     */
+    public List<PointF> getControlPointList() {
+        return mControlPointList;
+    }
+
     public void setStatus(Status status) {
         this.mStatus = status;
+    }
+
+    public void setIsShowHelpLine(boolean isShowHelpLine) {
+        this.mIsShowHelpLine = isShowHelpLine;
+        invalidate();
     }
 
     @Override
     protected void init(Context context) {
         int width = context.getResources().getDisplayMetrics().widthPixels;
-        mRadius = width / 3;
+        mRadius = width / 4;
 
         LINE_WIDTH = dpToPx(2);
         POINT_RADIO_WIDTH = dpToPx(4);
@@ -129,9 +151,16 @@ public class AnimBezierView extends BaseView {
 
         mStatus = Status.FREE;
 
+        mIsShowHelpLine = true;
+
         mRatio = 0.55f;
 
         calculateControlPoint();
+    }
+
+    public void reset() {
+        calculateControlPoint();
+        invalidate();
     }
 
     @Override
@@ -163,6 +192,11 @@ public class AnimBezierView extends BaseView {
         }
         // 绘制贝塞尔曲线
         canvas.drawPath(mPath, mPaint);
+
+        // 不需要辅助线，则画完贝塞尔曲线就终止
+        if(!mIsShowHelpLine){
+            return;
+        }
 
         // 绘制圆
         canvas.drawCircle(mCenterPoint.x, mCenterPoint.y, mRadius, mCirclePaint);
@@ -215,11 +249,6 @@ public class AnimBezierView extends BaseView {
 
     }
 
-    // 触碰的x轴
-    private float mLastX = -1;
-    // 触碰的y轴
-    private float mLastY = -1;
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
@@ -243,7 +272,7 @@ public class AnimBezierView extends BaseView {
                 float offsetX = x - mLastX;
                 float offsetY = y - mLastY;
 
-                if (mStatus == Status.MIRROR && mSelPoint != null) {
+                if ((mStatus == Status.MIRROR_DIFF || mStatus == Status.MIRROR_SAME) && mSelPoint != null) {
 
                     mSelPoint.x = mSelPoint.x + offsetX;
                     mSelPoint.y = mSelPoint.y + offsetY;
@@ -256,9 +285,14 @@ public class AnimBezierView extends BaseView {
                         }
                     }
 
+                    if (mStatus == Status.MIRROR_DIFF) {
+                        offsetX = -offsetX;
+                        offsetY = -offsetY;
+                    }
+
                     if (otherPoint != null) {
-                        otherPoint.x = otherPoint.x - offsetX;
-                        otherPoint.y = otherPoint.y - offsetY;
+                        otherPoint.x = otherPoint.x + offsetX;
+                        otherPoint.y = otherPoint.y + offsetY;
                     }
 
                 } else {
@@ -347,8 +381,9 @@ public class AnimBezierView extends BaseView {
                 mCurSelectPointList.add(mControlPointList.get(offsetRangeIndex * 3 + 1));
 
                 break;
-            case MIRROR: // 镜像，需要同时选中两个
-
+            // 镜像，需要同时选中两个
+            case MIRROR_DIFF:
+            case MIRROR_SAME:
                 if (selIndex == 0 || selIndex == 6) {
                     mCurSelectPointList.add(mControlPointList.get(0));
                     mCurSelectPointList.add(mControlPointList.get(6));
@@ -395,9 +430,10 @@ public class AnimBezierView extends BaseView {
     }
 
     public enum Status {
-        FREE,       // 自由拽动
-        MIRROR,     // 镜像
-        THREE       // 三点拽动
+        FREE,          // 自由拽动
+        THREE,         // 三点拽动
+        MIRROR_DIFF,   // 镜像异向
+        MIRROR_SAME,   // 镜像同向
     }
 
 }

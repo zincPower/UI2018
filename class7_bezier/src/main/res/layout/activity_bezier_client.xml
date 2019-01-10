@@ -17,4 +17,11 @@
         android:onClick="drawCircle"
         />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="贝塞尔曲线DIY"
+        android:onClick="diy"
+        />
+
 </LinearLayout>

@@ -4,26 +4,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.zinc.class7_bezier.AnimBezierView
+    <com.zinc.class7_bezier.widget.DIYBezierView
         android:id="@+id/circle_bezier_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="拽动状态"
+        android:textColor="@android:color/black" />
 
     <RadioGroup
         android:id="@+id/rg_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="转动状态"
-            android:textColor="@android:color/black" />
 
         <RadioButton
             android:id="@+id/status_free"
@@ -41,60 +41,68 @@
             android:text="三点拽动" />
 
         <RadioButton
-            android:id="@+id/status_mirror"
+            android:id="@+id/status_mirror_same"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="镜像" />
+            android:text="镜像同向" />
+
+        <RadioButton
+            android:id="@+id/status_mirror_diff"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="镜像异向" />
 
     </RadioGroup>
 
-    <RadioGroup
-        android:id="@+id/rg_anim"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="复位"
+            android:onClick="onReset"
+            />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="打印控制点"
+            android:onClick="onLog"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="是否显示辅助线"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:textColor="#333333"
+            android:textSize="12sp" />
+
+        <Switch
+            android:id="@+id/show_line_switch"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="变形动画"
-            android:textColor="@android:color/black" />
+            android:paddingRight="20dp" />
 
-        <RadioButton
-            android:id="@+id/heart"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:checked="true"
-            android:text="心形" />
-
-        <RadioButton
-            android:id="@+id/square"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="方形" />
-
-        <RadioButton
-            android:id="@+id/tadpole"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="蝌蚪" />
-
-    </RadioGroup>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:text="运行动画"
-        android:textColor="@android:color/black"
-        android:textSize="12sp"
-        android:onClick="onRunAnim"
-        />
+    </LinearLayout>
 
 </LinearLayout>

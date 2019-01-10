@@ -28,4 +28,8 @@ public class ClientActivity extends AppCompatActivity {
     public void showBezierPlay(View view) {
         startActivity(new Intent(this, BezierActivity.class));
     }
+
+    public void diy(View view) {
+        startActivity(new Intent(this, DIYBezierActivity.class));
+    }
 }
