@@ -107,13 +107,21 @@ public class CircleBezierView extends BaseView {
 
         for (int i = 0; i < 4; i++) {
             if (i == 0) {
-                mPath.moveTo(mControlPointList.get(i * 4).x, mControlPointList.get(i * 4).y);
+                mPath.moveTo(mControlPointList.get(i * 3).x, mControlPointList.get(i * 3).y);
             } else {
-                mPath.lineTo(mControlPointList.get(i * 4).x, mControlPointList.get(i * 4).y);
+                mPath.lineTo(mControlPointList.get(i * 3).x, mControlPointList.get(i * 3).y);
             }
-            mPath.cubicTo(mControlPointList.get(i * 4 + 1).x, mControlPointList.get(i * 4 + 1).y,
-                    mControlPointList.get(i * 4 + 2).x, mControlPointList.get(i * 4 + 2).y,
-                    mControlPointList.get(i * 4 + 3).x, mControlPointList.get(i * 4 + 3).y);
+
+            int endPointIndex;
+            if (i == 3) {
+                endPointIndex = 0;
+            } else {
+                endPointIndex = i * 3 + 3;
+            }
+
+            mPath.cubicTo(mControlPointList.get(i * 3 + 1).x, mControlPointList.get(i * 3 + 1).y,
+                    mControlPointList.get(i * 3 + 2).x, mControlPointList.get(i * 3 + 2).y,
+                    mControlPointList.get(endPointIndex).x, mControlPointList.get(endPointIndex).y);
         }
 
         mControlPath.reset();
@@ -154,25 +162,20 @@ public class CircleBezierView extends BaseView {
         mControlPointList.add(new PointF(0, -mRadius));
         mControlPointList.add(new PointF(controlWidth, -mRadius));
         mControlPointList.add(new PointF(mRadius, -controlWidth));
-        mControlPointList.add(new PointF(mRadius, 0));
 
         // 右下
         mControlPointList.add(new PointF(mRadius, 0));
         mControlPointList.add(new PointF(mRadius, controlWidth));
         mControlPointList.add(new PointF(controlWidth, mRadius));
-        mControlPointList.add(new PointF(0, mRadius));
 
         // 左下
         mControlPointList.add(new PointF(0, mRadius));
         mControlPointList.add(new PointF(-controlWidth, mRadius));
         mControlPointList.add(new PointF(-mRadius, controlWidth));
-        mControlPointList.add(new PointF(-mRadius, 0));
-
         // 左上
         mControlPointList.add(new PointF(-mRadius, 0));
         mControlPointList.add(new PointF(-mRadius, -controlWidth));
         mControlPointList.add(new PointF(-controlWidth, -mRadius));
-        mControlPointList.add(new PointF(0, -mRadius));
 
     }
 

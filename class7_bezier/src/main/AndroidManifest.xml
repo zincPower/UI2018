@@ -5,6 +5,7 @@
         <activity android:name=".activity.ClientActivity" />
         <activity android:name=".activity.BezierActivity" />
         <activity android:name=".activity.CircleActivity" />
+        <activity android:name=".activity.AnimBezierActivity" />
     </application>
 
 </manifest>

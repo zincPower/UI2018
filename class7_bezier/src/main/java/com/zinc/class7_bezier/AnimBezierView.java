@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
+import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -22,6 +23,11 @@ import java.util.List;
  */
 public class AnimBezierView extends BaseView {
 
+    private static final String BEZIER_CIRCLE_COLOR = "#20A298";    //绿色
+    private static final String NATIVE_CIRCLE_COLOR = "#F6A010";    //橙色
+    private static final String CONTROL_LINE_COLOR = "#FA3096";     //艳红色
+    private static final String SEL_POINT_COLOR = "#1296db";        //蓝色
+
     // 圆的中心点
     private PointF mCenterPoint;
     // 圆半径
@@ -29,6 +35,11 @@ public class AnimBezierView extends BaseView {
 
     // 控制点列表，顺序为：右上、右下、左下、左上
     private List<PointF> mControlPointList;
+
+    // 选中的点集合，受 status 影响
+    private final List<PointF> mCurSelectPointList = new ArrayList<>();
+    // 选中的点
+    private PointF mSelPoint;
 
     // 控制点占半径的比例
     private float mRatio;
@@ -48,6 +59,11 @@ public class AnimBezierView extends BaseView {
     private int LINE_WIDTH;
     // 控制点的半径
     private int POINT_RADIO_WIDTH;
+    // 选中控制点的半径
+    private int SEL_POINT_RADIO_WIDTH;
+
+    // 拽动状态
+    private Status mStatus;
 
     public AnimBezierView(Context context) {
         super(context);
@@ -72,6 +88,10 @@ public class AnimBezierView extends BaseView {
         invalidate();
     }
 
+    public void setStatus(Status status) {
+        this.mStatus = status;
+    }
+
     @Override
     protected void init(Context context) {
         int width = context.getResources().getDisplayMetrics().widthPixels;
@@ -79,6 +99,7 @@ public class AnimBezierView extends BaseView {
 
         LINE_WIDTH = dpToPx(2);
         POINT_RADIO_WIDTH = dpToPx(4);
+        SEL_POINT_RADIO_WIDTH = dpToPx(6);
         mTouchRegionWidth = dpToPx(20);
 
         mCenterPoint = new PointF(0, 0);
@@ -90,21 +111,23 @@ public class AnimBezierView extends BaseView {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setColor(Color.parseColor("#1296db"));
+        mPaint.setColor(Color.parseColor(BEZIER_CIRCLE_COLOR));
 
         mCirclePaint = new Paint();
         mCirclePaint.setAntiAlias(true);
         mCirclePaint.setStyle(Paint.Style.STROKE);
         mCirclePaint.setStrokeWidth(LINE_WIDTH);
-        mCirclePaint.setColor(Color.RED);
+        mCirclePaint.setColor(Color.parseColor(NATIVE_CIRCLE_COLOR));
 
         mControlPaint = new Paint();
         mControlPaint.setAntiAlias(true);
         mControlPaint.setStyle(Paint.Style.STROKE);
         mControlPaint.setStrokeWidth(LINE_WIDTH);
-        mControlPaint.setColor(Color.parseColor("#e89abe"));
+        mControlPaint.setColor(Color.parseColor(CONTROL_LINE_COLOR));
 
         mControlPath = new Path();
+
+        mStatus = Status.FREE;
 
         mRatio = 0.55f;
 
@@ -119,50 +142,226 @@ public class AnimBezierView extends BaseView {
 
         mPath.reset();
 
+        // 画圆
         for (int i = 0; i < 4; i++) {
             if (i == 0) {
-                mPath.moveTo(mControlPointList.get(i * 4).x, mControlPointList.get(i * 4).y);
+                mPath.moveTo(mControlPointList.get(i * 3).x, mControlPointList.get(i * 3).y);
             } else {
-                mPath.lineTo(mControlPointList.get(i * 4).x, mControlPointList.get(i * 4).y);
+                mPath.lineTo(mControlPointList.get(i * 3).x, mControlPointList.get(i * 3).y);
             }
-            mPath.cubicTo(mControlPointList.get(i * 4 + 1).x, mControlPointList.get(i * 4 + 1).y,
-                    mControlPointList.get(i * 4 + 2).x, mControlPointList.get(i * 4 + 2).y,
-                    mControlPointList.get(i * 4 + 3).x, mControlPointList.get(i * 4 + 3).y);
-        }
 
-        mControlPath.reset();
-
-        for (int i = 0; i < mControlPointList.size(); ++i) {
-            PointF point = mControlPointList.get(i);
-            if (i == 0) {
-                mControlPath.moveTo(point.x, point.y);
+            int endPointIndex;
+            if (i == 3) {
+                endPointIndex = 0;
             } else {
-                mControlPath.lineTo(point.x, point.y);
+                endPointIndex = i * 3 + 3;
             }
-        }
-        mControlPath.close();
 
+            mPath.cubicTo(mControlPointList.get(i * 3 + 1).x, mControlPointList.get(i * 3 + 1).y,
+                    mControlPointList.get(i * 3 + 2).x, mControlPointList.get(i * 3 + 2).y,
+                    mControlPointList.get(endPointIndex).x, mControlPointList.get(endPointIndex).y);
+        }
         // 绘制贝塞尔曲线
         canvas.drawPath(mPath, mPaint);
 
         // 绘制圆
         canvas.drawCircle(mCenterPoint.x, mCenterPoint.y, mRadius, mCirclePaint);
 
+        // 控制基线
+        mControlPath.reset();
+        for (int i = 0; i < 4; i++) {
+            int startIndex = i * 3;
+            if (i == 0) {
+                mControlPath.moveTo(mControlPointList.get(mControlPointList.size() - 1).x,
+                        mControlPointList.get(mControlPointList.size() - 1).y);
+            } else {
+                mControlPath.moveTo(mControlPointList.get(startIndex - 1).x, mControlPointList.get(startIndex - 1).y);
+            }
+
+            mControlPath.lineTo(mControlPointList.get(startIndex).x, mControlPointList.get(startIndex).y);
+            mControlPath.lineTo(mControlPointList.get(startIndex + 1).x, mControlPointList.get(startIndex + 1).y);
+        }
+        mControlPaint.setColor(Color.parseColor(CONTROL_LINE_COLOR));
         mControlPaint.setStyle(Paint.Style.STROKE);
-        // 控制线
         canvas.drawPath(mControlPath, mControlPaint);
 
+        // 控制点
         mControlPaint.setStyle(Paint.Style.FILL);
         for (int i = 0; i < mControlPointList.size(); ++i) {
             PointF point = mControlPointList.get(i);
-            canvas.drawCircle(point.x, point.y, POINT_RADIO_WIDTH, mControlPaint);
+            float radio;
+            if (mCurSelectPointList.contains(point)) {      // 绘制选中的点
+                mControlPaint.setColor(Color.parseColor(SEL_POINT_COLOR));
+                radio = SEL_POINT_RADIO_WIDTH;
+            } else {        // 绘制为选中的点
+                mControlPaint.setColor(Color.parseColor(CONTROL_LINE_COLOR));
+                radio = POINT_RADIO_WIDTH;
+            }
+            canvas.drawCircle(point.x, point.y, radio, mControlPaint);
+        }
+
+        // 如果为三点拽动，将三点连接
+        if (mStatus == Status.THREE) {
+            if (mCurSelectPointList.size() == 1) {
+                return;
+            }
+            for (int i = 0; i < mCurSelectPointList.size() - 1; ++i) {
+                PointF p1 = mCurSelectPointList.get(i);
+                PointF p2 = mCurSelectPointList.get(i + 1);
+                mControlPaint.setColor(Color.parseColor(SEL_POINT_COLOR));
+                canvas.drawLine(p1.x, p1.y, p2.x, p2.y, mControlPaint);
+            }
         }
 
     }
 
+    // 触碰的x轴
+    private float mLastX = -1;
+    // 触碰的y轴
+    private float mLastY = -1;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return super.onTouchEvent(event);
+
+        // 触碰的坐标
+        float x = event.getX();
+        float y = event.getY();
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (selectControlPoint(x, y)) {
+                    mLastX = x;
+                    mLastY = y;
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (mLastX == -1 || mLastY == -1) {
+                    return true;
+                }
+
+                // 计算偏移值
+                float offsetX = x - mLastX;
+                float offsetY = y - mLastY;
+
+                if (mStatus == Status.MIRROR && mSelPoint != null) {
+
+                    mSelPoint.x = mSelPoint.x + offsetX;
+                    mSelPoint.y = mSelPoint.y + offsetY;
+
+                    PointF otherPoint = null;
+                    for (PointF point : mCurSelectPointList) {
+                        if (point != mSelPoint) {
+                            otherPoint = point;
+                            break;
+                        }
+                    }
+
+                    if (otherPoint != null) {
+                        otherPoint.x = otherPoint.x - offsetX;
+                        otherPoint.y = otherPoint.y - offsetY;
+                    }
+
+                } else {
+                    // 更新选中
+                    for (PointF point : mCurSelectPointList) {
+                        point.x = point.x + offsetX;
+                        point.y = point.y + offsetY;
+                    }
+                }
+
+
+                mLastX = x;
+                mLastY = y;
+
+                break;
+            case MotionEvent.ACTION_UP:
+                mCurSelectPointList.clear();
+                mSelPoint = null;
+                mLastX = -1;
+                mLastY = -1;
+                break;
+        }
+
+        invalidate();
+
+        return true;
+    }
+
+    /**
+     * 是否在有效的触碰范围
+     *
+     * @param x
+     * @param y
+     * @return true 有选中；false 无选中
+     */
+    private boolean selectControlPoint(float x, float y) {
+
+        // 选中的下标
+        int selIndex = -1;
+
+        for (int i = 0; i < mControlPointList.size(); ++i) {
+
+            PointF controlPoint = mControlPointList.get(i);
+
+            float resultX = controlPoint.x + mWidth / 2;
+            float resultY = controlPoint.y + mHeight / 2;
+
+            RectF pointRange = new RectF(resultX - mTouchRegionWidth,
+                    resultY - mTouchRegionWidth,
+                    resultX + mTouchRegionWidth,
+                    resultY + mTouchRegionWidth);
+
+            if (pointRange.contains(x, y)) {
+                selIndex = i;
+                break;
+            }
+        }
+
+        // 如果没有选中的就返回
+        if (selIndex == -1) {
+            return false;
+        }
+
+        // 清空之前的选中点
+        mCurSelectPointList.clear();
+
+        mSelPoint = mControlPointList.get(selIndex);
+
+        switch (mStatus) {
+            case FREE:  // 任意点拽动
+                mCurSelectPointList.add(mControlPointList.get(selIndex));
+                break;
+            case THREE: // 三点拽动，需要同时选中三个
+
+                // 进行整体的偏移下标，便于计算
+                int offsetSelIndex = (selIndex + 1) % 12;
+                int offsetRangeIndex = offsetSelIndex / 3;
+
+                if (offsetRangeIndex == 0) {
+                    mCurSelectPointList.add(mControlPointList.get(11));
+                } else {
+                    mCurSelectPointList.add(mControlPointList.get(offsetRangeIndex * 3 - 1));
+                }
+
+                mCurSelectPointList.add(mControlPointList.get(offsetRangeIndex * 3));
+                mCurSelectPointList.add(mControlPointList.get(offsetRangeIndex * 3 + 1));
+
+                break;
+            case MIRROR: // 镜像，需要同时选中两个
+
+                if (selIndex == 0 || selIndex == 6) {
+                    mCurSelectPointList.add(mControlPointList.get(0));
+                    mCurSelectPointList.add(mControlPointList.get(6));
+                } else {
+                    mCurSelectPointList.add(mControlPointList.get(selIndex));
+                    mCurSelectPointList.add(mControlPointList.get(12 - selIndex));
+                }
+
+                break;
+        }
+
+        return true;
+
     }
 
     /**
@@ -178,26 +377,27 @@ public class AnimBezierView extends BaseView {
         mControlPointList.add(new PointF(0, -mRadius));
         mControlPointList.add(new PointF(controlWidth, -mRadius));
         mControlPointList.add(new PointF(mRadius, -controlWidth));
-        mControlPointList.add(new PointF(mRadius, 0));
 
         // 右下
         mControlPointList.add(new PointF(mRadius, 0));
         mControlPointList.add(new PointF(mRadius, controlWidth));
         mControlPointList.add(new PointF(controlWidth, mRadius));
-        mControlPointList.add(new PointF(0, mRadius));
 
         // 左下
         mControlPointList.add(new PointF(0, mRadius));
         mControlPointList.add(new PointF(-controlWidth, mRadius));
         mControlPointList.add(new PointF(-mRadius, controlWidth));
-        mControlPointList.add(new PointF(-mRadius, 0));
-
         // 左上
         mControlPointList.add(new PointF(-mRadius, 0));
         mControlPointList.add(new PointF(-mRadius, -controlWidth));
         mControlPointList.add(new PointF(-controlWidth, -mRadius));
-        mControlPointList.add(new PointF(0, -mRadius));
 
+    }
+
+    public enum Status {
+        FREE,       // 自由拽动
+        MIRROR,     // 镜像
+        THREE       // 三点拽动
     }
 
 }
