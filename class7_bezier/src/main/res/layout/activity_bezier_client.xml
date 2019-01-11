@@ -24,4 +24,18 @@
         android:onClick="diy"
         />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="圆变心"
+        android:onClick="changeToHeart"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="粘性小红点"
+        android:onClick="stickPoint"
+        />
+
 </LinearLayout>

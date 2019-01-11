@@ -7,6 +7,7 @@
         <activity android:name=".activity.CircleActivity" />
         <activity android:name=".activity.DIYBezierActivity" />
         <activity android:name=".activity.HeartActivity" />
+        <activity android:name=".activity.StickDotActivity"/>
     </application>
 
 </manifest>

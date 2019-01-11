@@ -32,4 +32,12 @@ public class ClientActivity extends AppCompatActivity {
     public void diy(View view) {
         startActivity(new Intent(this, DIYBezierActivity.class));
     }
+
+    public void stickPoint(View view) {
+        startActivity(new Intent(this, StickDotActivity.class));
+    }
+
+    public void changeToHeart(View view) {
+        startActivity(new Intent(this, HeartActivity.class));
+    }
 }
