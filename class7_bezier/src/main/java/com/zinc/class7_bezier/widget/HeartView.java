@@ -97,13 +97,13 @@ public class HeartView extends BaseView {
         mCurPointList.add(new PointF(dpToPx(-49), dpToPx(-89)));
 
         mAnimator = ValueAnimator.ofFloat(0, 1f);
-        mAnimator.setDuration(2000);
+        mAnimator.setDuration(1500);
         mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
 
                 float x = (float) animation.getAnimatedValue();
-                float factor = 0.25f;
+                float factor = 0.15f;
                 double value = Math.pow(2, -10 * x) * Math.sin((x - factor / 4) * (2 * Math.PI) / factor) + 1;
 
                 for (int i = 0; i < mCurPointList.size(); ++i) {

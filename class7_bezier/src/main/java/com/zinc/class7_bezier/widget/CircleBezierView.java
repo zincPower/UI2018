@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * @author Jiang zinc
  * @date 创建时间：2019/1/9
- * @description
+ * @description 用贝塞尔曲线绘制圆的过程
  */
 public class CircleBezierView extends BaseView {
 
@@ -33,12 +33,18 @@ public class CircleBezierView extends BaseView {
     // 控制点占半径的比例
     private float mRatio;
 
+    // 圆的路径
     private Path mPath;
 
-    private Path mControlPath;
-
+    // 绘制贝塞尔曲线的画笔
     private Paint mPaint;
+    // 绘制圆的画笔
     private Paint mCirclePaint;
+    // 绘制控制线的画笔
+    private Paint mLinePaint;
+
+    // 控制线的颜色
+    private int[] mLineColor;
 
     // 线的宽度
     private int LINE_WIDTH;
@@ -90,9 +96,18 @@ public class CircleBezierView extends BaseView {
         mCirclePaint.setStrokeWidth(LINE_WIDTH);
         mCirclePaint.setColor(Color.RED);
 
-        mControlPath = new Path();
-
         mRatio = 0.55f;
+
+        mLineColor = new int[4];
+        mLineColor[0] = Color.parseColor("#f4ea2a");    //黄色
+        mLineColor[1] = Color.parseColor("#1afa29");    //绿色
+        mLineColor[2] = Color.parseColor("#efb336");    //橙色
+        mLineColor[3] = Color.parseColor("#e89abe");    //粉色
+
+        mLinePaint = new Paint();
+        mLinePaint.setAntiAlias(true);
+        mLinePaint.setStyle(Paint.Style.STROKE);
+        mLinePaint.setStrokeWidth(dpToPx(2));
 
         calculateControlPoint();
     }
@@ -124,23 +139,25 @@ public class CircleBezierView extends BaseView {
                     mControlPointList.get(endPointIndex).x, mControlPointList.get(endPointIndex).y);
         }
 
-        mControlPath.reset();
-
-        for (int i = 0; i < mControlPointList.size(); ++i) {
-            PointF point = mControlPointList.get(i);
-            if (i == 0) {
-                mControlPath.moveTo(point.x, point.y);
-            } else {
-                mControlPath.lineTo(point.x, point.y);
-            }
-        }
-        mControlPath.close();
-
         // 绘制贝塞尔曲线
         canvas.drawPath(mPath, mPaint);
 
         // 绘制圆
         canvas.drawCircle(mCenterPoint.x, mCenterPoint.y, mRadius, mCirclePaint);
+
+        // 绘制控制线
+        for (int i = 0; i < mControlPointList.size(); ++i) {
+            // 设置颜色
+            mLinePaint.setColor(mLineColor[i / 3]);
+
+            int endPointIndex = (i == mControlPointList.size() - 1) ? 0 : i + 1;
+
+            canvas.drawLine(mControlPointList.get(i).x,
+                    mControlPointList.get(i).y,
+                    mControlPointList.get(endPointIndex).x,
+                    mControlPointList.get(endPointIndex).y,
+                    mLinePaint);
+        }
 
     }
 
