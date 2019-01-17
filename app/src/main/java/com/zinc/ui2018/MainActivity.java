@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.lsn_6).setOnClickListener(this);
         findViewById(R.id.lsn_7).setOnClickListener(this);
         findViewById(R.id.lsn_8).setOnClickListener(this);
+        findViewById(R.id.lsn_12).setOnClickListener(this);
     }
 
     @Override
@@ -44,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.lsn_8:
                 startActivity(new Intent(this, com.zinc.class8_pathmeasure.activity.ClientActivity.class));
+                break;
+            case R.id.lsn_12:
+                startActivity(new Intent(this, com.zinc.class12_animation.activity.ClientActivity.class));
                 break;
         }
     }

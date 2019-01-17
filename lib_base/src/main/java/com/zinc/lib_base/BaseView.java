@@ -72,7 +72,13 @@ public abstract class BaseView extends View {
 
             mWidth = getMeasuredWidth();
             mHeight = getMeasuredHeight() + mStatusBarHeight;
+
+            initInMeasure(mWidth, mHeight);
         }
+    }
+
+    protected void initInMeasure(float width, float height) {
+
     }
 
     protected void initCoordinate(Context context) {

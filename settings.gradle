@@ -1,1 +1,1 @@
-include ':app', ':class2_flowlayout', ':class3_paint', ':class4_xfermode', ':class5_canvas', ':class6_drawable_gravity', ':class7_bezier', ':class8_pathmeasure', ':lib_base'
+include ':app', ':class2_flowlayout', ':class3_paint', ':class4_xfermode', ':class5_canvas', ':class6_drawable_gravity', ':class7_bezier', ':class8_pathmeasure', ':lib_base', ':class12_animation'

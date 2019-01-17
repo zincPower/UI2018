@@ -55,6 +55,12 @@
                 android:layout_height="45dp"
                 android:text="8讲：PathMeasure" />
 
+            <Button
+                android:id="@+id/lsn_12"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="12讲：属性动画" />
+
         </LinearLayout>
 
     </ScrollView>

@@ -13,7 +13,6 @@ import android.view.View;
 
 public class MyCanvasDemoView extends View {
 
-
     private static final String TAG = "BARRY";
 
     private Paint mPaint = null;
@@ -83,6 +82,6 @@ public class MyCanvasDemoView extends View {
         Log.i(TAG, "restoreToCount--Current SaveCount = " + canvas.getSaveCount());
         canvas.drawBitmap(mBitmap, null, rectF, mPaint);
 
-
     }
+
 }

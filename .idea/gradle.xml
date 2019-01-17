@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/class12_animation" />
             <option value="$PROJECT_DIR$/class2_flowlayout" />
             <option value="$PROJECT_DIR$/class3_paint" />
             <option value="$PROJECT_DIR$/class4_xfermode" />

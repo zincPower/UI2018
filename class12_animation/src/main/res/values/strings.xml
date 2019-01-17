@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">class12_animation</string>
+
+    <string name="dimen_num">维度数(%1$d)</string>
+    <string name="data_num">数据量(%1$d)</string>
+    <string name="base_num">基础数(%1$d)</string>
+</resources>
