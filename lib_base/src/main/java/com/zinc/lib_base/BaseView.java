@@ -87,7 +87,7 @@ public abstract class BaseView extends View {
 
         mStatusBarHeight = getStatusBarHeight(context);
 
-        mTextSize = sp2px(context, 10);
+        mTextSize = spToPx(10);
 
         mCoordinatePaint = new Paint();
         mCoordinatePaint.setAntiAlias(true);
@@ -172,8 +172,8 @@ public abstract class BaseView extends View {
 
     }
 
-    protected int sp2px(Context context, float spValue) {
-        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+    protected int spToPx(float spValue) {
+        final float fontScale = Resources.getSystem().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
     }
 

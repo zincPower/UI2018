@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.zinc.class12_animation.R;
@@ -37,11 +39,17 @@ public class RadarActivity extends AppCompatActivity {
     // 维度
     private int dimenCount;
 
+    private List<String> textDataList = new ArrayList<>();
+
     private RadarChartView radarChartView;
+
+    private boolean isShowText;
 
     private SeekBar dataSeekBar;
     private SeekBar baseSeekBar;
     private SeekBar dimenSeekBar;
+
+    private Switch swTextDes;
 
     private TextView tvDataNum;
     private TextView tvBaseNum;
@@ -81,6 +89,8 @@ public class RadarActivity extends AppCompatActivity {
         tvDataNum = findViewById(R.id.tv_data_num);
         tvBaseNum = findViewById(R.id.tv_base_num);
         tvDimenNum = findViewById(R.id.tv_dimen_num);
+
+        swTextDes = findViewById(R.id.sw_text_des);
 
         baseDataCount = 1;
         dataCount = 2;
@@ -133,16 +143,12 @@ public class RadarActivity extends AppCompatActivity {
             }
         });
 
-
         dimenSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 dimenCount = progress + 3;
                 tvDimenNum.setText(String.format(getString(R.string.dimen_num), dimenCount));
-                radarChartView.setDataList(new ArrayList<RadarChartView.Data>());
-                radarChartView.setBaseDataList(new ArrayList<RadarChartView.Data>());
                 radarChartView.setDimenCount(dimenCount);
-                radarChartView.invalidate();
             }
 
             @Override
@@ -153,6 +159,15 @@ public class RadarActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+            }
+        });
+
+        isShowText = true;
+        swTextDes.setChecked(isShowText);
+        swTextDes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isShowText = isChecked;
             }
         });
 
@@ -182,6 +197,12 @@ public class RadarActivity extends AppCompatActivity {
         createData(dataList, dataCount, dimenCount, DATA_COLOR);
         createData(baseDataList, baseDataCount, dimenCount, BASE_COLOR);
 
+        if (isShowText) {
+            createTextData();
+            radarChartView.setTextDataList(textDataList);
+        } else {
+            radarChartView.setTextDataList(new ArrayList<String>());
+        }
         radarChartView.setBaseDataList(baseDataList);
         radarChartView.setDataList(dataList);
         radarChartView.start();
@@ -189,5 +210,16 @@ public class RadarActivity extends AppCompatActivity {
 
     public void onStop(View view) {
         radarChartView.stop();
+    }
+
+    public void onReset(View view) {
+        radarChartView.reset();
+    }
+
+    private void createTextData() {
+        textDataList.clear();
+        for (int i = 0; i < dimenCount; ++i) {
+            textDataList.add("第" + i + "维");
+        }
     }
 }

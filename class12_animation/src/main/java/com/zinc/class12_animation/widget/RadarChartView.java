@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.CornerPathEffect;
@@ -12,10 +13,10 @@ import android.graphics.Path;
 import android.graphics.PointF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.LinearInterpolator;
-
-import com.zinc.lib_base.BaseView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,9 @@ import java.util.List;
  * @date 创建时间：2019/1/15
  * @description 雷达图
  */
-public class RadarChartView extends BaseView {
+public class RadarChartView extends View {
+
+    private static final String TAG = "RadarChartView";
 
     // 默认6维度
     private static final int DEFAULT_DIMEN_COUNT = 6;
@@ -33,6 +36,8 @@ public class RadarChartView extends BaseView {
     private static final double CIRCLE_ANGLE = 360d;
     // 网格线的默认颜色
     private static final String DEFAULT_LINE_COLOR = "#7a7a7a";
+    // 画布背景颜色
+    private static final String BACKGROUND_COLOR = "#201F23";
     // 默认中心点
     private static final PointF DEFAULT_CENTER_POINT = new PointF(0, 0);
     // 雷达图 背景渐变 分割的层级
@@ -42,7 +47,7 @@ public class RadarChartView extends BaseView {
     // 背景 阶梯 透明
     private static final int BG_ALPHA_LEVEL = 10;
     // 一个纬度的动画持续时间
-    private static final int DURATION = 300;
+    private static final int DURATION = 200;
 
     // 初始化状态
     private static final int INIT = 0x001;
@@ -50,9 +55,15 @@ public class RadarChartView extends BaseView {
     private static final int RUNNING = 0x002;
 
     // 边框宽度
-    private float RADAR_BORDER_LINE_WIDTH = dpToPx(1.5f);
-    // 维度分割线
-    private float RADAR_DIMEN_LINE_WIDTH = dpToPx(1f);
+    private float RADAR_BORDER_LINE_WIDTH = dpToPx(0.5f);
+    // 维度分割线宽度
+    private float RADAR_DIMEN_LINE_WIDTH = dpToPx(0.5f);
+    // 数据线宽度
+    private float DATA_LINE_WIDTH = dpToPx(1.5f);
+    // 小点的半径
+    private float DOT_RADIUS = dpToPx(1.5f);
+    // 字体大小
+    private float TEXT_SIZE = spToPx(10f);
 
     // 纬度数
     private int mDimenCount;
@@ -61,6 +72,7 @@ public class RadarChartView extends BaseView {
     // 每个纬度角度
     private double mAngle;
 
+    // 雷达图 顶点坐标集
     private List<PointF> mVertexList;
 
     // 雷达图 线的画笔
@@ -89,10 +101,8 @@ public class RadarChartView extends BaseView {
     // 雷达图基础数据
     private List<Data> mBaseDataList;
 
-    // 雷达图数据路径
-    private List<Path> mDataPathList;
-    // 雷达图基础数据路径
-    private List<Path> mBaseDataPathList;
+    // 文字描述
+    private List<String> mTextDataList;
 
     // 插值器
     private ValueAnimator mAnimator;
@@ -106,26 +116,43 @@ public class RadarChartView extends BaseView {
     // 当前动画状态
     private int mCurState;
 
+    protected float mWidth;
+    protected float mHeight;
+
     public RadarChartView(Context context) {
-        super(context);
+        this(context, null, 0);
     }
 
     public RadarChartView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
     }
 
     public RadarChartView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context);
     }
 
     @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+
+        mWidth = w;
+        mHeight = h;
+
+        mLength = Math.min(w, h) / 4;
+
+        calculateRadarChartVertex();
+        initRadarLine();
+    }
+
     protected void init(Context context) {
+
+        mCurState = INIT;
 
         mVertexList = new ArrayList<>();
 
         mLinePaint = new Paint();
         mLinePaint.setAntiAlias(true);
-        mLinePaint.setStyle(Paint.Style.STROKE);
         mLinePaint.setColor(Color.parseColor(DEFAULT_LINE_COLOR));
         // 连线圆角
         mLinePaint.setPathEffect(new CornerPathEffect(dpToPx(2.5f)));
@@ -137,8 +164,13 @@ public class RadarChartView extends BaseView {
 
         mDataPaint = new Paint();
         mDataPaint.setAntiAlias(true);
-        mDataPaint.setStrokeWidth(dpToPx(1f));
+        mDataPaint.setStrokeWidth(DATA_LINE_WIDTH);
         mDataPaint.setPathEffect(new CornerPathEffect(dpToPx(1f)));
+
+        mTextPaint = new Paint();
+        mTextPaint.setAntiAlias(true);
+        mTextPaint.setTextSize(TEXT_SIZE);
+        mTextPaint.setColor(Color.parseColor(DEFAULT_LINE_COLOR));
 
         mRadarLinePath = new Path();
 
@@ -150,15 +182,28 @@ public class RadarChartView extends BaseView {
 
         mDataList = new ArrayList<>();
         mBaseDataList = new ArrayList<>();
-
-        mDataPathList = new ArrayList<>();
-        mBaseDataPathList = new ArrayList<>();
+        mTextDataList = new ArrayList<>();
 
         mRadarCenterPoint = DEFAULT_CENTER_POINT;
 
-        this.mDimenCount = DEFAULT_DIMEN_COUNT;
+        mDimenCount = DEFAULT_DIMEN_COUNT;
         mAngle = CIRCLE_ANGLE / mDimenCount;
 
+    }
+
+    /**
+     * 设置文字描述数据
+     *
+     * @param textDataList
+     */
+    public void setTextDataList(List<String> textDataList) {
+        if (mCurState != INIT) {
+            Log.w(TAG, "Cancel or stop the animation first.");
+            return;
+        }
+
+        mTextDataList.clear();
+        mTextDataList.addAll(textDataList);
     }
 
     /**
@@ -173,21 +218,21 @@ public class RadarChartView extends BaseView {
             dimenCount = 3;
         }
 
-        this.mDimenCount = dimenCount;
+        if (mCurState != INIT) {
+            Log.w(TAG, "Cancel or stop the animation first.");
+            return;
+        }
+
+        mBaseDataList.clear();
+        mDataList.clear();
+
+        // 设置维度，并重新计算每个维度角度
+        mDimenCount = dimenCount;
         mAngle = CIRCLE_ANGLE / mDimenCount;
 
         calculateRadarChartVertex();
         initRadarLine();
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-
-        mLength = Math.min(w, h) / 3;
-
-        calculateRadarChartVertex();
-        initRadarLine();
+        invalidate();
     }
 
     /**
@@ -196,8 +241,12 @@ public class RadarChartView extends BaseView {
      * @param dataList
      */
     public void setDataList(List<Data> dataList) {
+        if (mCurState != INIT) {
+            Log.w(TAG, "Cancel or stop the animation first.");
+            return;
+        }
+
         this.mDataList.clear();
-        this.mDataPathList.clear();
         this.mDataList.addAll(dataList);
     }
 
@@ -207,8 +256,12 @@ public class RadarChartView extends BaseView {
      * @param baseDataList
      */
     public void setBaseDataList(List<Data> baseDataList) {
+        if (mCurState != INIT) {
+            Log.w(TAG, "Cancel or stop the animation first.");
+            return;
+        }
+
         this.mBaseDataList.clear();
-        this.mBaseDataPathList.clear();
         this.mBaseDataList.addAll(baseDataList);
     }
 
@@ -223,7 +276,6 @@ public class RadarChartView extends BaseView {
                 throw new RuntimeException("The Data size is not equal to dimension count.");
             }
         }
-
     }
 
     /**
@@ -231,19 +283,36 @@ public class RadarChartView extends BaseView {
      */
     public void start() {
 
+        if (mCurState != INIT) {
+            Log.w(TAG, "Cancel or stop the animation first.");
+            return;
+        }
+
         mCurState = RUNNING;
 
+        // 检测基线数据
         checkData(mBaseDataList);
+        // 检测数据
         checkData(mDataList);
+        // 检测文字描述数据
+        if (mTextDataList.size() != 0 && mTextDataList.size() != mDimenCount) {
+            throw new RuntimeException("Text data length should be zero or equal with dimension count.");
+        }
 
         // 将当前循环数置为 0
         mCurLoopCount = 0;
 
         // 计算数据
-        calculateDataVertex(true, 1);
-        calculateDataVertex(false, 1);
+        calculateDataVertex(true);
+        calculateDataVertex(false);
 
-        // 第一个维度不需要展开
+        /**
+         * 第一个维度不需要展开，所以维度数需要-1
+         * 这里不使用 setRepeatMode 设置多次循环,
+         * 是因为 {@link AnimatorListenerAdapter#onAnimationRepeat(Animator)} 和
+         * {@link android.animation.ValueAnimator.AnimatorUpdateListener#onAnimationUpdate(ValueAnimator)}
+         * 无法确保其顺序，有时会出现乱值现象，这种现象目前有概率出现在 mate10（8.1.0）手机上，所以使用这种方法进行规避
+         **/
         mTotalLoopCount = (mDimenCount - 1) * mDataList.size();
         mAnimator = ValueAnimator.ofFloat(0f, mTotalLoopCount);
         mAnimator.setDuration(DURATION * mTotalLoopCount);
@@ -254,54 +323,65 @@ public class RadarChartView extends BaseView {
 
                 float value = (float) animation.getAnimatedValue();
 
+                // 整数部分即为当前的动画数据下标
                 mCurLoopCount = (int) value;
 
+                // 小数部分极为当前维度正在展开的进度百分比
                 mAnimCurValue = value - mCurLoopCount;
 
                 invalidate();
             }
         });
-
         mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+                // 动画结束，将状态置为初始状态，并再刷新一次，让最后的数据全部显示
                 mCurState = INIT;
                 invalidate();
             }
         });
 
+        // 开启动画
         mAnimator.start();
     }
 
+    /**
+     * 停止动画
+     */
     public void stop() {
-
         mAnimator.cancel();
+    }
 
+    /**
+     * 清空数据
+     */
+    public void reset() {
+        mAnimator.cancel();
+        mBaseDataList.clear();
+        mDataList.clear();
+        invalidate();
     }
 
     /**
      * 计算数据的顶点坐标
      *
-     * @param isBase  是否为 基础数据
-     * @param process 进度 估值器的数值，范围[0-1]
+     * @param isBase 是否为 基础数据
      */
-    private void calculateDataVertex(boolean isBase, float process) {
+    private void calculateDataVertex(boolean isBase) {
 
         List<Data> calDataList = isBase ? mBaseDataList : mDataList;
-        List<Path> calPathList = isBase ? mBaseDataPathList : mDataPathList;
 
         for (int i = 0; i < calDataList.size(); ++i) {
 
-            List<Float> pointDataList = calDataList.get(i).getData();
+            Data data = calDataList.get(i);
 
-            Path curPath;
-            if (i + 1 > calPathList.size()) {
-                curPath = new Path();
-                calPathList.add(curPath);
-            } else {
-                curPath = calPathList.get(i);
-            }
+            // 获取 比例数据
+            List<Float> pointDataList = data.getData();
+
+            // 设置路径
+            Path curPath = new Path();
+            data.setPath(curPath);
 
             curPath.reset();
             for (int j = 0; j < pointDataList.size(); ++j) {
@@ -312,11 +392,11 @@ public class RadarChartView extends BaseView {
                 PointF curDimenPoint = mVertexList.get(j);
 
                 if (j == 0) {
-                    curPath.moveTo(curDimenPoint.x * ratio * process,
-                            curDimenPoint.y * ratio * process);
+                    curPath.moveTo(curDimenPoint.x * ratio,
+                            curDimenPoint.y * ratio);
                 } else {
-                    curPath.lineTo(curDimenPoint.x * ratio * process,
-                            curDimenPoint.y * ratio * process);
+                    curPath.lineTo(curDimenPoint.x * ratio,
+                            curDimenPoint.y * ratio);
                 }
 
             }
@@ -327,7 +407,8 @@ public class RadarChartView extends BaseView {
     }
 
     /**
-     * 计算雷达图的顶点
+     * 计算雷达图的顶点，这里只是计算，没有进行路径拼凑
+     * {@link #initRadarLine()}进行拼凑路径
      */
     private void calculateRadarChartVertex() {
 
@@ -357,7 +438,7 @@ public class RadarChartView extends BaseView {
     /**
      * 初始化 雷达图 外边框和维度分割线
      */
-    private void initRadarLine() {
+    protected void initRadarLine() {
         // 先清空
         mRadarLinePath.reset();
         mDimensionPath.reset();
@@ -384,7 +465,7 @@ public class RadarChartView extends BaseView {
     protected void onDraw(Canvas canvas) {
 
         // 画背景
-        canvas.drawColor(Color.parseColor("#201F23"));
+        canvas.drawColor(Color.parseColor(BACKGROUND_COLOR));
 
         // 平移画布至中心
         canvas.translate(mWidth / 2, mHeight / 2);
@@ -393,6 +474,10 @@ public class RadarChartView extends BaseView {
         drawRadarLine(canvas);
         // 画雷达 背景
         drawRadarBackground(canvas);
+        // 画 顶点的小点
+        drawDot(canvas);
+        // 画文字
+        drawText(canvas);
 
         // 画基线数据
         drawData(canvas, true);
@@ -406,11 +491,98 @@ public class RadarChartView extends BaseView {
     }
 
     /**
+     * 画文字
+     *
+     * @param canvas 画布
+     */
+    protected void drawText(Canvas canvas) {
+
+        if (mTextDataList == null || mTextDataList.size() != mDimenCount) {
+            Log.w(TAG, "The length of description text list is not equal with dimension.");
+            return;
+        }
+
+        for (int i = 0; i < mDimenCount; ++i) {
+
+            PointF vertexPoint = mVertexList.get(i);
+
+            // 所在象限
+            int dimension = checkThePointDimension(vertexPoint);
+
+            Paint.Align align;
+            float y = vertexPoint.y * 1.15f;
+            switch (dimension) {
+                case 1:
+                    align = Paint.Align.CENTER;
+                    break;
+                case 2:
+                    align = Paint.Align.LEFT;
+                    break;
+                case 3:
+                    align = Paint.Align.LEFT;
+                    y -= ((mTextPaint.descent() + mTextPaint.ascent()) / 2);
+                    break;
+                case 4:
+                    align = Paint.Align.LEFT;
+                    y -= (mTextPaint.descent() + mTextPaint.ascent());
+                    break;
+                case 5:
+                    align = Paint.Align.CENTER;
+                    y -= (mTextPaint.descent() + mTextPaint.ascent());
+                    break;
+                case 6:
+                    align = Paint.Align.RIGHT;
+                    y -= (mTextPaint.descent() + mTextPaint.ascent());
+                    break;
+                case 7:
+                    align = Paint.Align.RIGHT;
+                    y -= (mTextPaint.descent() + mTextPaint.ascent() / 2);
+                    break;
+                case 8:
+                    align = Paint.Align.RIGHT;
+                    break;
+                default:
+                    align = Paint.Align.CENTER;
+                    break;
+            }
+            mTextPaint.setTextSize(TEXT_SIZE);
+
+            mTextPaint.setTextAlign(align);
+
+            canvas.drawText(mTextDataList.get(i),
+                    vertexPoint.x * 1.15f,
+                    y,
+                    mTextPaint);
+
+        }
+
+    }
+
+    /**
+     * 画 顶点的小点，有描述文字时，才绘制小点
+     *
+     * @param canvas 画布
+     */
+    protected void drawDot(Canvas canvas) {
+        if (mTextDataList == null || mTextDataList.size() != mDimenCount) {
+            Log.w(TAG, "The length of description text list is not equal with dimension.");
+            return;
+        }
+
+        for (PointF point : mVertexList) {
+
+            mLinePaint.setStyle(Paint.Style.FILL);
+            canvas.drawCircle(point.x * 1.08f, point.y * 1.08f, DOT_RADIUS, mLinePaint);
+
+        }
+    }
+
+    /**
      * 绘制运动中的数据
      *
-     * @param canvas
+     * @param canvas 画布
      */
-    private void drawRunningData(Canvas canvas) {
+    protected void drawRunningData(Canvas canvas) {
 
         // 数据为空 则不绘制
         if (mDataList.size() <= 0) {
@@ -453,7 +625,6 @@ public class RadarChartView extends BaseView {
                     if (j == curDimen) {
                         // 绘制正在移动的点
                         mRunningPath.lineTo(x * mAnimCurValue, y * mAnimCurValue);
-//                        Log.i(TAG, "drawRunningData: [count: " + mCurLoopCount + "; v:" + mAnimCurValue + "]");
                     } else {
                         // 绘制已经固定的点
                         mRunningPath.lineTo(x, y);
@@ -470,12 +641,13 @@ public class RadarChartView extends BaseView {
                 path = mRunningPath;
 
             } else {
-                path = mDataPathList.get(i);
+                path = mDataList.get(i).getPath();
             }
 
             // 画轮廓
             mDataPaint.setStyle(Paint.Style.STROKE);
             mDataPaint.setColor(curData.getColor());
+            mDataPaint.setStrokeWidth(DATA_LINE_WIDTH);
             canvas.drawPath(path, mDataPaint);
 
             // 画背景
@@ -491,7 +663,7 @@ public class RadarChartView extends BaseView {
     /**
      * 画背景
      */
-    private void drawRadarBackground(Canvas canvas) {
+    protected void drawRadarBackground(Canvas canvas) {
 
         if (RADAR_BG_SHOW_LEVEL > RADAR_BG_LEVEL) {
             throw new RuntimeException("RADAR_BG_SHOW_LEVEL can not bigger than RADAR_BG_LEVEL.");
@@ -500,7 +672,7 @@ public class RadarChartView extends BaseView {
         for (int i = 0; i < RADAR_BG_SHOW_LEVEL; ++i) {
 
             mRadarBgPath.reset();
-            for (int j = 0; j < mVertexList.size(); ++j) {
+            for (int j = 0; j < mDimenCount; ++j) {
 
                 PointF curVertexPoint = mVertexList.get(j);
 
@@ -528,13 +700,15 @@ public class RadarChartView extends BaseView {
     /**
      * 绘制雷达图的网格线
      */
-    private void drawRadarLine(Canvas canvas) {
+    protected void drawRadarLine(Canvas canvas) {
 
         // 绘制雷达图边框
+        mLinePaint.setStyle(Paint.Style.STROKE);
         mLinePaint.setStrokeWidth(RADAR_BORDER_LINE_WIDTH);
         canvas.drawPath(mRadarLinePath, mLinePaint);
 
         // 绘制雷达图维度分割线
+        mLinePaint.setStyle(Paint.Style.STROKE);
         mLinePaint.setStrokeWidth(RADAR_DIMEN_LINE_WIDTH);
         canvas.drawPath(mDimensionPath, mLinePaint);
 
@@ -546,22 +720,28 @@ public class RadarChartView extends BaseView {
      * @param canvas 画布
      * @param isBase 是否为基线
      */
-    private void drawData(Canvas canvas, boolean isBase) {
+    protected void drawData(Canvas canvas, boolean isBase) {
 
-        List<Path> pathList = isBase ? mBaseDataPathList : mDataPathList;
         List<Data> dataList = isBase ? mBaseDataList : mDataList;
 
-        for (int i = 0; i < pathList.size(); ++i) {
-            int color = dataList.get(i).getColor();
+        for (int i = 0; i < dataList.size(); ++i) {
+            Data data = dataList.get(i);
+
+            int color = data.getColor();
 
             mDataPaint.setColor(color);
             mDataPaint.setStyle(Paint.Style.STROKE);
-            canvas.drawPath(pathList.get(i), mDataPaint);
+            if (isBase) {
+                mDataPaint.setStrokeWidth(RADAR_BORDER_LINE_WIDTH);
+            } else {
+                mDataPaint.setStrokeWidth(DATA_LINE_WIDTH);
+            }
+            canvas.drawPath(data.getPath(), mDataPaint);
 
             if (!isBase) {
                 mDataPaint.setStyle(Paint.Style.FILL);
                 mDataPaint.setColor(getAlphaColor(color, 127));
-                canvas.drawPath(pathList.get(i), mDataPaint);
+                canvas.drawPath(data.getPath(), mDataPaint);
             }
 
         }
@@ -583,6 +763,80 @@ public class RadarChartView extends BaseView {
     }
 
     /**
+     * 获取点所在的象限
+     *
+     * <pre>
+     *              ┃
+     *              ┃
+     *              ┃
+     *      8       1       2
+     *              ┃
+     *              ┃
+     * ━━━━━7━━━━━━━╋━━━━━━━3━━━━━━▶ x
+     *              ┃
+     *              ┃
+     *      6       5       4
+     *              ┃
+     *              ┃
+     *              ┃
+     *              ▼
+     *              y
+     * </pre>
+     *
+     * @return
+     */
+    protected int checkThePointDimension(PointF pointF) {
+
+        if (pointF == null) {
+            return -1;
+        }
+
+        int x = (int)pointF.x;
+        int y = (int)pointF.y;
+
+        if (x == 0 && y < 0) {
+            return 1;
+        } else if (x > 0 && y < 0) {
+            return 2;
+        } else if (x > 0 && y == 0) {
+            return 3;
+        } else if (x > 0 && y > 0) {
+            return 4;
+        } else if (x == 0 && y > 0) {
+            return 5;
+        } else if (x < 0 && y > 0) {
+            return 6;
+        } else if (x < 0 && y == 0) {
+            return 7;
+        } else if (x < 0 && y < 0) {
+            return 8;
+        }
+        return -1;
+    }
+
+    /**
+     * 转换 sp 至 px
+     *
+     * @param spValue sp值
+     * @return px值
+     */
+    protected int spToPx(float spValue) {
+        final float fontScale = Resources.getSystem().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
+    }
+
+    /**
+     * 转换 dp 至 px
+     *
+     * @param dpValue dp值
+     * @return px值
+     */
+    protected int dpToPx(float dpValue) {
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        return (int) (dpValue * metrics.density + 0.5f);
+    }
+
+    /**
      * @author Jiang zinc
      * @date 创建时间：2019/1/16
      * @description 雷达图数据
@@ -601,9 +855,7 @@ public class RadarChartView extends BaseView {
          */
         private int color;
 
-        public Data(List<Float> data) {
-            this.data = data;
-        }
+        private Path path;
 
         public Data(List<Float> data, int color) {
             this.data = data;
@@ -618,6 +870,13 @@ public class RadarChartView extends BaseView {
             return color;
         }
 
+        private Path getPath() {
+            return path;
+        }
+
+        private void setPath(Path path) {
+            this.path = path;
+        }
     }
 
 }

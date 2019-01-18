@@ -245,7 +245,7 @@ public class BezierView extends BaseView {
         mTextPaint = new Paint();
         mTextPaint.setAntiAlias(true);
         mTextPaint.setTextAlign(Paint.Align.CENTER);
-        mTextPaint.setTextSize(sp2px(context, 15));
+        mTextPaint.setTextSize(spToPx(15));
 
         // 初始化中间阶级的画笔
         mIntermediatePaint = new Paint();

@@ -79,18 +79,57 @@
 
     </LinearLayout>
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:onClick="onRun"
-        android:text="运行"
-        android:textSize="12sp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <Button
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:onClick="onRun"
+            android:text="运行"
+            android:textSize="12sp" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:onClick="onStop"
+            android:text="停止"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:onClick="onStop"
-        android:text="停止"
-        android:textSize="12sp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="2"
+            android:onClick="onReset"
+            android:text="重置"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="文字描述" />
+
+        <Switch
+            android:id="@+id/sw_text_des"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingRight="15dp" />
+
+    </LinearLayout>
 
 </LinearLayout>
