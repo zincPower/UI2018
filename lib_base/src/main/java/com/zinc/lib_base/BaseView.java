@@ -44,11 +44,8 @@ public abstract class BaseView extends View {
     // 标柱的高度
     private final float mCoordinateFlagHeight = 8f;
 
-    private boolean _isInit;
     protected float mWidth;
     protected float mHeight;
-
-    private int mStatusBarHeight;
 
     public BaseView(Context context) {
         this(context, null, 0);
@@ -65,27 +62,16 @@ public abstract class BaseView extends View {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if (!_isInit) {
-            _isInit = true;
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
 
-            mWidth = getMeasuredWidth();
-            mHeight = getMeasuredHeight() + mStatusBarHeight;
-
-            initInMeasure(mWidth, mHeight);
-        }
-    }
-
-    protected void initInMeasure(float width, float height) {
-
+        mWidth = getMeasuredWidth();
+        mHeight = getMeasuredHeight();
     }
 
     protected void initCoordinate(Context context) {
         mCoordinateColor = Color.BLACK;
         mGridColor = Color.LTGRAY;
-
-        mStatusBarHeight = getStatusBarHeight(context);
 
         mTextSize = spToPx(10);
 
@@ -172,6 +158,12 @@ public abstract class BaseView extends View {
 
     }
 
+    /**
+     * 转换 sp 至 px
+     *
+     * @param spValue sp值
+     * @return px值
+     */
     protected int spToPx(float spValue) {
         final float fontScale = Resources.getSystem().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
@@ -180,20 +172,12 @@ public abstract class BaseView extends View {
     /**
      * 转换 dp 至 px
      *
-     * @param dp dp像素
-     * @return
+     * @param dpValue dp值
+     * @return px值
      */
-    protected int dpToPx(float dp) {
+    protected int dpToPx(float dpValue) {
         DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
-        return (int) (dp * metrics.density + 0.5f);
+        return (int) (dpValue * metrics.density + 0.5f);
     }
 
-    protected int getStatusBarHeight(Context context) {
-        int result = 0;
-        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = context.getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
 }
