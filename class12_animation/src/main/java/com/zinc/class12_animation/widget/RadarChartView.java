@@ -36,8 +36,6 @@ public class RadarChartView extends View {
     private static final double CIRCLE_ANGLE = 360d;
     // 网格线的默认颜色
     private static final String DEFAULT_LINE_COLOR = "#7a7a7a";
-    // 画布背景颜色
-    private static final String BACKGROUND_COLOR = "#201F23";
     // 默认中心点
     private static final PointF DEFAULT_CENTER_POINT = new PointF(0, 0);
     // 雷达图 背景渐变 分割的层级
@@ -465,9 +463,6 @@ public class RadarChartView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-
-        // 画背景
-        canvas.drawColor(Color.parseColor(BACKGROUND_COLOR));
 
         // 平移画布至中心
         canvas.translate(mWidth / 2, mHeight / 2);

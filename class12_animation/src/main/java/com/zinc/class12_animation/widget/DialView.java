@@ -1,6 +1,7 @@
 package com.zinc.class12_animation.widget;
 
 import android.animation.ObjectAnimator;
+import android.animation.TimeInterpolator;
 import android.animation.TypeEvaluator;
 import android.content.Context;
 import android.content.res.Resources;
@@ -22,15 +23,12 @@ import android.view.View;
  */
 public class DialView extends View {
 
-    // 开始的偏移角度
-    private static final int OFFSET_ANGEL = 90;
-
     // 表盘的颜色
     private static final String DEFAULT_DIAL_LINE_COLOR = "#3A5DFE";
     // 表盘的指针颜色
     private static final String DEFAULT_POINTER_COLOR = "#FE3171";
     // 默认画笔宽度
-    private static final float LINE_WIDTH = dpToPx(10f);
+    private static final float LINE_WIDTH = dpToPx(5f);
     // 线的间隔，每根线相隔 10 度
     private static final float LINE_INTERVAL = 10;
     // 线的条数
@@ -70,9 +68,6 @@ public class DialView extends View {
 
     private ObjectAnimator mAnimator;
 
-    // 动画的值
-    private float mAnimValue;
-
     // 当前的项
     private int mValue = 4;
 
@@ -104,7 +99,6 @@ public class DialView extends View {
         mLinePaint.setAntiAlias(true);
         mLinePaint.setStyle(Paint.Style.STROKE);
         mLinePaint.setStrokeWidth(LINE_WIDTH);
-        mLinePaint.setStrokeCap(Paint.Cap.ROUND);
 
         mPointerPaint = new Paint();
         mPointerPaint.setAntiAlias(true);
@@ -113,7 +107,7 @@ public class DialView extends View {
         mRectF = new RectF();
         setLineCount(DEFAULT_LINE_COUNT);
 
-        mRotateAngle = 180 + mEachAngle / 2 + LINE_INTERVAL;
+//        mRotateAngle = 180 + mEachAngle / 2 + LINE_INTERVAL;
 
     }
 
@@ -141,38 +135,49 @@ public class DialView extends View {
      * @param lineCount 线数量
      */
     public void setLineCount(int lineCount) {
-        this.mLineCount = lineCount;
-        mEachAngle = (360 - LINE_INTERVAL * mLineCount) / mLineCount;
+        this.mLineCount = lineCount + 1;
+        mEachAngle = 360 / mLineCount - LINE_INTERVAL;
+        mRotateAngle = 180 + mEachAngle / 2 + LINE_INTERVAL;
         createLinePath();
     }
 
     public void start() {
+        if (mAnimator != null) {
+            mAnimator.cancel();
+        }
         mAnimator = ObjectAnimator.ofFloat(this,
                 "curPointAngle",
                 180 + mEachAngle / 2 + LINE_INTERVAL,
                 mValue * (mEachAngle + LINE_INTERVAL) + 180);
         mAnimator.setDuration(DURATION);
-        mAnimator.setEvaluator(new TypeEvaluator() {
+        mAnimator.setInterpolator(new TimeInterpolator() {
             @Override
-            public Float evaluate(float fraction, Object startValue, Object endValue) {
-
-                float x = fraction;
+            public float getInterpolation(float x) {
                 float factor = 0.45f;
-                mAnimValue = (float) (Math.pow(2, -10 * x) * Math.sin((x - factor / 4) * (2 * Math.PI) / factor) + 1);
-
-                float value = (float) endValue - (float) startValue;
-
-
-                Log.i("mAnimator", "evaluate: " + mAnimValue);
-
-                return (float) startValue + mAnimValue * value;
+                return (float) (Math.pow(2, -10 * x) * Math.sin((x - factor / 4) * (2 * Math.PI) / factor) + 1);
             }
         });
         mAnimator.start();
     }
 
+    /**
+     * 重置
+     */
+    public void reset() {
+        if (mAnimator != null) {
+            mAnimator.cancel();
+        }
 
-    public void setCurPointAngle(float angle) {
+        mRotateAngle = 180 + mEachAngle / 2 + LINE_INTERVAL;
+        invalidate();
+
+    }
+
+    public void setValue(int value) {
+        this.mValue = value;
+    }
+
+    private void setCurPointAngle(float angle) {
         this.mRotateAngle = angle;
         Log.i("dial", "setCurPointAngle: " + mRotateAngle);
         invalidate();
@@ -214,7 +219,7 @@ public class DialView extends View {
     private void drawPointer(Canvas canvas) {
         canvas.save();
 
-        canvas.translate((mWidth + LINE_WIDTH) / 2, (mWidth + LINE_WIDTH) / 2);
+        canvas.translate(mWidth / 2, mWidth / 2);
 
         canvas.rotate(mRotateAngle);
 
@@ -234,11 +239,15 @@ public class DialView extends View {
         canvas.drawPath(mLinePath, mLinePaint);
     }
 
+    /**
+     * 构建 指标 的路径
+     */
     private void createLinePath() {
 
+        mLinePath.reset();
         for (int i = 0; i < mLineCount - 1; ++i) {
             mLinePath.addArc(mRectF,
-                    getRealOffsetAngle() + (i + 1) * LINE_INTERVAL + i * mEachAngle,
+                    getRealOffsetAngle() + i * (mEachAngle + LINE_INTERVAL),
                     mEachAngle);
         }
 
@@ -263,7 +272,7 @@ public class DialView extends View {
     }
 
     private float getRealOffsetAngle() {
-        return OFFSET_ANGEL + mEachAngle / 2;
+        return 90 + mEachAngle / 2 + LINE_INTERVAL;
     }
 
     /**

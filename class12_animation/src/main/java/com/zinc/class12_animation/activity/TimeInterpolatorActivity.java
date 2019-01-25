@@ -2,8 +2,10 @@ package com.zinc.class12_animation.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PointF;
@@ -14,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -63,8 +66,13 @@ public class TimeInterpolatorActivity extends AppCompatActivity implements TimeI
     private TimeInterpolatorAdapter mAdapter;
 
     private ObjectAnimator mAnimator;
+    private ValueAnimator mXAnimator;
+
+    private AnimatorSet animatorSet;
 
     private boolean isRunning;
+
+    private PointF curPoint;
 
     private View getStartView() {
         return (View) findViewById(R.id.start_view);
@@ -95,11 +103,19 @@ public class TimeInterpolatorActivity extends AppCompatActivity implements TimeI
 
         isRunning = false;
 
+        curPoint = new PointF(0, 0);
+
         buildInterpolatorList();
         createData();
 
-        mAnimator = ObjectAnimator.ofFloat(animView, "y", dpToPx(this, 35),
-                getScreenHeight(this) - dpToPx(this, 35 + 50) - getStatusHeight(this));
+        final float start = dpToPx(this, 35);
+        final float end = getScreenHeight(this) - dpToPx(this, 35 + 50) - getStatusHeight(this);
+
+        mAnimator = ObjectAnimator.ofFloat(animView, "y", start, end);
+        mXAnimator = ValueAnimator.ofFloat(0f, 1f);
+        animatorSet = new AnimatorSet();
+        animatorSet.play(mAnimator).with(mXAnimator);
+
         mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -108,6 +124,23 @@ public class TimeInterpolatorActivity extends AppCompatActivity implements TimeI
             }
         });
 
+        mXAnimator.setInterpolator(new LinearInterpolator());
+        mXAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float x = animation.getAnimatedFraction();
+                float y = mInterpolator.getInterpolation(x);
+
+                curPoint.x = x;
+                curPoint.y = y;
+
+                Log.i("zincTest", "onAnimationUpdate: [" + x + "," + y + "】");
+
+                mTimeInterpolatorView.setCurPoint(curPoint);
+            }
+        });
+
+        mTimeInterpolatorView.setCurPoint(curPoint);
         mTimeInterpolatorView.setLineData(dataList);
 
         tvRun.setOnClickListener(new View.OnClickListener() {
@@ -117,12 +150,14 @@ public class TimeInterpolatorActivity extends AppCompatActivity implements TimeI
                     Toast.makeText(TimeInterpolatorActivity.this, "动画正在进行中，请稍等", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 updateState(true);
                 String durationString = getEtDuration().getText().toString();
                 long duration = TextUtils.isEmpty(durationString) ? 2000L : Long.parseLong(durationString);
-                mAnimator.setDuration(duration);
+
+                animatorSet.setDuration(duration);
                 mAnimator.setInterpolator(mInterpolator);
-                mAnimator.start();
+                animatorSet.start();
             }
         });
 
@@ -190,13 +225,21 @@ public class TimeInterpolatorActivity extends AppCompatActivity implements TimeI
         mInterpolator = interpolatorList.get(position).getTimeInterpolator();
 
         mAdapter.notifyDataSetChanged();
+
+        createData();
+        mTimeInterpolatorView.setLineData(dataList);
+
+        curPoint.x = 0;
+        curPoint.y = 0;
+        mTimeInterpolatorView.setCurPoint(curPoint);
+
     }
 
     private void updateState(boolean isRunning) {
         this.isRunning = isRunning;
         tvStateInfo.setText(isRunning ? "running" : "ready");
         tvStateInfo.setTextColor(isRunning ?
-                Color.parseColor("#00FF7F") :
+                Color.parseColor("#32CD32") :
                 Color.parseColor("#1E90FF"));
     }
 

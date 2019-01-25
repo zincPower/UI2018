@@ -11,10 +11,10 @@
         android:theme="@style/AppTheme">
         <!--<activity android:name="com.zinc.class12_animation.activity.RadarActivity">-->
         <!--<activity android:name=".MainActivity">-->
-        <!--<activity android:name="com.zinc.class12_animation.activity.DialActivity">-->
         <!--<activity android:name="com.zinc.class12_animation.activity.SimpleAnimationActivity">-->
-        <activity
-            android:name="com.zinc.class12_animation.activity.TimeInterpolatorActivity"
+        <activity android:name="com.zinc.class12_animation.activity.DialActivity">
+            <!--<activity-->
+            <!--android:name="com.zinc.class12_animation.activity.TimeInterpolatorActivity"-->
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
