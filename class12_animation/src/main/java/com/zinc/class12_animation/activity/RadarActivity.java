@@ -80,17 +80,17 @@ public class RadarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_radar);
 
-        radarChartView = findViewById(R.id.radar_chart_view);
-
-        dataSeekBar = findViewById(R.id.data_seek_bar);
-        baseSeekBar = findViewById(R.id.base_seek_bar);
-        dimenSeekBar = findViewById(R.id.dimen_seek_bar);
-
-        tvDataNum = findViewById(R.id.tv_data_num);
-        tvBaseNum = findViewById(R.id.tv_base_num);
-        tvDimenNum = findViewById(R.id.tv_dimen_num);
-
-        swTextDes = findViewById(R.id.sw_text_des);
+//        radarChartView = findViewById(R.id.radar_chart_view);
+//
+//        dataSeekBar = findViewById(R.id.data_seek_bar);
+//        baseSeekBar = findViewById(R.id.base_seek_bar);
+//        dimenSeekBar = findViewById(R.id.dimen_seek_bar);
+//
+//        tvDataNum = findViewById(R.id.tv_data_num);
+//        tvBaseNum = findViewById(R.id.tv_base_num);
+//        tvDimenNum = findViewById(R.id.tv_dimen_num);
+//
+//        swTextDes = findViewById(R.id.sw_text_des);
 
         baseDataCount = 1;
         dataCount = 2;

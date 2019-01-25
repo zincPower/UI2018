@@ -357,7 +357,9 @@ public class RadarChartView extends View {
      * 清空数据
      */
     public void reset() {
-        mAnimator.cancel();
+        if(mAnimator != null){
+            mAnimator.cancel();
+        }
         mBaseDataList.clear();
         mDataList.clear();
         invalidate();

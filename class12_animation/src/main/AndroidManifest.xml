@@ -5,6 +5,8 @@
         <activity android:name=".activity.SimpleAnimationActivity" />
         <activity android:name=".activity.RadarActivity" />
         <activity android:name=".activity.ClientActivity" />
+        <activity android:name=".activity.DialActivity" />
+        <activity android:name=".activity.TimeInterpolatorActivity"/>
     </application>
 
 </manifest>
