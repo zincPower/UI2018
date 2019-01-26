@@ -5,12 +5,11 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PointF;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.zinc.class3_paint.UIUtils;
+import com.zinc.lib_base.UIUtils;
 import com.zinc.ui2018.R;
 
 /**

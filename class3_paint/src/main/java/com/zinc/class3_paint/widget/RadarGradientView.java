@@ -11,10 +11,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.zinc.class3_paint.R;
-import com.zinc.class3_paint.UIUtils;
+import com.zinc.lib_base.UIUtils;
 
 /**
  * @author Jiang zinc

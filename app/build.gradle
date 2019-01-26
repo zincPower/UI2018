@@ -31,4 +31,6 @@ dependencies {
     implementation project(":class7_bezier")
     implementation project(":class8_pathmeasure")
     implementation project(":class12_animation")
+
+    implementation project(":lib_base")
 }

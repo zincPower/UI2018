@@ -24,4 +24,16 @@ public class ClientActivity extends AppCompatActivity {
     public void onRadar(View view) {
         startActivity(new Intent(this, RadarActivity.class));
     }
+
+    public void onDial(View view) {
+        startActivity(new Intent(this, DialActivity.class));
+    }
+
+    public void onInterpolator(View view) {
+        startActivity(new Intent(this, TimeInterpolatorActivity.class));
+    }
+
+    public void onShoppingCart(View view) {
+        startActivity(new Intent(this, ShoppingActivity.class));
+    }
 }

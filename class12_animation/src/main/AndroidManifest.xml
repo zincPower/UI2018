@@ -6,7 +6,10 @@
         <activity android:name=".activity.RadarActivity" />
         <activity android:name=".activity.ClientActivity" />
         <activity android:name=".activity.DialActivity" />
-        <activity android:name=".activity.TimeInterpolatorActivity"/>
+        <activity
+            android:name=".activity.TimeInterpolatorActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".activity.ShoppingActivity"/>
     </application>
 
 </manifest>
