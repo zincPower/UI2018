@@ -32,4 +32,11 @@
         android:onClick="onShoppingCart"
         />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="源码解析"
+        android:onClick="onResource"
+        />
+
 </LinearLayout>

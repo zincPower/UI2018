@@ -25,6 +25,8 @@ import android.view.View;
 import com.zinc.class4_xfermode.R;
 import com.zinc.class4_xfermode.activity.XFerModeItemActivity;
 
+import java.lang.ref.WeakReference;
+
 /**
  * @author Jiang zinc
  * @date 创建时间：2018/10/22
@@ -86,13 +88,12 @@ public class ZincXFerModeView extends View {
     // 字体画笔
     private Paint textPaint;
 
-    private boolean isInit = false;
     // 每个框的宽度
     private float itemWidth;
     // 横向边界
     private float horizontalOffset = 10;
     // 纵向边界
-    private float verticalOffset;
+    private float verticalOffset = 10;
 
     // 边框的宽
     private int itemBorderWidth = 2;
@@ -100,19 +101,21 @@ public class ZincXFerModeView extends View {
     // 字体大小
     private int textSize = 25;
 
+    private int dst;
+    private int src;
     private Bitmap dstBitmap;
     private Bitmap srcBitmap;
 
     private RectF rectF;
-//    private RectF srcRectF;
 
     private Paint bitmapPaint;
 
     private RectF mRangeRectF;
-    private PointF mCurPoint;
 
     // 背景
     private Shader itemBackground;
+
+    private int mDownSelIndex = -1;
 
     private void init(Context context) {
         borderPaint = new Paint();
@@ -140,37 +143,52 @@ public class ZincXFerModeView extends View {
         m.setScale(6, 6);
         itemBackground.setLocalMatrix(m);
 
-        dstBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.dst);
-        srcBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.src);
-
         mRangeRectF = new RectF();
-        mCurPoint = new PointF();
+
+    }
+
+    public void setBitmap(int dst,
+                          int src,
+                          Bitmap dstBitmap,
+                          Bitmap srcBitmap) {
+        this.dst = dst;
+        this.src = src;
+        this.dstBitmap = dstBitmap;
+        this.srcBitmap = srcBitmap;
+        invalidate();
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
 
-        if (!isInit) {
-            isInit = true;
+        float width = Math.min(w, h);
+        boolean isHorMin = w < h;
 
-            int width = getMeasuredWidth();
-            // 计算每个宽的大小
+        // 计算每个宽的大小
+        if (isHorMin) {
+            // 横向较短
             itemWidth = (width - 4 * horizontalOffset) / 4;
-
-            verticalOffset = itemWidth * 0.1f;
-
-            int borderWidth = itemBorderWidth * 2;
-
-            rectF = new RectF(borderWidth, borderWidth, (int) itemWidth - borderWidth, (int) itemWidth - borderWidth);
-
+        } else {
+            // 纵向较短
+            itemWidth = (width - 4 * horizontalOffset - 4 * textSize) / 4;
         }
+
+        int borderWidth = itemBorderWidth * 2;
+
+        rectF = new RectF(borderWidth,
+                borderWidth,
+                (int) itemWidth - borderWidth,
+                (int) itemWidth - borderWidth);
 
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+
+        if (srcBitmap == null || dstBitmap == null) {
+            return;
+        }
 
         for (int row = 0; row < 4; ++row) {
             for (int col = 0; col < 4; ++col) {
@@ -214,11 +232,9 @@ public class ZincXFerModeView extends View {
 
                 bitmapPaint.setXfermode(null);
                 // 画圆
-//                canvas.drawBitmap(dstBitmap, itemBorderWidth, itemBorderWidth, bitmapPaint);
                 canvas.drawBitmap(dstBitmap, null, rectF, bitmapPaint);
                 bitmapPaint.setXfermode(sModes[row * 4 + col]);
                 // 画矩形
-//                canvas.drawBitmap(rectBitmap, itemBorderWidth, itemBorderWidth, bitmapPaint);
                 canvas.drawBitmap(srcBitmap, null, rectF, bitmapPaint);
 
                 canvas.restoreToCount(layer);
@@ -227,10 +243,12 @@ public class ZincXFerModeView extends View {
 
     }
 
-    int mDownSelIndex = -1;
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
+        if (srcBitmap == null || dstBitmap == null) {
+            return true;
+        }
 
         float x = event.getX();
         float y = event.getY();
@@ -240,13 +258,15 @@ public class ZincXFerModeView extends View {
                 mDownSelIndex = getTouchIndex(x, y);
                 break;
             case MotionEvent.ACTION_UP:
-                if(mDownSelIndex == -1) {
+                if (mDownSelIndex == -1) {
                     return true;
                 }
 
                 if (mDownSelIndex == getTouchIndex(x, y)) {
                     Intent intent = new Intent(getContext(), XFerModeItemActivity.class);
-                    intent.putExtra(XFerModeItemActivity.INDEX, mDownSelIndex);
+                    intent.putExtra(XFerModeItemActivity.SHOW_INDEX, mDownSelIndex);
+                    intent.putExtra(XFerModeItemActivity.DST, dst);
+                    intent.putExtra(XFerModeItemActivity.SRC, src);
                     getContext().startActivity(intent);
                 }
 

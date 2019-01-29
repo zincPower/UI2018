@@ -4,8 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
+    <TextView
+        android:id="@+id/tv_label"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:textColor="#333333"
+        android:textSize="18sp" />
+
+    <com.zinc.class4_xfermode.widget.ItemXFerModeView
+        android:id="@+id/xfermode_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

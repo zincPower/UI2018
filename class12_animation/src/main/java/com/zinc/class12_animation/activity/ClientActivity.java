@@ -36,4 +36,9 @@ public class ClientActivity extends AppCompatActivity {
     public void onShoppingCart(View view) {
         startActivity(new Intent(this, ShoppingActivity.class));
     }
+
+    public void onResource(View view) {
+        startActivity(new Intent(this, SimpleAnimationActivity.class));
+    }
+
 }

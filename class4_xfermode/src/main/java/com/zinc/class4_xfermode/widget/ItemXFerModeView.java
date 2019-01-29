@@ -75,12 +75,16 @@ public class ItemXFerModeView extends View {
         m.setScale(6, 6);
         itemBackground.setLocalMatrix(m);
 
-        dstBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.dst);
-        srcBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.src);
-
         mBgPaint = new Paint();
         mBitmapPaint = new Paint();
         mBitmapPaint.setAntiAlias(true);
+    }
+
+    public void setBitmap(Bitmap dstBitmap,
+                          Bitmap srcBitmap) {
+        this.dstBitmap = dstBitmap;
+        this.srcBitmap = srcBitmap;
+        invalidate();
     }
 
     @Override
@@ -102,7 +106,9 @@ public class ItemXFerModeView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+        if(dstBitmap == null || srcBitmap == null){
+            return;
+        }
 
         if (mCurXfermode == null) {
             return;

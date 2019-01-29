@@ -1,11 +1,18 @@
 package com.zinc.class4_xfermode.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.zinc.class4_xfermode.R;
+import com.zinc.class4_xfermode.fragment.XFerModeFragment;
 import com.zinc.class4_xfermode.widget.ItemXFerModeView;
 import com.zinc.class4_xfermode.widget.ZincXFerModeView;
 
@@ -17,24 +24,52 @@ import com.zinc.class4_xfermode.widget.ZincXFerModeView;
 public class XFerModeItemActivity extends AppCompatActivity {
 
     public static final String INDEX = "xfermode";
+    public static final String DST = "dst";
+    public static final String SRC = "src";
+    public static final String SHOW_INDEX = "showIndex";
 
-    private int index;
+    private int dst;
+    private int src;
 
-    private TextView tvLabel;
-    private ItemXFerModeView xFerModeView;
+    private ViewPager viewPager;
+
+    private int showIndex;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lsn4_activity_item);
 
-        tvLabel = findViewById(R.id.tv_label);
-        xFerModeView = findViewById(R.id.xfermode_view);
+        dst = getIntent().getIntExtra(DST, 0);
+        src = getIntent().getIntExtra(SRC, 0);
+        showIndex = getIntent().getIntExtra(SHOW_INDEX, 0);
 
-        index = getIntent().getIntExtra(INDEX, 0);
-
-        tvLabel.setText(ZincXFerModeView.sLabels[index]);
-        xFerModeView.setCurXfermode(ZincXFerModeView.sModes[index]);
-
+        viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(new XFerModeViewPagerAdapter(getSupportFragmentManager(), dst, src));
+        viewPager.setCurrentItem(showIndex);
+        viewPager.setOffscreenPageLimit(16);
     }
+
+    public static class XFerModeViewPagerAdapter extends FragmentPagerAdapter {
+
+        private int dst;
+        private int src;
+
+        public XFerModeViewPagerAdapter(FragmentManager fm, int dst, int src) {
+            super(fm);
+            this.dst = dst;
+            this.src = src;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return XFerModeFragment.getInstance(position, dst, src);
+        }
+
+        @Override
+        public int getCount() {
+            return 16;
+        }
+    }
+
 }

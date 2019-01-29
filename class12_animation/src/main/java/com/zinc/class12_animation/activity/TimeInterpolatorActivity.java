@@ -36,6 +36,7 @@ import android.widget.Toast;
 import com.zinc.class12_animation.R;
 import com.zinc.class12_animation.adapter.TimeInterpolatorAdapter;
 import com.zinc.class12_animation.bean.TimeInterpolatorBean;
+import com.zinc.class12_animation.interpolator. SpringInterpolator;
 import com.zinc.class12_animation.widget.TimeInterpolatorView;
 
 import java.util.ArrayList;
@@ -178,9 +179,13 @@ public class TimeInterpolatorActivity extends AppCompatActivity implements TimeI
         }
     }
 
+    /**
+     * 初始化插值器，需要的可以在这里添加自己的插值器
+     */
     private void buildInterpolatorList() {
         interpolatorList.clear();
-        interpolatorList.add(new TimeInterpolatorBean(true, "AccelerateDecelerateInterpolator", new AccelerateDecelerateInterpolator()));
+        interpolatorList.add(new TimeInterpolatorBean(true, "SpringInterpolator", new SpringInterpolator()));
+        interpolatorList.add(new TimeInterpolatorBean(false, "AccelerateDecelerateInterpolator", new AccelerateDecelerateInterpolator()));
         interpolatorList.add(new TimeInterpolatorBean(false, "AccelerateInterpolator", new AccelerateInterpolator()));
         interpolatorList.add(new TimeInterpolatorBean(false, "AnticipateInterpolator", new AnticipateInterpolator()));
         interpolatorList.add(new TimeInterpolatorBean(false, "AnticipateOvershootInterpolator", new AnticipateOvershootInterpolator()));

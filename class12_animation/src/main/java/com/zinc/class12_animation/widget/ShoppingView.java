@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
+import com.zinc.class12_animation.interpolator.SpringInterpolator;
 import com.zinc.class12_animation.utils.BezierUtils;
 
 import java.util.ArrayList;
@@ -103,7 +104,7 @@ public class ShoppingView extends android.support.v7.widget.AppCompatImageView {
 
         mTranslateAnimator = ObjectAnimator.ofObject(this,
                 "position",
-                new BezierEvaluator(),
+                new BezierEvaluator(startPoint, endPoint),
                 startPoint,
                 endPoint);
 
@@ -147,10 +148,10 @@ public class ShoppingView extends android.support.v7.widget.AppCompatImageView {
 
     private static class BezierEvaluator implements TypeEvaluator<PointF> {
 
-        private final List<PointF> pointList = new ArrayList<>();
+        private final List<PointF> pointList;
 
-        @Override
-        public PointF evaluate(float fraction, PointF startPoint, PointF endPoint) {
+        public BezierEvaluator(PointF startPoint, PointF endPoint) {
+            this.pointList = new ArrayList<>();
 
             PointF controlPointF = new PointF(endPoint.x, startPoint.y);
 
@@ -158,6 +159,10 @@ public class ShoppingView extends android.support.v7.widget.AppCompatImageView {
             pointList.add(controlPointF);
             pointList.add(endPoint);
 
+        }
+
+        @Override
+        public PointF evaluate(float fraction, PointF startPoint, PointF endPoint) {
             return new PointF(BezierUtils.calculatePointCoordinate(BezierUtils.X_TYPE, fraction, 2, 0, pointList),
                     BezierUtils.calculatePointCoordinate(BezierUtils.Y_TYPE, fraction, 2, 0, pointList));
         }
