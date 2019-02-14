@@ -44,6 +44,7 @@ public class SimpleAnimationActivity extends Activity {
             public void onAnimationUpdate(ValueAnimator animation) {
                 Log.i(TAG, "onAnimationUpdate: " + animation.getAnimatedValue().getClass());
                 Log.i(TAG, "onAnimationUpdate: " + animation.getAnimatedValue());
+                Log.i(TAG, "onAnimationUpdate: " + animation.getAnimatedFraction());
             }
         });
         // 生命周期回调

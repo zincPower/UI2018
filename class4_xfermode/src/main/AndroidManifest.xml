@@ -3,10 +3,14 @@
 
     <application>
 
-        <activity android:name=".activity.GoogleXFerModeActivity" />
+        <activity
+            android:name=".activity.GoogleXFerModeActivity"
+            android:hardwareAccelerated="true" />
         <activity
             android:name=".activity.ZincXFerModeActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:hardwareAccelerated="true"
+            />
         <activity android:name=".activity.XFerModeItemActivity" />
         <activity android:name=".ClientActivity" />
 

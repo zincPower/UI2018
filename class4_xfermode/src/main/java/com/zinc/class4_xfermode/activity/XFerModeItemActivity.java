@@ -47,7 +47,7 @@ public class XFerModeItemActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(new XFerModeViewPagerAdapter(getSupportFragmentManager(), dst, src));
         viewPager.setCurrentItem(showIndex);
-        viewPager.setOffscreenPageLimit(16);
+        viewPager.setOffscreenPageLimit(3);
     }
 
     public static class XFerModeViewPagerAdapter extends FragmentPagerAdapter {

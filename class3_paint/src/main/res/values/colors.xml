@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- 圈的颜色 -->
-    <color name="color_circle">#B0C4DE</color>
+    <color name="color_circle">#B8DCFC</color>
+    <color name="color_scan">#cc3278B4</color>
 </resources>
