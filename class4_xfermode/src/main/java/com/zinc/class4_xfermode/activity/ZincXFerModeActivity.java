@@ -75,20 +75,23 @@ public class ZincXFerModeActivity extends AppCompatActivity implements XFerModeI
         xfermodeList.add(new XFerModeBean(this,
                 "monkey",
                 false,
-                R.drawable.white_shadow_to_alpha,
-                R.drawable.monkey));
+                R.drawable.monkey,
+                R.drawable.white_shadow_to_alpha
+        ));
 
         xfermodeList.add(new XFerModeBean(this,
                 "spider",
                 false,
-                R.drawable.spider,
-                R.drawable.spider_black));
+                R.drawable.spider_black,
+                R.drawable.spider
+        ));
 
         xfermodeList.add(new XFerModeBean(this,
                 "spider_circle",
                 false,
-                R.drawable.circle,
-                R.drawable.spider_black));
+                R.drawable.spider_black,
+                R.drawable.circle
+        ));
     }
 
     @Override
