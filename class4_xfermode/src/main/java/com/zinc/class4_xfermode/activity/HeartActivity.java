@@ -5,8 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.zinc.class4_xfermode.R;
-import com.zinc.class4_xfermode.widget.PingPongView;
-import com.zinc.class4_xfermode.widget.WaveView;
 
 /**
  * @author Jiang zinc
