@@ -20,6 +20,8 @@
 
         <activity android:name=".ClientActivity" />
 
+        <activity android:name=".activity.AddAndOverlayActivity" />
+
     </application>
 
 </manifest>

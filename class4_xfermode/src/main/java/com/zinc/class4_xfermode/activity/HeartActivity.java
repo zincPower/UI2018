@@ -16,7 +16,7 @@ public class HeartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lsn4_activity_wave);
+        setContentView(R.layout.lsn4_activity_heart);
     }
 
 }

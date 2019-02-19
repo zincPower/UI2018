@@ -28,7 +28,7 @@ public class SimpleAnimationActivity extends Activity {
         ZincView view = new ZincView(this);
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(view, "zinc", 0f, 2f, 5f);
         // 时长
-        objectAnimator.setDuration(2000);
+        objectAnimator.setDuration(5000);
         // 插值器
         objectAnimator.setInterpolator(new TimeInterpolator() {
             @Override

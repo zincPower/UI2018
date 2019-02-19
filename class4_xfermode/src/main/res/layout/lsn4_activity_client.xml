@@ -28,4 +28,16 @@
         android:layout_height="45dp"
         android:text="心跳" />
 
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="Add Demo" />
+
+    <Button
+        android:id="@+id/btn_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="Overlay Demo" />
+
 </LinearLayout>
