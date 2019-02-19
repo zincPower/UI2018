@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.zinc.class4_xfermode.activity.GoogleXFerModeActivity;
+import com.zinc.class4_xfermode.activity.HeartActivity;
+import com.zinc.class4_xfermode.activity.ScratchCardActivity;
 import com.zinc.class4_xfermode.activity.ZincXFerModeActivity;
 
 /**
@@ -23,6 +25,8 @@ public class ClientActivity extends AppCompatActivity implements View.OnClickLis
 
         findViewById(R.id.btn_google).setOnClickListener(this);
         findViewById(R.id.btn_zinc).setOnClickListener(this);
+        findViewById(R.id.btn_gua_gua).setOnClickListener(this);
+        findViewById(R.id.btn_heart).setOnClickListener(this);
     }
 
     @Override
@@ -32,6 +36,10 @@ public class ClientActivity extends AppCompatActivity implements View.OnClickLis
             startActivity(new Intent(this, GoogleXFerModeActivity.class));
         } else if (i == R.id.btn_zinc) {
             startActivity(new Intent(this, ZincXFerModeActivity.class));
+        } else if (i == R.id.btn_gua_gua) {
+            startActivity(new Intent(this, ScratchCardActivity.class));
+        } else if (i == R.id.btn_heart) {
+            startActivity(new Intent(this, HeartActivity.class));
         }
     }
 }

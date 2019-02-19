@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.zinc.class4_xfermode.widget.WaveView
-        android:id="@+id/wave_view"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+    <com.zinc.class4_xfermode.widget.PingPongView
+        android:id="@+id/ping_pong_view"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
         android:layout_centerInParent="true" />
 
 </RelativeLayout>

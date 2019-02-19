@@ -6,12 +6,18 @@
         <activity
             android:name=".activity.GoogleXFerModeActivity"
             android:hardwareAccelerated="true" />
+
         <activity
             android:name=".activity.ZincXFerModeActivity"
-            android:screenOrientation="landscape"
             android:hardwareAccelerated="true"
-            />
+            android:screenOrientation="landscape" />
+
         <activity android:name=".activity.XFerModeItemActivity" />
+
+        <activity android:name=".activity.HeartActivity" />
+
+        <activity android:name=".activity.ScratchCardActivity" />
+
         <activity android:name=".ClientActivity" />
 
     </application>
