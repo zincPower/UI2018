@@ -4,6 +4,7 @@
 >1、贝塞尔曲线<br/>
 >2、PathMeasure<br/>
 >3、属性动画<br/>
+>4、Xfermode<br/>
 >三、继续整理的章节<br/>
 >四、作者简介<br/>
 >1、个人博客<br/>
@@ -71,12 +72,27 @@
 
 ![](https://github.com/zincPower/UI2018/blob/master/img/cls12/shoppingCart.gif)
 
+### 4、Xfermode
+
+#### 博客：[图像操纵大师Xfermode讲解与实战——Android高级UI](https://juejin.im/post/5c6c20556fb9a04a0e2dc490)
+#### 实战：
+**（1）Xfermode工具**
+
+![](https://github.com/zincPower/UI2018/blob/master/img/cls4/xfermode_tool.gif)
+
+**（2）刮刮卡**
+
+![](https://github.com/zincPower/UI2018/blob/master/img/cls4/scrach_card.gif)
+
+**（3）心跳**
+
+![](https://github.com/zincPower/UI2018/blob/master/img/cls4/ping_pong.gif)
+
 ## 三、继续整理的章节
-1. XFerMode
-2. Paint
-3. 事件分发机制
-4. 绘制流程
-5. 更多精彩
+1. Paint
+2. 事件分发机制
+3. 绘制流程
+4. 更多精彩
 
 ## 四、作者简介
 ### 1、个人博客
