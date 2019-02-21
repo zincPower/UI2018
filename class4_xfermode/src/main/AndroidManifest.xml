@@ -12,7 +12,9 @@
             android:hardwareAccelerated="false"
             android:screenOrientation="landscape" />
 
-        <activity android:name=".activity.XFerModeItemActivity" />
+        <activity android:name=".activity.XFerModeItemActivity"
+            android:hardwareAccelerated="false"
+            />
 
         <activity android:name=".activity.HeartActivity" />
 
