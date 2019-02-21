@@ -5,11 +5,11 @@
 
         <activity
             android:name=".activity.GoogleXFerModeActivity"
-            android:hardwareAccelerated="true" />
+            android:hardwareAccelerated="false" />
 
         <activity
             android:name=".activity.ZincXFerModeActivity"
-            android:hardwareAccelerated="true"
+            android:hardwareAccelerated="false"
             android:screenOrientation="landscape" />
 
         <activity android:name=".activity.XFerModeItemActivity" />
@@ -20,7 +20,9 @@
 
         <activity android:name=".ClientActivity" />
 
-        <activity android:name=".activity.AddAndOverlayActivity" />
+        <activity android:name=".activity.AddAndOverlayActivity"
+            android:hardwareAccelerated="false"
+            />
 
     </application>
 
