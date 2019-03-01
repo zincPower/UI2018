@@ -30,6 +30,8 @@ public class VelocityTrackerView extends View {
 
     private void initView(Context context) {
 
+
+
     }
 
 }
