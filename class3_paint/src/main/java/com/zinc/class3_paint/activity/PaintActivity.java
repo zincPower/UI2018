@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.zinc.class3_paint.R;
 
+import java.util.concurrent.ThreadPoolExecutor;
+
 /**
  * @author Jiang zinc
  * @date 创建时间：2018/10/16
