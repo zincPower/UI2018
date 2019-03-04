@@ -90,25 +90,48 @@ public class BarChart extends View {
      */
     private float mBarWidth;
     /**
-     * 控件的宽
+     * 有数据的画布宽
      */
     private float mCanvasWidth;
-
+    /**
+     * 用户可见的视图宽
+     */
     private float mViewWidth;
-
-    private Paint mPaint;
-
+    /**
+     * 柱子路径
+     */
     private Path mBarPath;
-
+    /**
+     * 画笔
+     */
+    private Paint mPaint;
+    /**
+     * 当前动画的进度
+     */
     private float mAnimRate = 0;
-
+    /**
+     * 柱子颜色
+     */
     private int mBarColor;
+    /**
+     * 内圆颜色
+     */
     private int mInnerDotColor;
+    /**
+     * 外圆颜色
+     */
     private int mOuterDotColor;
+    /**
+     * 字体大小
+     */
     private int mTextColor;
-
+    /**
+     * 最后触碰的x坐标
+     */
     private float mLastTouchX;
-
+    /**
+     * 动画
+     */
     private ValueAnimator mAnim;
 
     /**
@@ -191,13 +214,23 @@ public class BarChart extends View {
         this.mBarInfoList.addAll(barInfoList);
         this.mCanvasWidth = (this.mBarInfoList.size() + 1) * this.mBarInterval;
 
+        // 停止正在执行的动画
         if (mAnim != null && mAnim.isRunning()) {
             mAnim.cancel();
         }
 
+        // 停止滚动
+        if (mFling != null) {
+            mFling.stop();
+        }
+
+        // 重置动画进度
         mAnimRate = 0;
+
+        // 滚回最开始的坐标
         scrollTo(0, 0);
 
+        // 提交刷新
         postInvalidate();
     }
 
@@ -209,6 +242,8 @@ public class BarChart extends View {
             Log.e(TAG, "启动动画前，请先设置数据");
             return;
         }
+
+        mAnimRate = 0;
 
         if (mAnim.isRunning()) {
             mAnim.cancel();
@@ -299,12 +334,13 @@ public class BarChart extends View {
                 if (maxX > 0) {
                     mFling.start(initX, velocityX, initX, maxX);
                 }
-            } else {
-                if (mVelocityTracker != null) {
-                    mVelocityTracker.recycle();
-                    mVelocityTracker = null;
-                }
             }
+
+            if (mVelocityTracker != null) {
+                mVelocityTracker.recycle();
+                mVelocityTracker = null;
+            }
+
         }
 
         return super.onTouchEvent(event);
@@ -400,6 +436,9 @@ public class BarChart extends View {
         }
     }
 
+    /**
+     * 滚动线程
+     */
     private class FlingRunnable implements Runnable {
 
         private Scroller mScroller;
@@ -469,6 +508,12 @@ public class BarChart extends View {
 
             if (!isEnd) {
                 post(this);
+            }
+        }
+
+        void stop() {
+            if (!mScroller.isFinished()) {
+                mScroller.abortAnimation();
             }
         }
     }
