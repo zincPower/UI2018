@@ -32,6 +32,7 @@ dependencies {
     implementation project(":class8_pathmeasure")
     implementation project(":class12_animation")
     implementation project(":class15_velocitytracker_scroller")
+    implementation project(":class19_recycleview")
 
     implementation project(":lib_base")
 }

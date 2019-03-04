@@ -1,4 +1,4 @@
-//package com.zinc.class15_velocitytracker_scroller;
+//package com.zinc.class19_recycleview;
 //
 //import android.content.Context;
 //import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@
 //        // Context of the app under test.
 //        Context appContext = InstrumentationRegistry.getTargetContext();
 //
-//        assertEquals("com.zinc.class15_velocitytracker_scroller.test", appContext.getPackageName());
+//        assertEquals("com.zinc.class19_recycleview.test", appContext.getPackageName());
 //    }
 //}

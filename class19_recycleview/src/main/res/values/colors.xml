@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="type_one">#FFB6C1</color>
+    <color name="type_two">#6495ED</color>
+    <color name="type_three">#FFDEAD</color>
+    <color name="type_four">#FF7F50</color>
+
+</resources>
