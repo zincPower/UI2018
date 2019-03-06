@@ -91,7 +91,7 @@
 
 ### 5、VelocityTracker和Scroller
 
-#### 博客：[让控件如此丝滑Scroller和VelocityTracker的API讲解与实战——Android高级UI](https://juejin.im/post/5c7f3ea8e51d4541ac6936a9)
+#### 博客：[让控件如此丝滑Scroller和VelocityTracker的API讲解与实战——Android高级UI](https://juejin.im/post/5c7f485bf265da2d8c7df078)
 #### 实战：
 **（1）带惯性滑动的柱状图**
 
