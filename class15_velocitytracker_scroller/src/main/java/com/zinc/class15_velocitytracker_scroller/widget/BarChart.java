@@ -31,7 +31,7 @@ public class BarChart extends View {
     /**
      * 内圆的颜色
      */
-    private static final String INNER_DOT_COLOR = "#64E35B5B";
+    private static final String INNER_DOT_COLOR = "#99E35B5B";
     /**
      * 外圆的颜色
      */
@@ -39,7 +39,7 @@ public class BarChart extends View {
     /**
      * 柱的颜色
      */
-    private static final String BAR_COLOR = "#64434343";
+    private static final String BAR_COLOR = "#bb434343";
     /**
      * 文字颜色
      */
@@ -170,13 +170,13 @@ public class BarChart extends View {
         setClickable(true);
 
         mDescTextSize = dip2px(context, 12f);
-        mDotInnerRadius = dip2px(context, 3f);
-        mDotOuterRadius = dip2px(context, 4.5f);
+        mDotInnerRadius = dip2px(context, 3.5f);
+        mDotOuterRadius = dip2px(context, 5f);
         mBarInterval = dip2px(context, 40f);
         mBottomSpacing = dip2px(context, 10f);
         mBarTextSpacing = dip2px(context, 12f);
         mTopSpacing = dip2px(context, 10f);
-        mBarWidth = dip2px(context, 1f);
+        mBarWidth = dip2px(context, 1.25f);
 
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
@@ -278,9 +278,7 @@ public class BarChart extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        /**
-         * 当数据的长度不足以滑动时，不做滑动处理
-         */
+        // 当数据的长度不足以滑动时，不做滑动处理
         if (mCanvasWidth < mViewWidth) {
             return true;
         }
@@ -292,6 +290,8 @@ public class BarChart extends View {
 
         if (MotionEvent.ACTION_DOWN == event.getAction()) {
             mLastTouchX = event.getX();
+
+            mFling.stop();
         } else if (MotionEvent.ACTION_MOVE == event.getAction()) {
             // 滑动的距离
             float scrollLengthX = event.getX() - mLastTouchX;
@@ -355,8 +355,14 @@ public class BarChart extends View {
     private void drawBar(Canvas canvas) {
         mBarPath.reset();
         for (int i = 0; i < mBarInfoList.size(); ++i) {
-            mBarPath.moveTo((i + 1) * mBarInterval, mTopSpacing);
-            mBarPath.lineTo((i + 1) * mBarInterval, mBarHeight + mTopSpacing);
+
+            float x = (i + 1) * mBarInterval;
+
+            if (isInVisibleArea(x)) {
+                mBarPath.moveTo(x, mTopSpacing);
+                mBarPath.lineTo(x, mBarHeight + mTopSpacing);
+            }
+
         }
 
         mPaint.setColor(mBarColor);
@@ -375,16 +381,23 @@ public class BarChart extends View {
         mPaint.setStyle(Paint.Style.FILL);
 
         for (int i = 0; i < mBarInfoList.size(); ++i) {
-            BarInfo barInfo = mBarInfoList.get(i);
-            float curBarDotY = (float) (mBarHeight * (1 - barInfo.percent * mAnimRate) + mTopSpacing);
+            float x = (i + 1) * mBarInterval;
 
-            // 画外圆
-            mPaint.setColor(mOuterDotColor);
-            canvas.drawCircle((i + 1) * mBarInterval, curBarDotY, mDotOuterRadius, mPaint);
+            if (isInVisibleArea(x)) {
 
-            // 画内圆
-            mPaint.setColor(mInnerDotColor);
-            canvas.drawCircle((i + 1) * mBarInterval, curBarDotY, mDotInnerRadius, mPaint);
+                BarInfo barInfo = mBarInfoList.get(i);
+
+                float curBarDotY = (float) (mBarHeight * (1 - barInfo.percent * mAnimRate) + mTopSpacing);
+
+                // 画外圆
+                mPaint.setColor(mOuterDotColor);
+                canvas.drawCircle(x, curBarDotY, mDotOuterRadius, mPaint);
+
+                // 画内圆
+                mPaint.setColor(mInnerDotColor);
+                canvas.drawCircle(x, curBarDotY, mDotInnerRadius, mPaint);
+            }
+
         }
     }
 
@@ -408,7 +421,19 @@ public class BarChart extends View {
         }
     }
 
-    private static int dip2px(Context context, float dipValue) {
+    /**
+     * 是否在可视的范围内
+     *
+     * @param x
+     * @return true：在可视的范围内；false：不在可视的范围内
+     */
+    private boolean isInVisibleArea(float x) {
+        float dx = x - getScrollX();
+
+        return -mBarInterval <= dx && dx <= mViewWidth + mBarInterval;
+    }
+
+    private int dip2px(Context context, float dipValue) {
         float density = context.getResources().getDisplayMetrics().density;
         return (int) (dipValue * density + 0.5f);
     }
@@ -449,7 +474,7 @@ public class BarChart extends View {
         private int mVelocityX;
 
         FlingRunnable(Context context) {
-            this.mScroller = new Scroller(context);
+            this.mScroller = new Scroller(context, null, false);
         }
 
         void start(int initX,
@@ -461,10 +486,12 @@ public class BarChart extends View {
             this.mMinX = minX;
             this.mMaxX = maxX;
 
+            // 先停止上一次的滚动
             if (!mScroller.isFinished()) {
                 mScroller.abortAnimation();
             }
 
+            // 开始 fling
             mScroller.fling(initX, 0, velocityX,
                     0, 0, maxX, 0, 0);
             post(this);
@@ -473,10 +500,12 @@ public class BarChart extends View {
         @Override
         public void run() {
 
+            // 如果已经结束，就不再进行
             if (!mScroller.computeScrollOffset()) {
                 return;
             }
 
+            // 计算偏移量
             int currX = mScroller.getCurrX();
             int diffX = mInitX - currX;
 
@@ -488,21 +517,26 @@ public class BarChart extends View {
                     + "[velocityX: " + mVelocityX + "]\n"
             );
 
+            // 用于记录是否超出边界，如果已经超出边界，则不再进行回调，即使滚动还没有完成
             boolean isEnd = false;
 
             if (diffX != 0) {
 
+                // 超出右边界，进行修正
                 if (getScrollX() + diffX >= mCanvasWidth - mViewWidth) {
                     diffX = (int) (mCanvasWidth - mViewWidth - getScrollX());
                     isEnd = true;
                 }
 
+                // 超出左边界，进行修正
                 if (getScrollX() <= 0) {
                     diffX = -getScrollX();
                     isEnd = true;
                 }
 
-                scrollBy(diffX, 0);
+                if (!mScroller.isFinished()) {
+                    scrollBy(diffX, 0);
+                }
                 mInitX = currX;
             }
 
@@ -511,6 +545,9 @@ public class BarChart extends View {
             }
         }
 
+        /**
+         * 进行停止
+         */
         void stop() {
             if (!mScroller.isFinished()) {
                 mScroller.abortAnimation();

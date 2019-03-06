@@ -25,8 +25,8 @@ import java.util.Random;
  */
 public class BarActivity extends AppCompatActivity {
 
-    private static final int DATA_COUNT_INTERVAL = 5;
-    private static final int DATA_COUNT_MAX = 40;
+    private static final int DATA_COUNT_INTERVAL = 10;
+    private static final int DATA_COUNT_MAX = 300;
 
     private BarChart mBarChart;
     private Button mBtnStart;
@@ -53,14 +53,14 @@ public class BarActivity extends AppCompatActivity {
 
         mRandom = new Random();
 
-        setDataCountText(30);
+        setDataCountText(100);
 
         mSbDataCount.setMax(DATA_COUNT_MAX / DATA_COUNT_INTERVAL);
         mSbDataCount.setProgress(mDataCount / DATA_COUNT_INTERVAL);
         mSbDataCount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                setDataCountText(progress * 5);
+                setDataCountText(progress * 10);
             }
 
             @Override

@@ -5,6 +5,7 @@
 >2、PathMeasure<br/>
 >3、属性动画<br/>
 >4、Xfermode<br/>
+>5、VelocityTracker和Scroller<br/>
 >三、继续整理的章节<br/>
 >四、作者简介<br/>
 >1、个人博客<br/>
@@ -87,6 +88,14 @@
 **（3）心跳**
 
 ![](https://github.com/zincPower/UI2018/blob/master/img/cls4/ping_pong.gif)
+
+### 5、VelocityTracker和Scroller
+
+#### 博客：[让控件如此丝滑Scroller和VelocityTracker的API讲解与实战——Android高级UI](https://juejin.im/post/5c7f3ea8e51d4541ac6936a9)
+#### 实战：
+**（1）带惯性滑动的柱状图**
+
+![](https://github.com/zincPower/UI2018/blob/master/img/cls15/bar.gif)
 
 ## 三、继续整理的章节
 1. Paint
