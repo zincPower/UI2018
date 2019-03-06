@@ -61,6 +61,12 @@
                 android:layout_height="45dp"
                 android:text="12讲：属性动画" />
 
+            <Button
+                android:id="@+id/lsn_15"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="15讲：Scroller 和 VelocityTracker" />
+
         </LinearLayout>
 
     </ScrollView>
