@@ -411,13 +411,16 @@ public class BarChart extends View {
         float textY = mTopSpacing + mBarHeight + mBarTextSpacing + mDescTextSize / 2;
 
         for (int i = 0; i < mBarInfoList.size(); ++i) {
-            BarInfo barInfo = mBarInfoList.get(i);
+            float x = (i + 1) * mBarInterval;
 
-            // 画外圆
-            mPaint.setColor(mTextColor);
-            mPaint.setTextSize(mDescTextSize);
-            mPaint.setTextAlign(Paint.Align.CENTER);
-            canvas.drawText(barInfo.desc, (i + 1) * mBarInterval, textY, mPaint);
+            if (isInVisibleArea(x)) {
+                BarInfo barInfo = mBarInfoList.get(i);
+
+                mPaint.setColor(mTextColor);
+                mPaint.setTextSize(mDescTextSize);
+                mPaint.setTextAlign(Paint.Align.CENTER);
+                canvas.drawText(barInfo.desc, x, textY, mPaint);
+            }
         }
     }
 
