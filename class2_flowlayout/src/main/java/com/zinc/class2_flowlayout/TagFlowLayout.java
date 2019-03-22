@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,36 +13,41 @@ import java.util.List;
 /**
  * @author Jiang zinc
  * @date 创建时间：2018/9/25
- * @description 流式 布局
+ * @description 标签流式布局
  */
-public class FlowLayout extends ViewGroup {
+public class TagFlowLayout extends ViewGroup {
 
     private String TAG = "FlowLayout";
+
+    // 测量次数
     private int onMeasureCount = 0;
+    // 摆放次数
     private int onLayoutCount = 0;
 
-    public FlowLayout(Context context) {
+    // 保存每行的每个View
+    private List<List<View>> mRowViewList = new ArrayList<>();
+    // 每行的高度
+    private List<Integer> mRowHeightList = new ArrayList<>();
+    // 当前行的View
+    private List<View> mCurLineViewList = new ArrayList<>();
+
+    public TagFlowLayout(Context context) {
         this(context, null, 0);
     }
 
-    public FlowLayout(Context context, AttributeSet attrs) {
+    public TagFlowLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public FlowLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TagFlowLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    // 必须要重写这个方法，因为子视图需要获取其 margin
+    // 注意：必须要重写这个方法，因为子视图需要获取其 margin
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
         return new MarginLayoutParams(getContext(), attrs);
     }
-
-    // 保存每行的每个view
-    private List<List<View>> lstLineView = new ArrayList<>();
-    // 每行的高度
-    private List<Integer> lstHeight = new ArrayList<>();
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -49,40 +55,43 @@ public class FlowLayout extends ViewGroup {
         Log.i(TAG, "onMeasure: " + onMeasureCount++);
 
         // 7.0 会进行两次绘制，所以需要先进行清理
-        lstHeight.clear();
-        lstLineView.clear();
+        mRowViewList.clear();
+        mRowHeightList.clear();
+        mCurLineViewList.clear();
 
-        // 获取父亲的 模式 和 宽高
+        // 获取 自身的模式
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 
+        // 获取 自身的宽高
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
-        // 控件的宽高
-        int measureWidth = 0;
-        int measureHeight = 0;
+        // TagFlowLayout控件的宽高，用于确定自己的大小
+        int myselfMeasureWidth = 0;
+        int myselfMeasureHeight = 0;
 
-        //每一行的宽高
+        // 每一行的宽高
         int lineWidth = 0;
         int lineHeight = 0;
 
         // 获取子视图个数
         int childCount = getChildCount();
 
-        // 当前 行的 view
-        List<View> curLineViewList = new ArrayList<>();
-
         // 遍历获取子视图的信息
         for (int i = 0; i < childCount; ++i) {
 
             // 1、获取子视图
             View childView = getChildAt(i);
+
             // 2、子视图进行测量
-            measureChild(childView, widthMeasureSpec, heightMeasureSpec);
+            measureChildWithMargins(childView, widthMeasureSpec, 0,
+                    heightMeasureSpec, 0);
+
             // 3、获取子视图宽高
             int childWidth = childView.getMeasuredWidth();
             int childHeight = childView.getMeasuredHeight();
+
             // 4、子视图真正占的大小（需要加上其margin）
             // 此处要使用MarginLayoutParams，则必须重写generateLayoutParams方法
             MarginLayoutParams layoutParams = (MarginLayoutParams) childView.getLayoutParams();
@@ -90,21 +99,21 @@ public class FlowLayout extends ViewGroup {
             int childRealHeight = childHeight + layoutParams.topMargin + layoutParams.bottomMargin;
 
             // 进行判读是否 加上当前 子视图会 导致超出行宽
-            if (lineWidth + childRealWidth > widthSize) { // 超出行宽
+            if (lineWidth + childRealWidth > widthSize) {
 
                 // 获取最大的宽值
-                measureWidth = Math.max(measureWidth, lineWidth);
+                myselfMeasureWidth = Math.max(myselfMeasureWidth, lineWidth);
                 // 保存高
-                measureHeight += lineHeight;
+                myselfMeasureHeight += lineHeight;
 
                 // 保存行的view数据
-                lstLineView.add(curLineViewList);
+                mRowViewList.add(mCurLineViewList);
                 // 保存行高
-                lstHeight.add(lineHeight);
+                mRowHeightList.add(lineHeight);
 
                 // 重新开辟一个list，保存新的行view
-                curLineViewList = new ArrayList<>();
-                curLineViewList.add(childView);
+                mCurLineViewList = new ArrayList<>();
+                mCurLineViewList.add(childView);
 
                 // 重置行宽、高
                 lineWidth = childRealWidth;
@@ -113,7 +122,7 @@ public class FlowLayout extends ViewGroup {
             } else {
 
                 // 保存行view
-                curLineViewList.add(childView);
+                mCurLineViewList.add(childView);
                 // 增加行宽 和 保存 行高最大值
                 lineWidth += childRealWidth;
                 lineHeight = Math.max(lineHeight, childRealHeight);
@@ -122,24 +131,24 @@ public class FlowLayout extends ViewGroup {
 
             // 最后一行数据要进行保存
             if (i == childCount - 1) {
-                measureWidth = Math.max(measureWidth, lineWidth);
-                measureHeight += lineHeight;
-                lstLineView.add(curLineViewList);
-                lstHeight.add(lineHeight);
+                myselfMeasureWidth = Math.max(myselfMeasureWidth, lineWidth);
+                myselfMeasureHeight += lineHeight;
+                mRowViewList.add(mCurLineViewList);
+                mRowHeightList.add(lineHeight);
             }
 
         }
 
         // 如果是 match_parent 则直接使用 宽 高 尺寸
         if (widthMode == MeasureSpec.EXACTLY) {
-            measureWidth = widthSize;
+            myselfMeasureWidth = widthSize;
         }
 
         if (heightMode == MeasureSpec.EXACTLY) {
-            measureHeight = heightSize;
+            myselfMeasureHeight = heightSize;
         }
 
-        setMeasuredDimension(measureWidth, measureHeight);
+        setMeasuredDimension(myselfMeasureWidth, myselfMeasureHeight);
 
     }
 
@@ -153,11 +162,11 @@ public class FlowLayout extends ViewGroup {
         int curTop = 0;
         int curLeft = 0;
 
-        int lineSize = lstLineView.size();
+        int lineSize = mRowViewList.size();
         // 遍历每行
         for (int i = 0; i < lineSize; ++i) {
 
-            List<View> lineView = lstLineView.get(i);
+            List<View> lineView = mRowViewList.get(i);
             int viewSize = lineView.size();
             for (int j = 0; j < viewSize; ++j) {
                 View view = lineView.get(j);
@@ -165,7 +174,16 @@ public class FlowLayout extends ViewGroup {
 
                 left = curLeft + layoutParams.leftMargin;
                 top = curTop + layoutParams.topMargin;
-                right = left + view.getMeasuredWidth();
+
+                // 右边需要修复
+                int tempRight = left + view.getMeasuredWidth() + layoutParams.rightMargin;
+                if (tempRight > getWidth()) {
+                    right = getWidth() - layoutParams.rightMargin;
+                } else {
+                    right = left + view.getMeasuredWidth();
+                }
+
+//                right = left + view.getMeasuredWidth();
                 bottom = top + view.getMeasuredHeight();
 
                 view.layout(left, top, right, bottom);
@@ -175,13 +193,12 @@ public class FlowLayout extends ViewGroup {
 
             // 每行重置
             curLeft = 0;
-            curTop += lstHeight.get(i);
+            curTop += mRowHeightList.get(i);
 
         }
 
-        lstLineView.clear();
-        lstHeight.clear();
-
+        mRowViewList.clear();
+        mRowHeightList.clear();
     }
 
 }

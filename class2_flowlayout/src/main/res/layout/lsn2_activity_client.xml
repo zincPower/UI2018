@@ -1,80 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
     android:orientation="vertical">
 
-    <com.zinc.class2_flowlayout.FlowLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@android:color/black">
+    <com.zinc.class2_flowlayout.TagFlowLayout
+        android:id="@+id/tag_flow_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/shape_tag_bg" />
+
+    <TextView
+        android:id="@+id/tv_play"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/selector_blue_round_5dp"
+        android:gravity="center"
+        android:text="开始"
+        android:textColor="@android:color/white" />
+
+    <LinearLayout
+        android:id="@+id/ll_complex"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_above="@id/tv_play"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <TextView
-            style="@style/text_flag_01"
-            android:text="hello" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="是否显示复杂布局"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+
+        <Switch
+            android:id="@+id/sw_show_complex_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@id/ll_complex"
+        android:orientation="horizontal">
 
         <TextView
-            style="@style/text_flag_01"
-            android:text="hello,hi" />
+            android:id="@+id/tv_data_count"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/data_count"
+            android:textColor="@android:color/white" />
 
-        <TextView
-            style="@style/text_flag_01"
-            android:text="你是我的"
-            android:textSize="18sp" />
+        <SeekBar
+            android:id="@+id/sb_data_count"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:max="10" />
 
-        <TextView
-            style="@style/text_flag_01"
-            android:text="hello,man" />
+    </LinearLayout>
 
-        <TextView
-            style="@style/text_flag_01"
-            android:text="helloview" />
-
-        <TextView
-            style="@style/text_flag_01"
-            android:text="view" />
-
-        <TextView
-            style="@style/text_flag_01"
-            android:text="我是你的"
-            android:textSize="20sp" />
-
-        <TextView
-            style="@style/text_flag_01"
-            android:text="he" />
-
-        <TextView
-            style="@style/text_flag_01"
-            android:text="hello" />
-
-        <TextView
-            style="@style/text_flag_01"
-            android:text="textview" />
-
-        <TextView
-            style="@style/text_flag_01"
-            android:text="view" />
-
-        <TextView
-            style="@style/text_flag_01"
-            android:text="hello,view" />
-
-        <TextView
-            style="@style/text_flag_01"
-            android:text="hello,mt" />
-
-        <TextView
-            style="@style/text_flag_01"
-            android:text="hel" />
-
-        <TextView
-            style="@style/text_flag_01"
-            android:text="hel" />
-
-        <TextView
-            style="@style/text_flag_01"
-            android:text="hel2" />
-
-    </com.zinc.class2_flowlayout.FlowLayout>
-
-</LinearLayout>
+</RelativeLayout>
