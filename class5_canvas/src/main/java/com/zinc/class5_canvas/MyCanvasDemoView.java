@@ -78,7 +78,7 @@ public class MyCanvasDemoView extends View {
         //rectF = new RectF(0,0,600,600);
         canvas.drawBitmap(mBitmap, null, rectF, mPaint);
         //通过canvas.restoreToCount出栈到第1层(最原始的那一层)状态
-        canvas.restoreToCount(3);
+//        canvas.restoreToCount(3);
         Log.i(TAG, "restoreToCount--Current SaveCount = " + canvas.getSaveCount());
         canvas.drawBitmap(mBitmap, null, rectF, mPaint);
 

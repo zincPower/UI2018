@@ -5,15 +5,16 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Jiang zinc
- * @date 创建时间：2018/9/25
- * @description 标签流式布局
+ * author       : Jiang zinc
+ * time         : 2019/3/26 下午11:54
+ * email        : 56002982@qq.com
+ * desc         : 标签流式布局
+ * version      : 1.0.0
  */
 public class TagFlowLayout extends ViewGroup {
 
@@ -54,7 +55,7 @@ public class TagFlowLayout extends ViewGroup {
 
         Log.i(TAG, "onMeasure: " + onMeasureCount++);
 
-        // 7.0 会进行两次绘制，所以需要先进行清理
+        // 会进行两次绘制，所以需要先进行清理
         mRowViewList.clear();
         mRowHeightList.clear();
         mCurLineViewList.clear();
@@ -174,16 +175,7 @@ public class TagFlowLayout extends ViewGroup {
 
                 left = curLeft + layoutParams.leftMargin;
                 top = curTop + layoutParams.topMargin;
-
-                // 右边需要修复
-                int tempRight = left + view.getMeasuredWidth() + layoutParams.rightMargin;
-                if (tempRight > getWidth()) {
-                    right = getWidth() - layoutParams.rightMargin;
-                } else {
-                    right = left + view.getMeasuredWidth();
-                }
-
-//                right = left + view.getMeasuredWidth();
+                right = left + view.getMeasuredWidth();
                 bottom = top + view.getMeasuredHeight();
 
                 view.layout(left, top, right, bottom);

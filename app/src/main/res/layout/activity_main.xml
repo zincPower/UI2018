@@ -17,55 +17,55 @@
                 android:id="@+id/lsn_2"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:text="2讲：定义ui流程" />
+                android:text="定义ui流程" />
 
             <Button
                 android:id="@+id/lsn_3"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:text="3讲：paint使用（gradient、shader）" />
+                android:text="paint使用（gradient、shader）" />
 
             <Button
                 android:id="@+id/lsn_4"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:text="4讲：paint使用（滤色、xfermode）" />
+                android:text="paint使用（滤色、xfermode）" />
 
             <Button
                 android:id="@+id/lsn_5"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:text="5讲：canvas（save、restore、layer）" />
+                android:text="canvas（save、restore、layer）" />
 
             <Button
                 android:id="@+id/lsn_6"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:text="6讲：drawable的level、gravity" />
+                android:text="drawable的level、gravity" />
 
             <Button
                 android:id="@+id/lsn_7"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:text="7讲：贝塞尔曲线" />
+                android:text="贝塞尔曲线" />
 
             <Button
                 android:id="@+id/lsn_8"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:text="8讲：PathMeasure" />
+                android:text="PathMeasure" />
 
             <Button
                 android:id="@+id/lsn_12"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:text="12讲：属性动画" />
+                android:text="属性动画" />
 
             <Button
                 android:id="@+id/lsn_15"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:text="15讲：Scroller 和 VelocityTracker" />
+                android:text="Scroller 和 VelocityTracker" />
 
         </LinearLayout>
 
