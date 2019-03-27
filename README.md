@@ -6,6 +6,7 @@
 >3、属性动画<br/>
 >4、Xfermode<br/>
 >5、VelocityTracker和Scroller<br/>
+>6、绘制流程<br/>
 >三、继续整理的章节<br/>
 >四、作者简介<br/>
 >1、个人博客<br/>
@@ -97,11 +98,19 @@
 
 ![](https://github.com/zincPower/UI2018/blob/master/img/cls15/bar.gif)
 
+### 6、绘制流程
+
+#### 博客：[灵魂画师，Android绘制流程——Android高级UI](https://juejin.im/post/5c9adb5ff265da60c76ceb1c)
+#### 实战：
+**（1）标签布局**
+
+![](https://github.com/zincPower/UI2018/blob/master/img/cls2/TagFlow.gif)
+
+
 ## 三、继续整理的章节
 1. Paint
 2. 事件分发机制
-3. 绘制流程
-4. 更多精彩
+3. 更多精彩
 
 ## 四、作者简介
 ### 1、个人博客
