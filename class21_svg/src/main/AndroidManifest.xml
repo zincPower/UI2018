@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zinc.class21_svg">
+
+    <application>
+        <activity android:name=".ClientActivity" />
+    </application>
+
+</manifest>
