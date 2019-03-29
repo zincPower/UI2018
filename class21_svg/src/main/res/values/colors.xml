@@ -3,6 +3,8 @@
 
     <color name="cls21_client_bg">#77191919</color>
 
+    <color name="sel_color">#e4406f</color>
+
     <!-- theme one -->
     <color name="t1_color1">#e7eaf6</color>
     <color name="t1_color2">#a2a8d3</color>

@@ -3,6 +3,7 @@ package com.zinc.class21_svg;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
@@ -14,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -50,22 +52,50 @@ public class SvgMapView extends View {
             R.color.t1_color4,
     };
 
+    private static final int DEFAULT_SEL_COLOR = R.color.sel_color;
+
     private Context mContext;
 
     private InnerHandler mHandle;
 
+    /**
+     * 填充地图的颜色
+     */
     private int[] mMapColor = DEFAULT_COLOR;
+
+    /**
+     * 选中的区域颜色
+     */
+    private int mSelColor;
 
     private Paint mPaint;
 
+    /**
+     * svg 的 rect
+     */
     private RectF mSvgRect;
 
+    /**
+     * 缩放倍数
+     */
     private float mScale = 1.0f;
+
+    /**
+     * 是否在播放
+     */
+    private boolean isPlaying = false;
 
     /**
      * 用于存储已经解析完的数据
      */
     private final List<ItemData> mMapItemDataList = new ArrayList<>();
+
+    private Matrix mMatrix = new Matrix();
+
+    /**
+     * 选中的区域
+     */
+    private ItemData mSelItem = null;
 
     public SvgMapView(Context context) {
         this(context, null, 0);
@@ -89,7 +119,9 @@ public class SvgMapView extends View {
 
         mSvgRect = new RectF(-1, -1, -1, -1);
 
-        new ParserMapThread(R.raw.world).start();
+        mSelColor = ContextCompat.getColor(context, DEFAULT_SEL_COLOR);
+
+        new ParserMapThread(R.raw.china).start();
     }
 
     /**
@@ -101,8 +133,19 @@ public class SvgMapView extends View {
         this.mMapColor = mapColor;
     }
 
+    /**
+     * 设置选中颜色
+     *
+     * @param selColor 选中的颜色资源
+     */
+    public void setSelColor(int selColor) {
+        this.mSelColor = ContextCompat.getColor(mContext, selColor);
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
+
+        mMatrix.reset();
 
         // 不为空，则进行计算缩放
         if (!mSvgRect.isEmpty()) {
@@ -112,17 +155,74 @@ public class SvgMapView extends View {
             mScale = Math.min(widthScale, heightScale);
         }
 
-        // 移至中间
-        canvas.translate((getWidth() - mSvgRect.width() * mScale) / 2,
-                (getHeight() - mSvgRect.height() * mScale) / 2);
+        mMatrix.postTranslate((getWidth() - mSvgRect.width()) / 2,
+                (getHeight() - mSvgRect.height()) / 2);
+        mMatrix.postScale(mScale, mScale, getWidth() / 2, getHeight() / 2);
 
-        canvas.scale(mScale, mScale);
-        Log.i("SvgMapView", "onDraw: " + mScale);
+        canvas.setMatrix(mMatrix);
 
         for (ItemData itemData : mMapItemDataList) {
             drawItem(canvas, itemData);
         }
 
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setColor(ContextCompat.getColor(mContext, R.color.t2_color4));
+        canvas.drawCircle(mTouchPoints[0], mTouchPoints[1], 10, mPaint);
+
+        Log.i("point", "onDraw: [x:" + mTouchPoints[0] + ", y:" + mTouchPoints[1] + "]");
+
+    }
+
+    private float[] mTouchPoints = new float[]{0, 0};
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        // 处理拦截事件
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+            // 获取点击的位置
+            mTouchPoints[0] = event.getX();
+            mTouchPoints[1] = event.getY();
+
+            // 置入地图选中状态
+            for (ItemData item : mMapItemDataList) {
+//                item.isSelect = item.region
+//                        .contains((int) mTouchPoints[0], (int) mTouchPoints[1]);
+                if (isTouch(item, mTouchPoints[0], mTouchPoints[1])) {
+                    mSelItem = item;
+                    break;
+                }
+            }
+
+            Log.i("point", "onTouchEvent: " +
+                    "touch [x:" + event.getX() + ", y:" + event.getX() + "]\n" +
+                    "tranc [x:" + mTouchPoints[0] + ", y:" + mTouchPoints[1] + "]"
+            );
+
+            postInvalidate();
+        }
+
+        return true;
+    }
+
+    RectF rectF = new RectF();
+    Region region = new Region();
+
+    private boolean isTouch(ItemData item, float x, float y) {
+
+        item.path.computeBounds(rectF, true);
+        mMatrix.mapRect(rectF);
+
+        region.setPath(
+                item.path,
+                new Region((int) rectF.left,
+                        (int) rectF.top, (int)
+                        rectF.right,
+                        (int) rectF.bottom)
+        );
+
+        return region.contains((int) x, (int) y);
     }
 
     /**
@@ -133,12 +233,14 @@ public class SvgMapView extends View {
      */
     private void drawItem(Canvas canvas, ItemData itemData) {
 
-        // 画区域
-        mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setColor(itemData.color);
-        canvas.drawPath(itemData.path, mPaint);
+        if (itemData == mSelItem) {
+            mPaint.setColor(mSelColor);
+        } else {
+            mPaint.setColor(itemData.color);
+        }
 
-        // 画边界
+        mPaint.setStyle(Paint.Style.FILL);
+        canvas.drawPath(itemData.path, mPaint);
 
     }
 
@@ -329,40 +431,13 @@ public class SvgMapView extends View {
         Path path;
         // 颜色
         int color;
-        // 是否被选中
-        boolean isSelect;
         // 名称
         String title;
-
-        // 区域
-        Region region;
 
         ItemData(Path path, int color, String title) {
             this.path = path;
             this.color = color;
-            this.isSelect = false;
             this.title = title;
-
-            createRegion();
-        }
-
-        /**
-         * 创建 region
-         */
-        private void createRegion() {
-            RectF rectF = new RectF();
-            path.computeBounds(rectF, true);
-
-            Region region = new Region();
-            region.setPath(path,
-                    new Region((int) rectF.left,
-                            (int) rectF.top,
-                            (int) rectF.right,
-                            (int) rectF.bottom));
-        }
-
-        private boolean isContains(float x, float y) {
-            return region.contains((int) x, (int) y);
         }
 
     }
