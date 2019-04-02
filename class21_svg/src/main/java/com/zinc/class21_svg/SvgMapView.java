@@ -1,5 +1,9 @@
 package com.zinc.class21_svg;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.PointFEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -17,6 +21,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.Toast;
 
 import org.w3c.dom.Document;
@@ -33,12 +38,12 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-
 /**
- * author       : zinc
+ * author       : Jiang zinc
  * time         : 2019/3/28 上午11:23
+ * email        : 56002982@qq.com
  * desc         : svg 的地图 View
- * version      :
+ * version      : 1.0.0
  */
 public class SvgMapView extends View {
 
@@ -90,12 +95,57 @@ public class SvgMapView extends View {
      */
     private final List<ItemData> mMapItemDataList = new ArrayList<>();
 
-    private Matrix mMatrix = new Matrix();
+    /**
+     * 画布的矩阵
+     */
+    private Matrix mCanvasMatrix = new Matrix();
+    /**
+     * 触碰点的矩阵
+     */
+    private Matrix mTouchChangeMatrix = new Matrix();
+
+    /**
+     * 用于判断获取触碰区域的rect
+     */
+    private RectF mTouchRectF = new RectF();
+    /**
+     * 用于记录触碰去的范围
+     */
+    private Region mTouchRegion = new Region();
+
+    /**
+     * 触碰点，第一个为x轴，第二个为y轴
+     */
+    private float[] mTouchPoints = new float[]{0, 0};
+    /**
+     * 当前地图的中心
+     */
+    private float[] mCurCenterPoints = new float[]{0, 0};
+
+    /**
+     * 是否第一次进入
+     */
+    private boolean mIsFirst = true;
 
     /**
      * 选中的区域
      */
     private ItemData mSelItem = null;
+
+    /**
+     * 当前显示的主 rect
+     */
+    private RectF mCurRect;
+
+    /**
+     * 动画中的缩放比例
+     */
+    private float mAnimScale = 1.0f;
+
+    private static final int ANIM_DURATION = 500;
+    private ValueAnimator mValueAnim;
+
+    private SvgAnimatorListener mSvgAnimListener;
 
     public SvgMapView(Context context) {
         this(context, null, 0);
@@ -111,6 +161,10 @@ public class SvgMapView extends View {
     }
 
     private void init(Context context) {
+
+        // 关闭硬件加速，
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+
         mContext = context;
         mHandle = new InnerHandler(context, this);
 
@@ -118,10 +172,24 @@ public class SvgMapView extends View {
         mPaint.setAntiAlias(true);
 
         mSvgRect = new RectF(-1, -1, -1, -1);
+        mCurRect = new RectF(-1, -1, -1, -1);
 
         mSelColor = ContextCompat.getColor(context, DEFAULT_SEL_COLOR);
 
         new ParserMapThread(R.raw.china).start();
+
+        mSvgAnimListener = new SvgAnimatorListener();
+        mValueAnim = ValueAnimator.ofFloat(0, 1);
+        mValueAnim.setInterpolator(new LinearInterpolator());
+        mValueAnim.setDuration(ANIM_DURATION);
+        mValueAnim.addUpdateListener(mSvgAnimListener);
+        mValueAnim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                isPlaying = false;
+            }
+        });
+
     }
 
     /**
@@ -145,84 +213,133 @@ public class SvgMapView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 
-        mMatrix.reset();
+        mCanvasMatrix.reset();
+        mTouchChangeMatrix.reset();
 
-        // 不为空，则进行计算缩放
-        if (!mSvgRect.isEmpty()) {
-            float widthScale = getWidth() / mSvgRect.width();
-            float heightScale = getHeight() / mSvgRect.height();
+        float leftMargin = mCurRect.left - mSvgRect.left;
+        float rightMargin = mCurRect.top - mSvgRect.top;
 
-            mScale = Math.min(widthScale, heightScale);
+        // 移至画布中心
+        mCanvasMatrix.preTranslate(getWidth() / 2, getHeight() / 2);
+        // 需要 多偏移区域 与 整地图 的外区域
+        mCanvasMatrix.preTranslate(-leftMargin, -rightMargin);
+        // 回调，让地图在中心
+        mCanvasMatrix.preTranslate(-mCurRect.width() / 2, -mCurRect.height() / 2);
+        // 进行缩放
+        if (!mCurRect.isEmpty()) {
+            mScale = calculateScale(mCurRect.width(), mCurRect.height(), getWidth(), getHeight());
         }
-
-        mMatrix.postTranslate((getWidth() - mSvgRect.width()) / 2,
-                (getHeight() - mSvgRect.height()) / 2);
-        mMatrix.postScale(mScale, mScale, getWidth() / 2, getHeight() / 2);
-
-        canvas.setMatrix(mMatrix);
-
+        mCanvasMatrix.preScale(mScale, mScale,
+                leftMargin + mCurRect.width() / 2, rightMargin + mCurRect.height() / 2);
+        // 将矩阵施加于画布
+        canvas.setMatrix(mCanvasMatrix);
+        // 画地图
         for (ItemData itemData : mMapItemDataList) {
             drawItem(canvas, itemData);
         }
 
-        mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setColor(ContextCompat.getColor(mContext, R.color.t2_color4));
-        canvas.drawCircle(mTouchPoints[0], mTouchPoints[1], 10, mPaint);
-
-        Log.i("point", "onDraw: [x:" + mTouchPoints[0] + ", y:" + mTouchPoints[1] + "]");
+        // 设置调整触碰的坐标
+        mTouchChangeMatrix.postTranslate(-getWidth() / 2, -getHeight() / 2);
+        // 需要 多偏移区域 与 整地图 的外区域
+        mTouchChangeMatrix.postTranslate(leftMargin, rightMargin);
+        // 回调，让地图在中心
+        mTouchChangeMatrix.postTranslate(mCurRect.width() / 2, mCurRect.height() / 2);
+        // 进行缩放
+        mTouchChangeMatrix.postScale(1 / mScale, 1 / mScale,
+                leftMargin + mCurRect.width() / 2, rightMargin + mCurRect.height() / 2);
 
     }
 
-    private float[] mTouchPoints = new float[]{0, 0};
+    private float calculateScale(float fromWidth,
+                                 float fromHeight,
+                                 float toWidth,
+                                 float toHeight) {
+        float widthScale = toWidth / fromWidth;
+        float heightScale = toHeight / fromHeight;
+
+        return Math.min(widthScale, heightScale);
+    }
+
+    private void moveDataToCenter(Canvas canvas) {
+        // 将画布移至中心
+        float dx = mCurCenterPoints[0];
+        float dy = mCurCenterPoints[1];
+        mCanvasMatrix.postTranslate(-dx, -dy);
+        mCanvasMatrix.postScale(mAnimScale, mAnimScale, getWidth() / 2, getHeight() / 2);
+
+        canvas.setMatrix(mCanvasMatrix);
+
+        // 设置触碰点的转换矩阵
+        mTouchChangeMatrix.preTranslate(dx, dy);
+        mTouchChangeMatrix.preScale(1 / mAnimScale, 1 / mAnimScale,
+                getWidth() / 2, getHeight() / 2);
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
+        // 正在播放则不处理
+//        if (isPlaying) {
+//            return true;
+//        }
+
         // 处理拦截事件
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
-            // 获取点击的位置
             mTouchPoints[0] = event.getX();
             mTouchPoints[1] = event.getY();
 
+            // 将点坐标进行转换
+            mTouchChangeMatrix.mapPoints(mTouchPoints);
+
+            // 重置选项
+            mSelItem = null;
+
             // 置入地图选中状态
             for (ItemData item : mMapItemDataList) {
-//                item.isSelect = item.region
-//                        .contains((int) mTouchPoints[0], (int) mTouchPoints[1]);
                 if (isTouch(item, mTouchPoints[0], mTouchPoints[1])) {
                     mSelItem = item;
                     break;
                 }
             }
 
-            Log.i("point", "onTouchEvent: " +
-                    "touch [x:" + event.getX() + ", y:" + event.getX() + "]\n" +
-                    "tranc [x:" + mTouchPoints[0] + ", y:" + mTouchPoints[1] + "]"
-            );
+            if (mSelItem != null) {
+//                mSvgAnimListener.init(mCurCenterPoints, mTouchPoints, mTouchRectF, mTouchRectF);
+                mCurRect = mTouchRectF;
+//                mValueAnim.start();
+//                isPlaying = true;
+            } else {
+                mCurRect = mSvgRect;
+            }
 
             postInvalidate();
+
         }
 
         return true;
     }
 
-    RectF rectF = new RectF();
-    Region region = new Region();
-
+    /**
+     * 是否在触碰的范围内
+     *
+     * @param item 地图的每个数据项
+     * @param x    触碰点的x轴
+     * @param y    触碰点的y轴
+     * @return true：在范围内；false：在范围外
+     */
     private boolean isTouch(ItemData item, float x, float y) {
 
-        item.path.computeBounds(rectF, true);
-        mMatrix.mapRect(rectF);
+        item.path.computeBounds(mTouchRectF, true);
 
-        region.setPath(
+        mTouchRegion.setPath(
                 item.path,
-                new Region((int) rectF.left,
-                        (int) rectF.top, (int)
-                        rectF.right,
-                        (int) rectF.bottom)
+                new Region((int) mTouchRectF.left,
+                        (int) mTouchRectF.top, (int)
+                        mTouchRectF.right,
+                        (int) mTouchRectF.bottom)
         );
 
-        return region.contains((int) x, (int) y);
+        return mTouchRegion.contains((int) x, (int) y);
     }
 
     /**
@@ -356,7 +473,8 @@ public class SvgMapView extends View {
             mSvgRect.right = right;
             mSvgRect.bottom = bottom;
 
-            Log.i("SvgMapView", "run: " + mSvgRect.width() + ";" + mSvgRect.height());
+            // 解析完，赋值给当前显示的主 Rect
+            mCurRect.set(mSvgRect);
 
             mMapItemDataList.clear();
             mMapItemDataList.addAll(mapDataList);
@@ -433,13 +551,94 @@ public class SvgMapView extends View {
         int color;
         // 名称
         String title;
+        // 是否被选中
+        boolean isSelect;
+
+        // 区域
+        Region region;
 
         ItemData(Path path, int color, String title) {
             this.path = path;
             this.color = color;
+            this.isSelect = false;
             this.title = title;
+
+            createRegion();
         }
 
+        /**
+         * 创建 region
+         */
+        private void createRegion() {
+            RectF rectF = new RectF();
+            path.computeBounds(rectF, true);
+
+            Region region = new Region();
+            region.setPath(path,
+                    new Region((int) rectF.left,
+                            (int) rectF.top,
+                            (int) rectF.right,
+                            (int) rectF.bottom));
+        }
+
+        private boolean isContains(float x, float y) {
+            return region.contains((int) x, (int) y);
+        }
+    }
+
+    private class SvgAnimatorListener implements ValueAnimator.AnimatorUpdateListener {
+
+        /**
+         * 开始的点
+         */
+        private float mStartPoints[] = new float[2];
+        /**
+         * 终止的点
+         */
+        private float mEndPoints[] = new float[2];
+        /**
+         * 开始的rect
+         */
+        private RectF mStartRect = new RectF();
+        /**
+         * 终止的rect
+         */
+        private RectF mEndRect = new RectF();
+
+        @Override
+        public void onAnimationUpdate(ValueAnimator animation) {
+            float fraction = (float) animation.getAnimatedValue();
+
+            mCurCenterPoints[0] = (this.mEndPoints[0] - this.mStartPoints[0]) * fraction;
+            mCurCenterPoints[1] = (this.mEndPoints[1] - this.mStartPoints[1]) * fraction;
+
+//            mAnimScale = calculateScale(
+//                    this.mStartRect.width(),
+//                    this.mStartRect.height(),
+//                    getWidth(),
+//                    getHeight());
+
+//            mAnimScale *= fraction;
+
+            postInvalidate();
+
+        }
+
+        /**
+         * 初始化
+         */
+        void init(float[] startPoints,
+                  float[] endPoints,
+                  RectF startRect,
+                  RectF endRect) {
+            mStartPoints[0] = startPoints[0];
+            mStartPoints[1] = startPoints[1];
+            mEndPoints[0] = endPoints[0];
+            mEndPoints[1] = endPoints[1];
+
+            mStartRect.set(startRect);
+            mEndRect.set(endRect);
+        }
     }
 
 }
