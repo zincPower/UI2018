@@ -217,6 +217,68 @@ public class SvgMapView extends View {
         mCanvasMatrix.reset();
         mTouchChangeMatrix.reset();
 
+        handleLastState(canvas);
+        handleCurState(canvas);
+
+        // 将矩阵施加于画布
+        canvas.setMatrix(mCanvasMatrix);
+
+        // 画地图
+        for (ItemData itemData : mMapItemDataList) {
+            drawItem(canvas, itemData);
+        }
+
+    }
+
+    private void handleCurState(Canvas canvas) {
+        if (mCurRect.equals(mLastRectF)) {
+            return;
+        }
+
+        float curCenterX = mCurRect.left + mCurRect.width() / 2;
+        float curCenterY = mCurRect.top + mCurRect.height() / 2;
+
+        float lastCenterX = mLastRectF.left + mLastRectF.width() / 2;
+        float lastCenterY = mLastRectF.top + mLastRectF.height() / 2;
+
+        float dx = curCenterX - lastCenterX;
+        float dy = curCenterY - lastCenterY;
+
+        // 进行缩放
+        if (!mCurRect.isEmpty()) {
+
+            mScale = calculateScale(mCurRect.width(), mCurRect.height(),
+                    getWidth(), getHeight()) / mScale;
+
+            if (mScale > 1) {
+                mScale = (mScale - 1) * mAnimScale + 1;
+            } else if (mScale < 1) {
+                mScale = 1 - (1 - mScale) * mAnimScale;
+            }
+        }
+
+        // 需要 多偏移区域 与 整地图 的外区域
+        mCanvasMatrix.preTranslate(-dx * mAnimScale, -dy * mAnimScale);
+        mCanvasMatrix.preScale(
+                mScale,
+                mScale,
+                curCenterX,
+                curCenterY);
+
+
+        mTouchChangeMatrix.postTranslate(dx, dy);
+        mTouchChangeMatrix.postScale(1 / mScale,
+                1 / mScale,
+                curCenterX,
+                curCenterY);
+    }
+
+    /**
+     * 处理上一次的状态
+     *
+     * @param canvas
+     */
+    private void handleLastState(Canvas canvas) {
         // 移至画布中心
         mCanvasMatrix.preTranslate(getWidth() / 2, getHeight() / 2);
 
@@ -249,66 +311,8 @@ public class SvgMapView extends View {
                 1 / mScale,
                 lastLeftMargin + mLastRectF.width() / 2,
                 lastTopMargin + mLastRectF.height() / 2);
-
-        if (!mCurRect.equals(mLastRectF)) {
-
-            float curCenterX = mCurRect.left + mCurRect.width() / 2;
-            float curCenterY = mCurRect.top + mCurRect.height() / 2;
-
-            float lastCenterX = mLastRectF.left + mLastRectF.width() / 2;
-            float lastCenterY = mLastRectF.top + mLastRectF.height() / 2;
-
-            float dx = curCenterX - lastCenterX;
-            float dy = curCenterY - lastCenterY;
-
-            // 进行缩放
-            if (!mCurRect.isEmpty()) {
-                mScale = calculateScale(mCurRect.width(), mCurRect.height(),
-                        mLastRectF.width(), mLastRectF.height());
-
-                if (mScale > 1) {
-                    mScale = (mScale - 1) * mAnimScale + 1;
-                } else if (mScale < 1) {
-                    mScale = 1 - (1 - mScale) * mAnimScale;
-                }
-            }
-
-            // 需要 多偏移区域 与 整地图 的外区域
-            mCanvasMatrix.preTranslate(-dx * mAnimScale, -dy * mAnimScale);
-            mCanvasMatrix.preScale(
-                    mScale,
-                    mScale,
-                    curCenterX,
-                    curCenterY);
-
-
-            mTouchChangeMatrix.postTranslate(dx, dy);
-            mTouchChangeMatrix.postScale(1 / mScale,
-                    1 / mScale,
-                    curCenterX,
-                    curCenterY);
-
-        }
-
-        // 将矩阵施加于画布
-        canvas.setMatrix(mCanvasMatrix);
-
-        // 画地图
-        for (ItemData itemData : mMapItemDataList) {
-            drawItem(canvas, itemData);
-        }
-
     }
 
-    private float calculateScale(float fromWidth,
-                                 float fromHeight,
-                                 float toWidth,
-                                 float toHeight) {
-        float widthScale = toWidth / fromWidth;
-        float heightScale = toHeight / fromHeight;
-
-        return Math.min(widthScale, heightScale);
-    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -339,7 +343,7 @@ public class SvgMapView extends View {
             }
 
             // 如果当前已经显示该区域就不再执行
-            if(mTouchRectF.equals(mCurRect)){
+            if (mTouchRectF.equals(mCurRect)) {
                 return true;
             }
 
@@ -400,6 +404,9 @@ public class SvgMapView extends View {
         mPaint.setStyle(Paint.Style.FILL);
         canvas.drawPath(itemData.path, mPaint);
 
+//        mPaint.setColor(mSelColor);
+//        canvas.drawRect(mCurRect, mPaint);
+
     }
 
     private void drawPoint(Canvas canvas, float x, float y) {
@@ -412,6 +419,32 @@ public class SvgMapView extends View {
         mPaint.setColor(ContextCompat.getColor(mContext, color));
         canvas.drawCircle(x, y, 10f, mPaint);
 
+    }
+
+    /**
+     * 用于计算缩放的大小
+     */
+    private float calculateScale(float fromWidth,
+                                 float fromHeight,
+                                 float toWidth,
+                                 float toHeight) {
+        float widthScale = toWidth / fromWidth;
+        float heightScale = toHeight / fromHeight;
+
+        return Math.min(widthScale, heightScale);
+    }
+
+    /**
+     * 用于计算缩放的大小
+     */
+    private float calculateScaleWithMax(float fromWidth,
+                                        float fromHeight,
+                                        float toWidth,
+                                        float toHeight) {
+        float widthScale = toWidth / fromWidth;
+        float heightScale = toHeight / fromHeight;
+
+        return Math.max(widthScale, heightScale);
     }
 
     /**
