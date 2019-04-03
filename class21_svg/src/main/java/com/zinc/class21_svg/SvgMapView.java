@@ -2,7 +2,6 @@ package com.zinc.class21_svg;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.PointFEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Resources;
@@ -18,11 +17,12 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Toast;
+
+import com.zinc.lib_base.UIUtils;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -54,14 +54,14 @@ public class SvgMapView extends View {
             R.color.t1_color1,
             R.color.t1_color2,
             R.color.t1_color3,
-            R.color.t1_color4,
+            R.color.t1_color4
     };
 
     private static final int ANIM_DURATION = 500;
 
-    private static final int DEFAULT_SEL_COLOR = R.color.sel_color;
-
-    private Context mContext;
+    private static final int DEFAULT_SEL_COLOR = R.color.t1_sel_color;
+    private static final int DEFAULT_OUTLINE_COLOR = R.color.t1_outline;
+    private static final int DEFAULT_MAP_RESOURCE = R.raw.world;
 
     private InnerHandler mHandle;
 
@@ -74,23 +74,19 @@ public class SvgMapView extends View {
      * 选中的区域颜色
      */
     private int mSelColor;
+    private int mOutlineColor;
 
     private Paint mPaint;
 
     /**
-     * svg 的 rect
-     */
-    private RectF mSvgRect;
-
-    /**
      * 缩放倍数
      */
-    private float mScale = 1.0f;
+    private float mScale;
 
     /**
      * 是否在播放
      */
-    private boolean isPlaying = false;
+    private boolean isPlaying;
 
     /**
      * 用于存储已经解析完的数据
@@ -100,52 +96,62 @@ public class SvgMapView extends View {
     /**
      * 画布的矩阵
      */
-    private Matrix mCanvasMatrix = new Matrix();
+    private final Matrix mCanvasMatrix = new Matrix();
     /**
      * 触碰点的矩阵
      */
-    private Matrix mTouchChangeMatrix = new Matrix();
+    private final Matrix mTouchChangeMatrix = new Matrix();
 
     /**
      * 用于判断获取触碰区域的rect
      */
-    private RectF mTouchRectF = new RectF();
+    private final RectF mTouchRectF = new RectF();
     /**
      * 用于记录触碰去的范围
      */
-    private Region mTouchRegion = new Region();
+    private final Region mTouchRegion = new Region();
 
     /**
      * 触碰点，第一个为x轴，第二个为y轴
      */
-    private float[] mTouchPoints = new float[]{0, 0};
-    /**
-     * 当前地图的中心
-     */
-    private float[] mCurCenterPoints = new float[]{0, 0};
+    private final float[] mTouchPoints = new float[]{0, 0};
 
     /**
      * 选中的区域
      */
-    private ItemData mSelItem = null;
+    private ItemData mSelItem;
+
+    /**
+     * svg 的 rect
+     */
+    private final RectF mSvgRect = new RectF();
 
     /**
      * 当前显示的主 rect
      */
-    private RectF mCurRect;
+    private final RectF mCurRect = new RectF();
 
-    private boolean mIsFirst = true;
+    /**
+     * 上次选中的 rect
+     */
+    private final RectF mLastRectF = new RectF();
 
     /**
      * 动画中的缩放比例
      */
-    private float mAnimScale = 1.0f;
+    private float mAnimScale;
 
     private ValueAnimator mValueAnim;
 
-    private SvgAnimatorListener mSvgAnimListener;
+    /**
+     * 解析线程
+     */
+    private ParserMapThread mParserThread;
 
-    private RectF mLastRectF;
+    /**
+     * 地图资源
+     */
+    private int mMapResource;
 
     public SvgMapView(Context context) {
         this(context, null, 0);
@@ -162,28 +168,29 @@ public class SvgMapView extends View {
 
     private void init(Context context) {
 
-        // 关闭硬件加速，
+        // 关闭硬件加速，否则会模糊
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
-        mContext = context;
         mHandle = new InnerHandler(context, this);
 
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
 
-        mSvgRect = new RectF(-1, -1, -1, -1);
-        mCurRect = new RectF(-1, -1, -1, -1);
-        mLastRectF = new RectF(-1, -1, -1, -1);
-
         mSelColor = ContextCompat.getColor(context, DEFAULT_SEL_COLOR);
+        mOutlineColor = ContextCompat.getColor(context, DEFAULT_OUTLINE_COLOR);
+        mMapResource = DEFAULT_MAP_RESOURCE;
 
-        new ParserMapThread(R.raw.china).start();
-
-        mSvgAnimListener = new SvgAnimatorListener();
+        // 初始化动画
         mValueAnim = ValueAnimator.ofFloat(0, 1);
         mValueAnim.setInterpolator(new LinearInterpolator());
         mValueAnim.setDuration(ANIM_DURATION);
-        mValueAnim.addUpdateListener(mSvgAnimListener);
+        mValueAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mAnimScale = (float) animation.getAnimatedValue();
+                postInvalidate();
+            }
+        });
         mValueAnim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -191,6 +198,42 @@ public class SvgMapView extends View {
             }
         });
 
+        initData();
+
+    }
+
+    private void initData() {
+        mSvgRect.setEmpty();
+        mCurRect.setEmpty();
+        mLastRectF.setEmpty();
+        mScale = 1.0f;
+        mAnimScale = 1.0f;
+        isPlaying = false;
+
+        mMapItemDataList.clear();
+
+        mCanvasMatrix.reset();
+        mTouchChangeMatrix.reset();
+
+        mTouchRectF.setEmpty();
+
+        mSelItem = null;
+
+        mParserThread = new ParserMapThread(mMapResource);
+        mParserThread.start();
+    }
+
+    /**
+     * 设置地图资源
+     *
+     * @param mapResource 地图资源
+     */
+    public void setMapResource(int mapResource) {
+        if (mParserThread != null && mParserThread.isAlive()) {
+            mParserThread.mIsCancel = true;
+        }
+        mMapResource = mapResource;
+        initData();
     }
 
     /**
@@ -208,17 +251,27 @@ public class SvgMapView extends View {
      * @param selColor 选中的颜色资源
      */
     public void setSelColor(int selColor) {
-        this.mSelColor = ContextCompat.getColor(mContext, selColor);
+        this.mSelColor = ContextCompat.getColor(getContext(), selColor);
+    }
+
+    /**
+     * 设置勾勒颜色
+     *
+     * @param outlineColor 勾勒颜色
+     */
+    public void setOutlineColor(int outlineColor) {
+        this.mOutlineColor = outlineColor;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
 
+        // 重置矩阵
         mCanvasMatrix.reset();
         mTouchChangeMatrix.reset();
 
-        handleLastState(canvas);
-        handleCurState(canvas);
+        handleLastState();
+        handleCurState();
 
         // 将矩阵施加于画布
         canvas.setMatrix(mCanvasMatrix);
@@ -230,7 +283,10 @@ public class SvgMapView extends View {
 
     }
 
-    private void handleCurState(Canvas canvas) {
+    /**
+     * 处理当前状态
+     */
+    private void handleCurState() {
         if (mCurRect.equals(mLastRectF)) {
             return;
         }
@@ -275,10 +331,8 @@ public class SvgMapView extends View {
 
     /**
      * 处理上一次的状态
-     *
-     * @param canvas
      */
-    private void handleLastState(Canvas canvas) {
+    private void handleLastState() {
         // 移至画布中心
         mCanvasMatrix.preTranslate(getWidth() / 2, getHeight() / 2);
 
@@ -342,26 +396,36 @@ public class SvgMapView extends View {
                 }
             }
 
+            mLastRectF.set(mCurRect);
+
             // 如果当前已经显示该区域就不再执行
             if (mTouchRectF.equals(mCurRect)) {
+                mSelItem = null;
+                startAnim(mSvgRect);
                 return true;
             }
 
-            mLastRectF.set(mCurRect);
-
-            if (mSelItem != null) {
-                mCurRect.set(mTouchRectF);
-                mValueAnim.start();
-                isPlaying = true;
-            } else {
-                mCurRect.set(mSvgRect);
+            //  选中的为空
+            if (mSelItem == null) {
+                startAnim(mSvgRect);
+                return true;
             }
 
-            postInvalidate();
-
+            startAnim(mTouchRectF);
         }
 
         return true;
+    }
+
+    /**
+     * 开始动画
+     *
+     * @param rectF 将要到达的 rect
+     */
+    private void startAnim(RectF rectF) {
+        mCurRect.set(rectF);
+        mValueAnim.start();
+        isPlaying = true;
     }
 
     /**
@@ -389,9 +453,6 @@ public class SvgMapView extends View {
 
     /**
      * 画每个区域
-     *
-     * @param canvas
-     * @param itemData
      */
     private void drawItem(Canvas canvas, ItemData itemData) {
 
@@ -404,20 +465,9 @@ public class SvgMapView extends View {
         mPaint.setStyle(Paint.Style.FILL);
         canvas.drawPath(itemData.path, mPaint);
 
-//        mPaint.setColor(mSelColor);
-//        canvas.drawRect(mCurRect, mPaint);
-
-    }
-
-    private void drawPoint(Canvas canvas, float x, float y) {
-        drawPoint(canvas, x, y, R.color.t4_color4);
-    }
-
-    private void drawPoint(Canvas canvas, float x, float y, int color) {
-
-        mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setColor(ContextCompat.getColor(mContext, color));
-        canvas.drawCircle(x, y, 10f, mPaint);
+        mPaint.setColor(mOutlineColor);
+        mPaint.setStyle(Paint.Style.STROKE);
+        canvas.drawPath(itemData.path, mPaint);
 
     }
 
@@ -435,19 +485,6 @@ public class SvgMapView extends View {
     }
 
     /**
-     * 用于计算缩放的大小
-     */
-    private float calculateScaleWithMax(float fromWidth,
-                                        float fromHeight,
-                                        float toWidth,
-                                        float toHeight) {
-        float widthScale = toWidth / fromWidth;
-        float heightScale = toHeight / fromHeight;
-
-        return Math.max(widthScale, heightScale);
-    }
-
-    /**
      * 解析地图的线程
      */
     private class ParserMapThread extends Thread {
@@ -461,8 +498,14 @@ public class SvgMapView extends View {
          */
         private final int mMapResourceId;
 
+        /**
+         * 是否要取消
+         */
+        private boolean mIsCancel;
+
         ParserMapThread(int mapResourceId) {
             this.mMapResourceId = mapResourceId;
+            this.mIsCancel = false;
         }
 
         @Override
@@ -470,14 +513,16 @@ public class SvgMapView extends View {
             // 打开地图的输入流
             InputStream inputStream = null;
             try {
-                inputStream = mContext.getResources().openRawResource(mMapResourceId);
+                inputStream = getContext().getResources().openRawResource(mMapResourceId);
             } catch (Resources.NotFoundException e) {
                 e.printStackTrace();
             }
 
             // 地图输入流打开失败
             if (inputStream == null) {
-                mHandle.sendEmptyMessage(InnerHandler.ERROR);
+                if (!mIsCancel) {
+                    mHandle.sendEmptyMessage(InnerHandler.ERROR);
+                }
                 return;
             }
 
@@ -495,7 +540,9 @@ public class SvgMapView extends View {
             // 出错则关闭流，发送提示信息
             if (document == null) {
                 close(inputStream);
-                mHandle.sendEmptyMessage(InnerHandler.ERROR);
+                if (!mIsCancel) {
+                    mHandle.sendEmptyMessage(InnerHandler.ERROR);
+                }
                 return;
             }
 
@@ -510,6 +557,7 @@ public class SvgMapView extends View {
 
             int colorSize = mMapColor.length;
 
+            // 用于记录整个 svg 的实际大小
             float left = -1;
             float top = -1;
             float right = -1;
@@ -534,7 +582,9 @@ public class SvgMapView extends View {
                 // path 解析出错，退出
                 if (path == null) {
                     close(inputStream);
-                    mHandle.sendEmptyMessage(InnerHandler.ERROR);
+                    if (!mIsCancel) {
+                        mHandle.sendEmptyMessage(InnerHandler.ERROR);
+                    }
                     return;
                 }
 
@@ -548,7 +598,7 @@ public class SvgMapView extends View {
                 bottom = bottom == -1 ? rect.bottom : Math.max(bottom, rect.bottom);
 
                 ItemData itemData = new ItemData(path,
-                        ContextCompat.getColor(mContext, mMapColor[i % colorSize]),
+                        ContextCompat.getColor(getContext(), mMapColor[i % colorSize]),
                         title);
 
                 mapDataList.add(itemData);
@@ -565,7 +615,11 @@ public class SvgMapView extends View {
 
             mMapItemDataList.clear();
             mMapItemDataList.addAll(mapDataList);
-            mHandle.sendEmptyMessage(InnerHandler.SUCCESS);
+            if (!mIsCancel) {
+                mHandle.sendEmptyMessage(InnerHandler.SUCCESS);
+            }
+
+            close(inputStream);
         }
 
         /**
@@ -638,68 +692,11 @@ public class SvgMapView extends View {
         int color;
         // 名称
         String title;
-        // 是否被选中
-        boolean isSelect;
-
-        // 区域
-        Region region;
 
         ItemData(Path path, int color, String title) {
             this.path = path;
             this.color = color;
-            this.isSelect = false;
             this.title = title;
-
-            createRegion();
-        }
-
-        /**
-         * 创建 region
-         */
-        private void createRegion() {
-            RectF rectF = new RectF();
-            path.computeBounds(rectF, true);
-
-            Region region = new Region();
-            region.setPath(path,
-                    new Region((int) rectF.left,
-                            (int) rectF.top,
-                            (int) rectF.right,
-                            (int) rectF.bottom));
-        }
-
-        private boolean isContains(float x, float y) {
-            return region.contains((int) x, (int) y);
-        }
-    }
-
-    private class SvgAnimatorListener implements ValueAnimator.AnimatorUpdateListener {
-
-        /**
-         * 开始的点
-         */
-        private float mStartPoints[] = new float[2];
-        /**
-         * 终止的点
-         */
-        private float mEndPoints[] = new float[2];
-        /**
-         * 开始的rect
-         */
-        private RectF mStartRect = new RectF();
-        /**
-         * 终止的rect
-         */
-        private RectF mEndRect = new RectF();
-
-        @Override
-        public void onAnimationUpdate(ValueAnimator animation) {
-            float fraction = (float) animation.getAnimatedValue();
-
-            mAnimScale = fraction;
-
-            postInvalidate();
-
         }
 
     }

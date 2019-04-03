@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.zinc.class7_bezier.activity.StickDotActivity">
+        <activity android:name="com.zinc.class21_svg.ClientActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
