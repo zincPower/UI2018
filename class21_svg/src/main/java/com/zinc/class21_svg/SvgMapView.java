@@ -57,6 +57,8 @@ public class SvgMapView extends View {
             R.color.t1_color4,
     };
 
+    private static final int ANIM_DURATION = 500;
+
     private static final int DEFAULT_SEL_COLOR = R.color.sel_color;
 
     private Context mContext;
@@ -123,11 +125,6 @@ public class SvgMapView extends View {
     private float[] mCurCenterPoints = new float[]{0, 0};
 
     /**
-     * 是否第一次进入
-     */
-    private boolean mIsFirst = true;
-
-    /**
      * 选中的区域
      */
     private ItemData mSelItem = null;
@@ -137,15 +134,18 @@ public class SvgMapView extends View {
      */
     private RectF mCurRect;
 
+    private boolean mIsFirst = true;
+
     /**
      * 动画中的缩放比例
      */
     private float mAnimScale = 1.0f;
 
-    private static final int ANIM_DURATION = 500;
     private ValueAnimator mValueAnim;
 
     private SvgAnimatorListener mSvgAnimListener;
+
+    private RectF mLastRectF;
 
     public SvgMapView(Context context) {
         this(context, null, 0);
@@ -173,6 +173,7 @@ public class SvgMapView extends View {
 
         mSvgRect = new RectF(-1, -1, -1, -1);
         mCurRect = new RectF(-1, -1, -1, -1);
+        mLastRectF = new RectF(-1, -1, -1, -1);
 
         mSelColor = ContextCompat.getColor(context, DEFAULT_SEL_COLOR);
 
@@ -216,37 +217,86 @@ public class SvgMapView extends View {
         mCanvasMatrix.reset();
         mTouchChangeMatrix.reset();
 
-        float leftMargin = mCurRect.left - mSvgRect.left;
-        float rightMargin = mCurRect.top - mSvgRect.top;
-
         // 移至画布中心
         mCanvasMatrix.preTranslate(getWidth() / 2, getHeight() / 2);
-        // 需要 多偏移区域 与 整地图 的外区域
-        mCanvasMatrix.preTranslate(-leftMargin, -rightMargin);
-        // 回调，让地图在中心
-        mCanvasMatrix.preTranslate(-mCurRect.width() / 2, -mCurRect.height() / 2);
+
+        // 移外边
+        float lastLeftMargin = mLastRectF.left - mSvgRect.left;
+        float lastTopMargin = mLastRectF.top - mSvgRect.top;
+        mCanvasMatrix.preTranslate(-lastLeftMargin, -lastTopMargin);
+
+        // 移至中心
+        mCanvasMatrix.preTranslate(-mLastRectF.width() / 2, -mLastRectF.height() / 2);
+
         // 进行缩放
-        if (!mCurRect.isEmpty()) {
-            mScale = calculateScale(mCurRect.width(), mCurRect.height(), getWidth(), getHeight());
+        if (!mLastRectF.isEmpty()) {
+            mScale = calculateScale(
+                    mLastRectF.width(),
+                    mLastRectF.height(),
+                    getWidth(),
+                    getHeight());
         }
-        mCanvasMatrix.preScale(mScale, mScale,
-                leftMargin + mCurRect.width() / 2, rightMargin + mCurRect.height() / 2);
+        mCanvasMatrix.preScale(
+                mScale,
+                mScale,
+                lastLeftMargin + mLastRectF.width() / 2,
+                lastTopMargin + mLastRectF.height() / 2);
+
+        mTouchChangeMatrix.postTranslate(-getWidth() / 2, -getHeight() / 2);
+        mTouchChangeMatrix.postTranslate(lastLeftMargin, lastTopMargin);
+        mTouchChangeMatrix.postTranslate(mLastRectF.width() / 2, mLastRectF.height() / 2);
+        mTouchChangeMatrix.postScale(1 / mScale,
+                1 / mScale,
+                lastLeftMargin + mLastRectF.width() / 2,
+                lastTopMargin + mLastRectF.height() / 2);
+
+        if (!mCurRect.equals(mLastRectF)) {
+
+            float curCenterX = mCurRect.left + mCurRect.width() / 2;
+            float curCenterY = mCurRect.top + mCurRect.height() / 2;
+
+            float lastCenterX = mLastRectF.left + mLastRectF.width() / 2;
+            float lastCenterY = mLastRectF.top + mLastRectF.height() / 2;
+
+            float dx = curCenterX - lastCenterX;
+            float dy = curCenterY - lastCenterY;
+
+            // 进行缩放
+            if (!mCurRect.isEmpty()) {
+                mScale = calculateScale(mCurRect.width(), mCurRect.height(),
+                        mLastRectF.width(), mLastRectF.height());
+
+                if (mScale > 1) {
+                    mScale = (mScale - 1) * mAnimScale + 1;
+                } else if (mScale < 1) {
+                    mScale = 1 - (1 - mScale) * mAnimScale;
+                }
+            }
+
+            // 需要 多偏移区域 与 整地图 的外区域
+            mCanvasMatrix.preTranslate(-dx * mAnimScale, -dy * mAnimScale);
+            mCanvasMatrix.preScale(
+                    mScale,
+                    mScale,
+                    curCenterX,
+                    curCenterY);
+
+
+            mTouchChangeMatrix.postTranslate(dx, dy);
+            mTouchChangeMatrix.postScale(1 / mScale,
+                    1 / mScale,
+                    curCenterX,
+                    curCenterY);
+
+        }
+
         // 将矩阵施加于画布
         canvas.setMatrix(mCanvasMatrix);
+
         // 画地图
         for (ItemData itemData : mMapItemDataList) {
             drawItem(canvas, itemData);
         }
-
-        // 设置调整触碰的坐标
-        mTouchChangeMatrix.postTranslate(-getWidth() / 2, -getHeight() / 2);
-        // 需要 多偏移区域 与 整地图 的外区域
-        mTouchChangeMatrix.postTranslate(leftMargin, rightMargin);
-        // 回调，让地图在中心
-        mTouchChangeMatrix.postTranslate(mCurRect.width() / 2, mCurRect.height() / 2);
-        // 进行缩放
-        mTouchChangeMatrix.postScale(1 / mScale, 1 / mScale,
-                leftMargin + mCurRect.width() / 2, rightMargin + mCurRect.height() / 2);
 
     }
 
@@ -260,28 +310,13 @@ public class SvgMapView extends View {
         return Math.min(widthScale, heightScale);
     }
 
-    private void moveDataToCenter(Canvas canvas) {
-        // 将画布移至中心
-        float dx = mCurCenterPoints[0];
-        float dy = mCurCenterPoints[1];
-        mCanvasMatrix.postTranslate(-dx, -dy);
-        mCanvasMatrix.postScale(mAnimScale, mAnimScale, getWidth() / 2, getHeight() / 2);
-
-        canvas.setMatrix(mCanvasMatrix);
-
-        // 设置触碰点的转换矩阵
-        mTouchChangeMatrix.preTranslate(dx, dy);
-        mTouchChangeMatrix.preScale(1 / mAnimScale, 1 / mAnimScale,
-                getWidth() / 2, getHeight() / 2);
-    }
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
         // 正在播放则不处理
-//        if (isPlaying) {
-//            return true;
-//        }
+        if (isPlaying) {
+            return true;
+        }
 
         // 处理拦截事件
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -303,13 +338,19 @@ public class SvgMapView extends View {
                 }
             }
 
+            // 如果当前已经显示该区域就不再执行
+            if(mTouchRectF.equals(mCurRect)){
+                return true;
+            }
+
+            mLastRectF.set(mCurRect);
+
             if (mSelItem != null) {
-//                mSvgAnimListener.init(mCurCenterPoints, mTouchPoints, mTouchRectF, mTouchRectF);
-                mCurRect = mTouchRectF;
-//                mValueAnim.start();
-//                isPlaying = true;
+                mCurRect.set(mTouchRectF);
+                mValueAnim.start();
+                isPlaying = true;
             } else {
-                mCurRect = mSvgRect;
+                mCurRect.set(mSvgRect);
             }
 
             postInvalidate();
@@ -358,6 +399,18 @@ public class SvgMapView extends View {
 
         mPaint.setStyle(Paint.Style.FILL);
         canvas.drawPath(itemData.path, mPaint);
+
+    }
+
+    private void drawPoint(Canvas canvas, float x, float y) {
+        drawPoint(canvas, x, y, R.color.t4_color4);
+    }
+
+    private void drawPoint(Canvas canvas, float x, float y, int color) {
+
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setColor(ContextCompat.getColor(mContext, color));
+        canvas.drawCircle(x, y, 10f, mPaint);
 
     }
 
@@ -475,6 +528,7 @@ public class SvgMapView extends View {
 
             // 解析完，赋值给当前显示的主 Rect
             mCurRect.set(mSvgRect);
+            mLastRectF.set(mSvgRect);
 
             mMapItemDataList.clear();
             mMapItemDataList.addAll(mapDataList);
@@ -609,36 +663,12 @@ public class SvgMapView extends View {
         public void onAnimationUpdate(ValueAnimator animation) {
             float fraction = (float) animation.getAnimatedValue();
 
-            mCurCenterPoints[0] = (this.mEndPoints[0] - this.mStartPoints[0]) * fraction;
-            mCurCenterPoints[1] = (this.mEndPoints[1] - this.mStartPoints[1]) * fraction;
-
-//            mAnimScale = calculateScale(
-//                    this.mStartRect.width(),
-//                    this.mStartRect.height(),
-//                    getWidth(),
-//                    getHeight());
-
-//            mAnimScale *= fraction;
+            mAnimScale = fraction;
 
             postInvalidate();
 
         }
 
-        /**
-         * 初始化
-         */
-        void init(float[] startPoints,
-                  float[] endPoints,
-                  RectF startRect,
-                  RectF endRect) {
-            mStartPoints[0] = startPoints[0];
-            mStartPoints[1] = startPoints[1];
-            mEndPoints[0] = endPoints[0];
-            mEndPoints[1] = endPoints[1];
-
-            mStartRect.set(startRect);
-            mEndRect.set(endRect);
-        }
     }
 
 }
