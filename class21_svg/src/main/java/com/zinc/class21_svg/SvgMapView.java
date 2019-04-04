@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -61,7 +62,7 @@ public class SvgMapView extends View {
 
     private static final int DEFAULT_SEL_COLOR = R.color.t1_sel_color;
     private static final int DEFAULT_OUTLINE_COLOR = R.color.t1_outline;
-    private static final int DEFAULT_MAP_RESOURCE = R.raw.world;
+    private static final int DEFAULT_MAP_RESOURCE = R.raw.china;
 
     private InnerHandler mHandle;
 
@@ -77,6 +78,7 @@ public class SvgMapView extends View {
     private int mOutlineColor;
 
     private Paint mPaint;
+    private Paint mTextPaint;
 
     /**
      * 缩放倍数
@@ -106,6 +108,12 @@ public class SvgMapView extends View {
      * 用于判断获取触碰区域的rect
      */
     private final RectF mTouchRectF = new RectF();
+
+    /**
+     * 描述的文字
+     */
+    private final RectF mDesRect = new RectF();
+
     /**
      * 用于记录触碰去的范围
      */
@@ -153,6 +161,36 @@ public class SvgMapView extends View {
      */
     private int mMapResource;
 
+    /**
+     * 描述框的外边距
+     */
+    private int mDesMargin;
+
+    /**
+     * 描述文字的大小
+     */
+    private int mDesTextSize;
+
+    /**
+     * 描述文字的颜色
+     */
+    private int mDesTextColor;
+
+    /**
+     * 描述文字背景颜色
+     */
+    private int mDesBgColor;
+
+    /**
+     * 描述框的圆角半径
+     */
+    private int mDesRoundRadius;
+
+    /**
+     * 文字那边距
+     */
+    private int mDesPadding;
+
     public SvgMapView(Context context) {
         this(context, null, 0);
     }
@@ -176,9 +214,22 @@ public class SvgMapView extends View {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
 
+        mTextPaint = new Paint();
+        mTextPaint.setAntiAlias(true);
+
         mSelColor = ContextCompat.getColor(context, DEFAULT_SEL_COLOR);
         mOutlineColor = ContextCompat.getColor(context, DEFAULT_OUTLINE_COLOR);
         mMapResource = DEFAULT_MAP_RESOURCE;
+
+        mDesMargin = UIUtils.dip2px(context, 5);
+        mDesPadding = UIUtils.dip2px(context, 5f);
+        mDesRoundRadius = UIUtils.dip2px(context, 3.5f);
+
+        mDesTextSize = UIUtils.dip2px(context, 12f);
+        mDesTextColor = ContextCompat.getColor(context, R.color.des_color);
+        mDesBgColor = Color.WHITE;
+        mTextPaint.setTextSize(mDesTextSize);
+        mTextPaint.setColor(mDesTextColor);
 
         // 初始化动画
         mValueAnim = ValueAnimator.ofFloat(0, 1);
@@ -260,12 +311,13 @@ public class SvgMapView extends View {
      * @param outlineColor 勾勒颜色
      */
     public void setOutlineColor(int outlineColor) {
-        this.mOutlineColor = outlineColor;
+        this.mOutlineColor = ContextCompat.getColor(getContext(), outlineColor);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
 
+        canvas.save();
         // 重置矩阵
         mCanvasMatrix.reset();
         mTouchChangeMatrix.reset();
@@ -281,6 +333,45 @@ public class SvgMapView extends View {
             drawItem(canvas, itemData);
         }
 
+        canvas.restore();
+
+        drawDesTest(canvas);
+
+    }
+
+    /**
+     * 描述文字
+     */
+    private void drawDesTest(Canvas canvas) {
+
+        if (mSelItem == null) {
+            return;
+        }
+        canvas.save();
+
+        float textLength = mTextPaint.measureText(mSelItem.title);
+
+        mDesRect.left = 0;
+        mDesRect.top = 0;
+        mDesRect.right = textLength + mDesPadding * 4;
+        mDesRect.bottom = mDesTextSize + mDesPadding * 2;
+
+        canvas.translate(mDesMargin, mDesMargin);
+
+        mPaint.setColor(mDesBgColor);
+        mPaint.setStyle(Paint.Style.FILL);
+        canvas.drawRoundRect(mDesRect, mDesRoundRadius, mDesRoundRadius, mPaint);
+
+        canvas.translate(0, mDesTextSize / 2);
+        mPaint.setTextAlign(Paint.Align.CENTER);
+        mPaint.setTextSize(mDesTextSize);
+        mPaint.setColor(mDesTextColor);
+        canvas.drawText(mSelItem.title,
+                mDesRect.width() / 2,
+                mDesRect.height() / 2,
+                mPaint);
+
+        canvas.restore();
     }
 
     /**
