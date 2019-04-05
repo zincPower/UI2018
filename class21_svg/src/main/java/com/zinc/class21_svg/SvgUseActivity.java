@@ -6,15 +6,15 @@ import android.support.annotation.Nullable;
 
 /**
  * author       : zinc
- * time         : 2019/4/5 下午4:28
+ * time         : 2019/4/5 下午4:35
  * desc         :
  * version      :
  */
-public class ClientActivity extends Activity {
+public class SvgUseActivity extends Activity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cls21_client);
+        setContentView(R.layout.activity_svg_use);
     }
 }

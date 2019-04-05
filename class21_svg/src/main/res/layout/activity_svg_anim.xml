@@ -2,17 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_svg_map"
-        style="@style/textview_button"
-        android:text="svg 地图" />
+    <com.zinc.class21_svg.widget.JueJinLogoView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-
     <TextView
-        android:id="@+id/tv_svg_use"
+        android:id="@+id/tv_play"
         style="@style/textview_button"
-        android:text="svg 使用" />
+        android:text="动起来" />
 
 </LinearLayout>

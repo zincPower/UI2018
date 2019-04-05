@@ -1,4 +1,4 @@
-package com.zinc.class21_svg;
+package com.zinc.class21_svg.widget;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -23,6 +23,8 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Toast;
 
+import com.zinc.class21_svg.PathParser;
+import com.zinc.class21_svg.R;
 import com.zinc.lib_base.UIUtils;
 
 import org.w3c.dom.Document;
@@ -626,11 +628,16 @@ public class SvgMapView extends View {
                     IOException |
                     ParserConfigurationException e) {
                 e.printStackTrace();
+            }finally {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             // 出错则关闭流，发送提示信息
             if (document == null) {
-                close(inputStream);
                 if (!mIsCancel) {
                     mHandle.sendEmptyMessage(InnerHandler.ERROR);
                 }
@@ -672,7 +679,6 @@ public class SvgMapView extends View {
 
                 // path 解析出错，退出
                 if (path == null) {
-                    close(inputStream);
                     if (!mIsCancel) {
                         mHandle.sendEmptyMessage(InnerHandler.ERROR);
                     }
@@ -709,8 +715,6 @@ public class SvgMapView extends View {
             if (!mIsCancel) {
                 mHandle.sendEmptyMessage(InnerHandler.SUCCESS);
             }
-
-            close(inputStream);
         }
 
         /**
