@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_menu">
+
+    <target
+        android:name="top"
+        android:animation="@animator/top_anim" />
+
+    <target
+        android:name="bottom"
+        android:animation="@animator/bottom_anim" />
+
+</animated-vector>

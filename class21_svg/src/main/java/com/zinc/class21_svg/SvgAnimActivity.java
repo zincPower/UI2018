@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.zinc.class21_svg.widget.JueJinLogoView;
+
 /**
  * author       : zinc
  * time         : 2019/4/5 下午4:35
@@ -18,7 +20,7 @@ import android.widget.TextView;
  */
 public class SvgAnimActivity extends Activity {
 
-//    private ImageView img;
+    private JueJinLogoView jueJinLogoView;
     private TextView tvPlay;
 
     @Override
@@ -26,13 +28,13 @@ public class SvgAnimActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_svg_anim);
 
-//        img = findViewById(R.id.img);
+        jueJinLogoView = findViewById(R.id.jue_jin_logo_view);
         tvPlay = findViewById(R.id.tv_play);
 
         tvPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                jueJinLogoView.start();
             }
         });
     }

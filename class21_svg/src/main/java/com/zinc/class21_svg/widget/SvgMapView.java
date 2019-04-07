@@ -661,6 +661,9 @@ public class SvgMapView extends View {
             float right = -1;
             float bottom = -1;
 
+            // 计算出 path 的 rect
+            RectF rect = new RectF();
+
             // 遍历所有的 Path 节点
             for (int i = 0; i < pathNodeList.getLength(); ++i) {
                 Element pathNode = (Element) pathNodeList.item(i);
@@ -685,8 +688,6 @@ public class SvgMapView extends View {
                     return;
                 }
 
-                // 计算出 path 的 rect
-                RectF rect = new RectF();
                 path.computeBounds(rect, true);
 
                 left = left == -1 ? rect.left : Math.min(left, rect.left);
@@ -717,20 +718,6 @@ public class SvgMapView extends View {
             }
         }
 
-        /**
-         * 关闭流
-         *
-         * @param inputStream 输入流
-         */
-        private void close(InputStream inputStream) {
-            try {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     /**

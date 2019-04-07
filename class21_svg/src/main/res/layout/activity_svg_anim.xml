@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <com.zinc.class21_svg.widget.JueJinLogoView
+        android:id="@+id/jue_jin_logo_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
