@@ -7,6 +7,7 @@
 >4、Xfermode<br/>
 >5、VelocityTracker和Scroller<br/>
 >6、绘制流程<br/>
+>7、svg<br/>
 >三、继续整理的章节<br/>
 >四、作者简介<br/>
 >1、个人博客<br/>
@@ -106,6 +107,17 @@
 
 ![](https://github.com/zincPower/UI2018/blob/master/img/cls2/TagFlow.gif)
 
+### 7、svg
+
+#### 博客：[放荡不羁SVG讲解与实战——Android高级UI](https://juejin.im/post/5ca9f65e6fb9a05e472b9cab)
+#### 实战：
+**（1）"手写"掘金**
+
+![](https://github.com/zincPower/UI2018/blob/04fb62dd2d2ea73eb49387464adfe95a2e271775/img/cls21/juejin.gif)
+
+**（2）地图查阅器**
+
+![](https://github.com/zincPower/UI2018/blob/04fb62dd2d2ea73eb49387464adfe95a2e271775/img/cls21/svgmap.gif)
 
 ## 三、继续整理的章节
 1. Paint
