@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
@@ -21,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.lsn_8).setOnClickListener(this);
         findViewById(R.id.lsn_12).setOnClickListener(this);
         findViewById(R.id.lsn_15).setOnClickListener(this);
+        findViewById(R.id.lsn_21).setOnClickListener(this);
     }
 
     @Override
@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.lsn_15:
                 startActivity(new Intent(this, com.zinc.class15_velocitytracker_scroller.BarActivity.class));
+                break;
+            case R.id.lsn_21:
+                startActivity(new Intent(this, com.zinc.class21_svg.ClientActivity.class));
                 break;
         }
     }

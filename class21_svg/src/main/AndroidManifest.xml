@@ -4,7 +4,7 @@
     <application>
         <activity android:name=".SvgMapActivity" />
         <activity android:name=".SvgUseActivity" />
-        <activity android:name=".SvgAnimActivity" />
+        <activity android:name=".JueJinAnimActivity" />
         <activity android:name=".ClientActivity" />
     </application>
 

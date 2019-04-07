@@ -1,8 +1,10 @@
 package com.zinc.class21_svg;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.TextView;
 
 /**
  * author       : zinc
@@ -10,11 +12,44 @@ import android.support.annotation.Nullable;
  * desc         :
  * version      :
  */
-public class ClientActivity extends Activity {
+public class ClientActivity extends Activity implements View.OnClickListener {
+
+    private TextView tvSvgUse;
+    private TextView tvSvgJueJin;
+    private TextView tvSvgMap;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cls21_client);
+
+        tvSvgUse = findViewById(R.id.tv_svg_use);
+        tvSvgJueJin = findViewById(R.id.tv_svg_jue_jin);
+        tvSvgMap = findViewById(R.id.tv_svg_map);
+
+        tvSvgUse.setOnClickListener(this);
+        tvSvgJueJin.setOnClickListener(this);
+        tvSvgMap.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = null;
+
+        int i = v.getId();
+        if (i == R.id.tv_svg_use) {
+            intent = new Intent(this, SvgUseActivity.class);
+        } else if (i == R.id.tv_svg_jue_jin) {
+            intent = new Intent(this, JueJinAnimActivity.class);
+        } else if (i == R.id.tv_svg_map) {
+            intent = new Intent(this, SvgMapActivity.class);
+        }
+
+        if (intent == null) {
+            return;
+        }
+
+        startActivity(intent);
     }
 }

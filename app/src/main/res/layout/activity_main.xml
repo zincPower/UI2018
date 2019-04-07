@@ -67,6 +67,12 @@
                 android:layout_height="45dp"
                 android:text="Scroller 和 VelocityTracker" />
 
+            <Button
+                android:id="@+id/lsn_21"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="SVG 使用与骚操作" />
+
         </LinearLayout>
 
     </ScrollView>

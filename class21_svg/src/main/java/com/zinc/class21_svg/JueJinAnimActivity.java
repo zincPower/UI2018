@@ -18,7 +18,7 @@ import com.zinc.class21_svg.widget.JueJinLogoView;
  * desc         :
  * version      :
  */
-public class SvgAnimActivity extends Activity {
+public class JueJinAnimActivity extends Activity {
 
     private JueJinLogoView jueJinLogoView;
     private TextView tvPlay;
