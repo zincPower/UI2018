@@ -135,7 +135,6 @@ public class JueJinLogoView extends View {
                 mSvgRect.width() / 2,
                 mSvgRect.height() / 2);
 
-
         canvas.setMatrix(mCanvasMatrix);
 
         int index = (int) mAnimValue;

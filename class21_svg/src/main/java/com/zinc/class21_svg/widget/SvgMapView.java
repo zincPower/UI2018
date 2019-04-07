@@ -536,8 +536,8 @@ public class SvgMapView extends View {
         mTouchRegion.setPath(
                 item.path,
                 new Region((int) mTouchRectF.left,
-                        (int) mTouchRectF.top, (int)
-                        mTouchRectF.right,
+                        (int) mTouchRectF.top,
+                        (int) mTouchRectF.right,
                         (int) mTouchRectF.bottom)
         );
 
@@ -628,7 +628,7 @@ public class SvgMapView extends View {
                     IOException |
                     ParserConfigurationException e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 try {
                     inputStream.close();
                 } catch (IOException e) {
