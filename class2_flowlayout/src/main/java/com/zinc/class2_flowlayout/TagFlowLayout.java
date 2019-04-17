@@ -65,7 +65,7 @@ public class TagFlowLayout extends ViewGroup {
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 
         // 获取 自身的宽高
-        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec) - (getPaddingLeft() + getPaddingRight());
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
         // TagFlowLayout控件的宽高，用于确定自己的大小
@@ -132,7 +132,10 @@ public class TagFlowLayout extends ViewGroup {
 
             // 最后一行数据要进行保存
             if (i == childCount - 1) {
-                myselfMeasureWidth = Math.max(myselfMeasureWidth, lineWidth);
+                // 加上 padding
+                myselfMeasureWidth = Math.max(myselfMeasureWidth, lineWidth)
+                        + getPaddingRight() + getPaddingLeft();
+
                 myselfMeasureHeight += lineHeight;
                 mRowViewList.add(mCurLineViewList);
                 mRowHeightList.add(lineHeight);
@@ -142,11 +145,13 @@ public class TagFlowLayout extends ViewGroup {
 
         // 如果是 match_parent 则直接使用 宽 高 尺寸
         if (widthMode == MeasureSpec.EXACTLY) {
-            myselfMeasureWidth = widthSize;
+            myselfMeasureWidth = widthSize + getPaddingRight() + getPaddingLeft();
         }
 
         if (heightMode == MeasureSpec.EXACTLY) {
             myselfMeasureHeight = heightSize;
+        } else {
+            myselfMeasureHeight += getPaddingTop() + getPaddingBottom();
         }
 
         setMeasuredDimension(myselfMeasureWidth, myselfMeasureHeight);
@@ -160,8 +165,8 @@ public class TagFlowLayout extends ViewGroup {
 
         int left, top, right, bottom;
 
-        int curTop = 0;
-        int curLeft = 0;
+        int curTop = getPaddingTop();
+        int curLeft = getPaddingLeft();
 
         int lineSize = mRowViewList.size();
         // 遍历每行
@@ -184,7 +189,7 @@ public class TagFlowLayout extends ViewGroup {
             }
 
             // 每行重置
-            curLeft = 0;
+            curLeft = getPaddingLeft();
             curTop += mRowHeightList.get(i);
 
         }

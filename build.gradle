@@ -22,6 +22,19 @@ allprojects {
     }
 }
 
+ext {
+    // app 版本信息
+    versionName = '1.0.0'
+    versionCode = 1000
+    minSdkVersion = 19
+    targetSdkVersion = 27
+    compileSdkVersion = 27
+
+    appcompatV7 = '27.1.1'
+    recycleView = '27.1.1'
+
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
