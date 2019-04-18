@@ -1,0 +1,15 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zinc.animation">
+
+    <application>
+        <activity android:name="com.zinc.animation.activity.SimpleAnimationActivity" />
+        <activity android:name="com.zinc.animation.activity.RadarActivity" />
+        <activity android:name="com.zinc.animation.activity.ClientActivity" />
+        <activity android:name="com.zinc.animation.activity.DialActivity" />
+        <activity
+            android:name="com.zinc.animation.activity.TimeInterpolatorActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name="com.zinc.animation.activity.ShoppingActivity"/>
+    </application>
+
+</manifest>

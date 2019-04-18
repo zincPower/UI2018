@@ -1,1 +1,12 @@
-include ':app', ':class2_flowlayout', ':class3_paint', ':class4_xfermode', ':class5_canvas', ':class6_drawable_gravity', ':class7_bezier', ':class8_pathmeasure', ':lib_base', ':class12_animation', ':class15_velocitytracker_scroller', ':class19_recycleview', ':class21_svg'
+include ':app',
+        ':code1_bezier',
+        ':code2_pathmeasure',
+        ':code3_animation',
+        ':code4_xfermode',
+        ':code5_velocitytracker_scroller',
+        ':code6_flowlayout',
+        ':code7_svg',
+        ':code8_canvas',
+        ':code9_paint',
+        ':lib_base'
+

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onAbc"
+        android:text="基础api" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onGetSegment"
+        android:text="get_Segment测试" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onGetLength"
+        android:text="get_Length测试" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onArrow"
+        android:text="实战——旋转的小箭头" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onLoading"
+        android:text="实战——粘性loading" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onBoat"
+        android:text="实战——乘风破浪的小船" />
+
+</LinearLayout>

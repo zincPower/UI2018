@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zinc.svg">
+
+    <application>
+        <activity android:name="com.zinc.svg.SvgMapActivity" />
+        <activity android:name="com.zinc.svg.SvgUseActivity" />
+        <activity android:name="com.zinc.svg.JueJinAnimActivity" />
+        <activity android:name="com.zinc.svg.ClientActivity" />
+    </application>
+
+</manifest>

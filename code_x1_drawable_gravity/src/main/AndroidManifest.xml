@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zinc.drawable_gravity" >
+
+    <application>
+
+        <activity android:name="com.zinc.drawable_gravity.ClientActivity"/>
+
+    </application>
+
+</manifest>

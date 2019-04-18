@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="code7_client_bg">#77191919</color>
+
+    <color name="des_color">#333333</color>
+
+    <!-- theme one -->
+    <color name="t1_color1">#e7eaf6</color>
+    <color name="t1_color2">#a2a8d3</color>
+    <color name="t1_color3">#38598b</color>
+    <color name="t1_color4">#113f67</color>
+    <color name="t1_outline">#ffffff</color>
+    <color name="t1_sel_color">#e4406f</color>
+
+    <!-- theme two -->
+    <color name="t2_color1">#ffe6eb</color>
+    <color name="t2_color2">#defcfc</color>
+    <color name="t2_color3">#cbf1f5</color>
+    <color name="t2_color4">#a6e3e9</color>
+    <color name="t2_outline">#ffffff</color>
+    <color name="t2_sel_color">#001a35</color>
+
+    <!-- theme three -->
+    <color name="t3_color1">#f6f5f5</color>
+    <color name="t3_color2">#e9e4e6</color>
+    <color name="t3_color3">#3bb4c1</color>
+    <color name="t3_color4">#048998</color>
+    <color name="t3_outline">#ffffff</color>
+    <color name="t3_sel_color">#ca2374</color>
+
+    <!-- theme four -->
+    <color name="t4_color1">#fe9191</color>
+    <color name="t4_color2">#e4406f</color>
+    <color name="t4_color3">#ca2374</color>
+    <color name="t4_color4">#9c297f</color>
+    <color name="t4_outline">#ffffff</color>
+    <color name="t4_sel_color">#113f67</color>
+
+</resources>

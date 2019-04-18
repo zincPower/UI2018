@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/btn_google"
+        style="@style/textview_button"
+        android:text="google示例xfermode" />
+
+    <TextView
+        android:id="@+id/btn_zinc"
+        style="@style/textview_button"
+        android:text="zinc示例xfermode" />
+
+    <TextView
+        android:id="@+id/btn_gua_gua"
+        style="@style/textview_button"
+        android:text="刮刮卡" />
+
+    <TextView
+        android:id="@+id/btn_heart"
+        style="@style/textview_button"
+        android:text="心跳" />
+
+    <TextView
+        android:id="@+id/btn_add"
+        style="@style/textview_button"
+        android:text="Add Demo" />
+
+    <TextView
+        android:id="@+id/btn_overlay"
+        style="@style/textview_button"
+        android:text="Overlay Demo" />
+
+</LinearLayout>

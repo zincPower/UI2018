@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="showBezierPlay"
+        android:text="贝塞尔曲线动态演变DEMO" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="drawCircle"
+        android:text="贝塞尔曲线画圆" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="diy"
+        android:text="贝塞尔曲线DIY" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="changeToHeart"
+        android:text="圆变心" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="stickPoint"
+        android:text="粘性小红点" />
+
+</LinearLayout>

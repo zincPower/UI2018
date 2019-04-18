@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">code5_velocityTracker_scroller</string>
+
+    <string name="data_count">数据量（%1$d）</string>
+</resources>

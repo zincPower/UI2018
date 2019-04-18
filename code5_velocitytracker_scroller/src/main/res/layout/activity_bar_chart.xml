@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#29292F"
+    android:orientation="vertical">
+
+    <com.zinc.velocitytracker_scroller.widget.BarChart
+        android:id="@+id/bar_chart"
+        android:layout_width="match_parent"
+        android:layout_height="267.5dp" />
+
+    <TextView
+        android:id="@+id/btn_start"
+        style="@style/textview_button"
+        android:text="start" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_data_count"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="数据量（30）"
+            android:textColor="@android:color/white" />
+
+        <SeekBar
+            android:id="@+id/sb_data_count"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/btn_reset"
+            style="@style/textview_button"
+            android:layout_width="wrap_content"
+            android:layout_margin="0dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="重置数据" />
+
+    </LinearLayout>
+
+</LinearLayout>

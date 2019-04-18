@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/code7_client_bg"
+    android:orientation="vertical">
+
+    <com.zinc.svg.widget.SvgMapView
+        android:id="@+id/svg_map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="颜色: "
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+
+        <RadioGroup
+            android:id="@+id/rg_color"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_c1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="color 1"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/rb_c2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="color 2"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/rb_c3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="color 3"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/rb_c4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="color 4"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="地图: "
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+
+        <RadioGroup
+            android:id="@+id/rg_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_china"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="中国地图"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/rb_world"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="世界地图"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_play"
+        style="@style/textview_button"
+        android:text="开始表演" />
+
+</LinearLayout>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <com.zinc.code_x2_recycleview.recycler.RecycleViewWrapper
+        android:id="@+id/rv_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ScrollView
+        android:layout_width="300dp"
+        android:layout_height="400dp">
+
+        <TextView
+            android:id="@+id/tv_cache_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_red_dark" />
+
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/sv_bind_log"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/tv_bind_log"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_blue_dark" />
+
+    </ScrollView>
+
+</RelativeLayout>

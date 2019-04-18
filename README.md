@@ -25,19 +25,19 @@
 #### 实战：
 **（1）多阶贝塞尔曲线工具**
 
-![](https://github.com/zincPower/UI2018/blob/master/img/cls7/n_order_bezier.gif)
+![](https://github.com/zincPower/UI2018/blob/master/img/code1/n_order_bezier.gif)
 
 **（2）圆变任何图形的工具**
 
-![](https://github.com/zincPower/UI2018/blob/master/img/cls7/circle_bezier_tool_rabbit.gif)
+![](https://github.com/zincPower/UI2018/blob/master/img/code1/circle_bezier_tool_rabbit.gif)
 
 **（3）圆变心**
 
-![](https://github.com/zincPower/UI2018/blob/master/img/cls7/circle_to_heart.gif)
+![](https://github.com/zincPower/UI2018/blob/master/img/code1/circle_to_heart.gif)
 
 **（4）粘性小红点**
 
-![](https://github.com/zincPower/UI2018/blob/master/img/cls7/bezier_stick_dot.gif)
+![](https://github.com/zincPower/UI2018/blob/master/img/code1/bezier_stick_dot.gif)
 
 ### 2、PathMeasure
 
@@ -45,15 +45,15 @@
 #### 实战：
 **（1）乘风破浪的小船**
 
-![](https://github.com/zincPower/UI2018/blob/master/img/cls8/boat.gif)
+![](https://github.com/zincPower/UI2018/blob/master/img/code2/boat.gif)
 
 **（2）加载loading**
 
-![](https://github.com/zincPower/UI2018/blob/master/img/cls8/loading_circle.gif)
+![](https://github.com/zincPower/UI2018/blob/master/img/code2/loading_circle.gif)
 
 **（3）转圈的箭头**
 
-![](https://github.com/zincPower/UI2018/blob/master/img/cls8/plane.gif)
+![](https://github.com/zincPower/UI2018/blob/master/img/code2/plane.gif)
 
 ### 3、属性动画
 
@@ -61,19 +61,19 @@
 #### 实战：
 **（1）插值器工具**
 
-![](https://github.com/zincPower/UI2018/blob/master/img/cls12/interpolator.gif)
+![](https://github.com/zincPower/UI2018/blob/master/img/code3/interpolator.gif)
 
 **（2）多维雷达图**
 
-![](https://github.com/zincPower/UI2018/blob/master/img/cls12/radar.gif)
+![](https://github.com/zincPower/UI2018/blob/master/img/code3/radar.gif)
 
 **（3）表盘指示器**
 
-![](https://github.com/zincPower/UI2018/blob/master/img/cls12/dial.gif)
+![](https://github.com/zincPower/UI2018/blob/master/img/code3/dial.gif)
 
 **（4）购物车**
 
-![](https://github.com/zincPower/UI2018/blob/master/img/cls12/shoppingCart.gif)
+![](https://github.com/zincPower/UI2018/blob/master/img/code3/shoppingCart.gif)
 
 ### 4、Xfermode
 
@@ -81,15 +81,15 @@
 #### 实战：
 **（1）Xfermode工具**
 
-![](https://github.com/zincPower/UI2018/blob/master/img/cls4/xfermode_tool.gif)
+![](https://github.com/zincPower/UI2018/blob/master/img/code4/xfermode_tool.gif)
 
 **（2）刮刮卡**
 
-![](https://github.com/zincPower/UI2018/blob/master/img/cls4/scrach_card.gif)
+![](https://github.com/zincPower/UI2018/blob/master/img/code4/scrach_card.gif)
 
 **（3）心跳**
 
-![](https://github.com/zincPower/UI2018/blob/master/img/cls4/ping_pong.gif)
+![](https://github.com/zincPower/UI2018/blob/master/img/code4/ping_pong.gif)
 
 ### 5、VelocityTracker和Scroller
 
@@ -97,7 +97,7 @@
 #### 实战：
 **（1）带惯性滑动的柱状图**
 
-![](https://github.com/zincPower/UI2018/blob/master/img/cls15/bar.gif)
+![](https://github.com/zincPower/UI2018/blob/master/img/code5/bar.gif)
 
 ### 6、绘制流程
 
@@ -105,7 +105,7 @@
 #### 实战：
 **（1）标签布局**
 
-![](https://github.com/zincPower/UI2018/blob/master/img/cls2/TagFlow.gif)
+![](https://github.com/zincPower/UI2018/blob/master/img/code6/TagFlow.gif)
 
 ### 7、svg
 
@@ -113,11 +113,11 @@
 #### 实战：
 **（1）"手写"掘金**
 
-![](https://github.com/zincPower/UI2018/blob/04fb62dd2d2ea73eb49387464adfe95a2e271775/img/cls21/juejin.gif)
+![](https://github.com/zincPower/UI2018/blob/04fb62dd2d2ea73eb49387464adfe95a2e271775/img/code7/juejin.gif)
 
 **（2）地图查阅器**
 
-![](https://github.com/zincPower/UI2018/blob/04fb62dd2d2ea73eb49387464adfe95a2e271775/img/cls21/svgmap.gif)
+![](https://github.com/zincPower/UI2018/blob/04fb62dd2d2ea73eb49387464adfe95a2e271775/img/code7/svgmap.gif)
 
 ## 三、继续整理的章节
 1. Paint

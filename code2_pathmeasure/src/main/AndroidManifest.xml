@@ -1,0 +1,12 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zinc.pathmeasure">
+
+    <application>
+        <activity android:name="com.zinc.pathmeasure.activity.BoatLoadingActivity" />
+        <activity android:name="com.zinc.pathmeasure.activity.PlaneLoadingActivity" />
+        <activity android:name="com.zinc.pathmeasure.activity.CommonActivity" />
+        <activity android:name="com.zinc.pathmeasure.activity.GetSegmentActivity" />
+        <activity android:name="com.zinc.pathmeasure.activity.ClientActivity" />
+    </application>
+
+</manifest>

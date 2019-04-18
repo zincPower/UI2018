@@ -1,0 +1,13 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zinc.bezier">
+
+    <application>
+        <activity android:name="com.zinc.bezier.activity.ClientActivity" />
+        <activity android:name="com.zinc.bezier.activity.BezierActivity" />
+        <activity android:name="com.zinc.bezier.activity.CircleActivity" />
+        <activity android:name="com.zinc.bezier.activity.DIYBezierActivity" />
+        <activity android:name="com.zinc.bezier.activity.HeartActivity" />
+        <activity android:name="com.zinc.bezier.activity.StickDotActivity"/>
+    </application>
+
+</manifest>

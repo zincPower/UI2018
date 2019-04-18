@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="linear渐变" />
+
+    <Button
+        android:id="@+id/radial"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="radial渐变" />
+
+    <Button
+        android:id="@+id/sweep"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="sweep渐变" />
+
+    <com.zinc.paint.widget.GradientHeartView
+        android:id="@+id/gradient_view"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp" />
+
+</LinearLayout>

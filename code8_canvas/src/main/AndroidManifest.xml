@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zinc.canvas" >
+
+    <application>
+
+        <activity android:name="com.zinc.canvas.ClientActivity"/>
+
+    </application>
+
+</manifest>

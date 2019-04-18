@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#1296db">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="Bezier"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/iv_setting"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentRight="true"
+            android:padding="9.5dp"
+            android:src="@drawable/icons_settings" />
+
+        <ImageView
+            android:id="@+id/iv_play"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_toLeftOf="@id/iv_setting"
+            android:padding="9.5dp"
+            android:src="@drawable/icons_play" />
+
+    </RelativeLayout>
+
+    <com.zinc.bezier.widget.BezierView
+        android:id="@+id/bezier_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

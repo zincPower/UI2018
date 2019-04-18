@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">code1_bezier</string>
+
+    <string name="rate">速率(%1$d)</string>
+    <string name="order">阶数(%1$d)</string>
+    <string name="ratio">控制点比例 (%1$s)</string>
+
+</resources>

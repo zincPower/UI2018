@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.zinc.pathmeasure.PlaneLoadingView
+        android:id="@+id/plane_loading_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="start"
+        android:text="开始" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="stop"
+        android:text="停止" />
+
+</LinearLayout>

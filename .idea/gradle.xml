@@ -9,17 +9,15 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/class12_animation" />
-            <option value="$PROJECT_DIR$/class15_velocitytracker_scroller" />
-            <option value="$PROJECT_DIR$/class19_recycleview" />
-            <option value="$PROJECT_DIR$/class21_svg" />
-            <option value="$PROJECT_DIR$/class2_flowlayout" />
-            <option value="$PROJECT_DIR$/class3_paint" />
-            <option value="$PROJECT_DIR$/class4_xfermode" />
-            <option value="$PROJECT_DIR$/class5_canvas" />
-            <option value="$PROJECT_DIR$/class6_drawable_gravity" />
-            <option value="$PROJECT_DIR$/class7_bezier" />
-            <option value="$PROJECT_DIR$/class8_pathmeasure" />
+            <option value="$PROJECT_DIR$/code1_bezier" />
+            <option value="$PROJECT_DIR$/code2_pathmeasure" />
+            <option value="$PROJECT_DIR$/code3_animation" />
+            <option value="$PROJECT_DIR$/code4_xfermode" />
+            <option value="$PROJECT_DIR$/code5_velocitytracker_scroller" />
+            <option value="$PROJECT_DIR$/code6_flowlayout" />
+            <option value="$PROJECT_DIR$/code7_svg" />
+            <option value="$PROJECT_DIR$/code8_canvas" />
+            <option value="$PROJECT_DIR$/code9_paint" />
             <option value="$PROJECT_DIR$/lib_base" />
           </set>
         </option>

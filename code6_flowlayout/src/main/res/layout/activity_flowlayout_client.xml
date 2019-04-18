@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
+    android:orientation="vertical">
+
+    <com.zinc.flowlayout.TagFlowLayout
+        android:id="@+id/tag_flow_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/shape_tag_bg"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/tv_play"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/selector_blue_round_5dp"
+        android:gravity="center"
+        android:text="开始"
+        android:textColor="@android:color/white" />
+
+    <LinearLayout
+        android:id="@+id/ll_complex"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_above="@id/tv_play"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="是否显示复杂布局"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+
+        <Switch
+            android:id="@+id/sw_show_complex_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@id/ll_complex"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_data_count"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/data_count"
+            android:textColor="@android:color/white" />
+
+        <SeekBar
+            android:id="@+id/sb_data_count"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:max="10" />
+
+    </LinearLayout>
+
+</RelativeLayout>

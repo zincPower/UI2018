@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="100dp"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/start_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="35dp"
+            android:background="#55DB001B" />
+
+        <View
+            android:id="@+id/anim_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="35dp"
+            android:background="#DB001B" />
+
+        <View
+            android:id="@+id/end_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="35dp"
+            android:background="#55DB001B" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#aaaaaa" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:text="插值器"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycle_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_gray_round_5dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="8dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="8dp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#aaaaaa" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_duration"
+                android:layout_width="80dp"
+                android:layout_height="30sp"
+                android:gravity="center"
+                android:text="时长(ms)："
+                android:textColor="#333333"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/et_duration"
+                android:layout_width="100dp"
+                android:layout_height="30sp"
+                android:background="@drawable/shape_gray_round_5dp"
+                android:hint="2000"
+                android:inputType="number"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_state"
+                android:layout_width="80dp"
+                android:layout_height="30sp"
+                android:gravity="center"
+                android:text="状态："
+                android:textColor="#333333"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_state_info"
+                android:layout_width="100dp"
+                android:layout_height="30sp"
+                android:background="@drawable/shape_gray_round_5dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="ready"
+                android:textColor="#1E90FF"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <com.zinc.animation.widget.TimeInterpolatorView
+            android:id="@+id/time_interpolator_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tv_run"
+            android:layout_width="180dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/selector_blue_round_5dp"
+            android:gravity="center"
+            android:text="开始表演"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

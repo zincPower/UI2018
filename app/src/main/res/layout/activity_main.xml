@@ -13,65 +13,40 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/lsn_2"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:text="定义ui流程" />
-
-            <Button
-                android:id="@+id/lsn_3"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:text="paint使用（gradient、shader）" />
-
-            <Button
-                android:id="@+id/lsn_4"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:text="paint使用（滤色、xfermode）" />
-
-            <Button
-                android:id="@+id/lsn_5"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:text="canvas（save、restore、layer）" />
-
-            <Button
-                android:id="@+id/lsn_6"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:text="drawable的level、gravity" />
-
-            <Button
-                android:id="@+id/lsn_7"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
+            <TextView
+                android:id="@+id/tv_code1_bezier"
+                style="@style/textview_button"
                 android:text="贝塞尔曲线" />
 
-            <Button
-                android:id="@+id/lsn_8"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
+            <TextView
+                android:id="@+id/tv_code2_pathmeasure"
+                style="@style/textview_button"
                 android:text="PathMeasure" />
 
-            <Button
-                android:id="@+id/lsn_12"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
+            <TextView
+                android:id="@+id/tv_code3_anim"
+                style="@style/textview_button"
                 android:text="属性动画" />
 
-            <Button
-                android:id="@+id/lsn_15"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
+            <TextView
+                android:id="@+id/tv_code4_xfermode"
+                style="@style/textview_button"
+                android:text="Xfermode" />
+
+            <TextView
+                android:id="@+id/tv_code5_scroller_velocityTracker"
+                style="@style/textview_button"
                 android:text="Scroller 和 VelocityTracker" />
 
-            <Button
-                android:id="@+id/lsn_21"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:text="SVG 使用与骚操作" />
+            <TextView
+                android:id="@+id/tv_code6_draw_flow"
+                style="@style/textview_button"
+                android:text="绘制流程" />
+
+            <TextView
+                android:id="@+id/tv_code7_svg"
+                style="@style/textview_button"
+                android:text="svg 使用" />
 
         </LinearLayout>
 

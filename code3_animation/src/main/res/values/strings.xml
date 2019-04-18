@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">code3_animation</string>
+
+    <string name="dimen_num">维度数(%1$d)</string>
+    <string name="data_num">数据量(%1$d)</string>
+    <string name="base_num">基础数(%1$d)</string>
+
+    <string name="level_num">阶数(%1$d)</string>
+    <string name="cur_level_num">当前阶数(%1$d)</string>
+
+</resources>

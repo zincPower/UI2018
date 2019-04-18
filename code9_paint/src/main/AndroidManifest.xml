@@ -1,0 +1,13 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zinc.paint" >
+
+    <application>
+        <activity android:name="com.zinc.paint.activity.GradientHeartActivity"/>
+        <activity android:name="com.zinc.paint.activity.BitmapShaderActivity"/>
+        <activity android:name="com.zinc.paint.activity.TileModeActivity"/>
+        <activity android:name="com.zinc.paint.activity.PaintActivity"/>
+        <activity android:name="com.zinc.paint.activity.RunningLinearGradientActivity"/>
+        <activity android:name="com.zinc.paint.ClientActivity"/>
+    </application>
+
+</manifest>

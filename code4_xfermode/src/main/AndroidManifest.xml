@@ -1,0 +1,31 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zinc.xfermode">
+
+    <application>
+
+        <activity
+            android:name="com.zinc.xfermode.activity.GoogleXFerModeActivity"
+            android:hardwareAccelerated="false" />
+
+        <activity
+            android:name="com.zinc.xfermode.activity.ZincXFerModeActivity"
+            android:hardwareAccelerated="false"
+            android:screenOrientation="landscape" />
+
+        <activity android:name="com.zinc.xfermode.activity.XFerModeItemActivity"
+            android:hardwareAccelerated="false"
+            />
+
+        <activity android:name="com.zinc.xfermode.activity.HeartActivity" />
+
+        <activity android:name="com.zinc.xfermode.activity.ScratchCardActivity" />
+
+        <activity android:name="com.zinc.xfermode.ClientActivity" />
+
+        <activity android:name="com.zinc.xfermode.activity.AddAndOverlayActivity"
+            android:hardwareAccelerated="false"
+            />
+
+    </application>
+
+</manifest>
