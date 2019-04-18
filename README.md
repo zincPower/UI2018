@@ -113,11 +113,11 @@
 #### 实战：
 **（1）"手写"掘金**
 
-![](https://github.com/zincPower/UI2018/blob/04fb62dd2d2ea73eb49387464adfe95a2e271775/img/code7/juejin.gif)
+![](https://github.com/zincPower/UI2018/blob/master/img/code7/juejin.gif)
 
 **（2）地图查阅器**
 
-![](https://github.com/zincPower/UI2018/blob/04fb62dd2d2ea73eb49387464adfe95a2e271775/img/code7/svgmap.gif)
+![](https://github.com/zincPower/UI2018/blob/master/img/code7/svgmap.gif)
 
 ## 三、继续整理的章节
 1. Paint
