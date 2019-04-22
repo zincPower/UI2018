@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.zinc.canvas.widget.ClockView
+        android:id="@+id/clock_view"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true" />
+
+    <TextView
+        android:id="@+id/tv_start"
+        style="@style/textview_button"
+        android:layout_alignParentBottom="true"
+        android:text="开始表演" />
+
+</RelativeLayout>
