@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 /**
  * author       : zinc
  * time         : 2019/4/22 上午9:23
- * desc         : 画圆弧
+ * desc         : 画点
  * version      :
  */
 public class PointView extends BaseDrawView {
@@ -24,6 +24,9 @@ public class PointView extends BaseDrawView {
         super(context);
     }
 
+    protected int mPointWidth1;
+    protected int mPointWidth2;
+
     public PointView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
@@ -33,16 +36,23 @@ public class PointView extends BaseDrawView {
     }
 
     @Override
+    protected void init(Context context) {
+        super.init(context);
+        mPointWidth1 = dpToPx(5f);
+        mPointWidth2 = dpToPx(4f);
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        mPaint.setColor(mColor1);
-        mPaint.setStrokeWidth(mLineWidth);
+        setPaint(mColor1, mPointWidth1);
         canvas.drawPoint(0, 0, mPaint);
 
-        mPaint.setColor(mColor2);
-        mPaint.setStrokeWidth(mLineWidth);
+        setPaint(mColor2, mPointWidth1);
+        canvas.drawPoints(pts, mPaint);
 
-        mPaint.setColor(mColor1);
+        setPaint(mColor1, mPointWidth2);
+        canvas.drawPoints(pts, 2, pts.length - 3, mPaint);
     }
 }

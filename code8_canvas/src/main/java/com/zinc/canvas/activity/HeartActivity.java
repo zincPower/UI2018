@@ -1,4 +1,4 @@
-package com.zinc.canvas;
+package com.zinc.canvas.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
+import com.zinc.canvas.R;
 import com.zinc.canvas.widget.HeartView;
 
 /**

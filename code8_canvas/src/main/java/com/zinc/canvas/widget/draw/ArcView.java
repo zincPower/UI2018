@@ -30,13 +30,13 @@ public class ArcView extends BaseDrawView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        mPaint.setStrokeWidth(mLineWidth);
-        // STROKE 只画线不填充，FILL 会将区域填充
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setColor(mColor1);
-        // 第四个参数，设置为false，不连接中心
-        canvas.drawArc(mRectF, 0, 120,
-                false, mPaint);
+//        mPaint.setStrokeWidth(mLineWidth);
+//        // STROKE 只画线不填充，FILL 会将区域填充
+//        mPaint.setStyle(Paint.Style.STROKE);
+//        mPaint.setColor(mColor1);
+//        // 第四个参数，设置为false，不连接中心
+//        canvas.drawArc(mRectF, 0, 120,
+//                false, mPaint);
 
         mPaint.setStrokeWidth(mLineWidth);
         mPaint.setStyle(Paint.Style.STROKE);

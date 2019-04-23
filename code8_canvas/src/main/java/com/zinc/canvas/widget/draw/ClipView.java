@@ -1,4 +1,4 @@
-package com.zinc.canvas.widget;
+package com.zinc.canvas.widget.draw;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
@@ -37,6 +38,9 @@ public class ClipView extends View {
     private RectF mRectF;
     private Rect mRect;
     private int mBgColor;
+
+    private Rect mClipRect;
+    private RectF mPathRect;
 
     private Path mPath;
 
@@ -65,6 +69,9 @@ public class ClipView extends View {
         mPath = new Path();
         createHeart(mPath);
 
+        mClipRect = new Rect();
+        mPathRect = new RectF();
+
     }
 
     @Override
@@ -74,6 +81,7 @@ public class ClipView extends View {
         canvas.translate(getWidth() / 2, getHeight() / 2);
 
         canvas.clipPath(mPath, Region.Op.DIFFERENCE);
+//        canvas.clipPath(mPath);
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //            canvas.clipOutRect(mRect);
@@ -92,6 +100,12 @@ public class ClipView extends View {
 //        }
 
         canvas.drawColor(mBgColor);
+
+        canvas.getClipBounds(mClipRect);
+
+        mPath.computeBounds(mPathRect, false);
+        Log.i("ClipView", "clipRect: " + mClipRect.toString() + "\n"
+                + "pathRect: " + mPathRect.toString());
 
     }
 

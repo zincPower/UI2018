@@ -7,6 +7,8 @@
     <color name="canvas_red_color">#ca2374</color>
     <color name="canvas_orange_color">#fe9191</color>
 
+    <color name="canvas_orange_color_alpha">#ccfe9191</color>
+
     <color name="canvas_highlight_blue_color">#defcfc</color>
 
 </resources>

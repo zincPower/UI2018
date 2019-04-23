@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class HeartView extends View {
 
-    private static String SHOW_CONTENT = "猛猛的小盆友";
+    private static final String SHOW_CONTENT = "猛猛的小盆友";
 
     private Paint mPaint;
 

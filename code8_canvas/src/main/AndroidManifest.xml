@@ -1,9 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zinc.canvas" >
+    package="com.zinc.canvas">
 
     <application>
 
-        <activity android:name="com.zinc.canvas.ClientActivity"/>
+        <activity android:name="com.zinc.canvas.activity.ClientActivity" />
+        <activity android:name=".activity.CommonListActivity" />
+        <activity android:name=".activity.ClockActivity" />
+        <activity android:name=".activity.HeartActivity" />
+        <activity android:name=".activity.CommonOperatorActivity" />
 
     </application>
 

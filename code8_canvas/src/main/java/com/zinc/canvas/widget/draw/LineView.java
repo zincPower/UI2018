@@ -36,20 +36,20 @@ public class LineView extends BaseDrawView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-//        mPaint.setColor(mColor1);
-//        mPaint.setStrokeCap(Paint.Cap.ROUND);
-//        mPaint.setStrokeWidth(mLineWidth);
-//        canvas.drawLine(-200, -200,
-//                0, 0, mPaint);
+        mPaint.setColor(mColor1);
+        mPaint.setStrokeCap(Paint.Cap.ROUND);
+        mPaint.setStrokeWidth(mLineWidth);
+        canvas.drawLine(-200, -200,
+                0, 0, mPaint);
 //
         mPaint.setColor(mColor2);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(mLineWidth);
         canvas.drawLines(pts, mPaint);
 
-        mPaint.setColor(mColor1);
-        mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeWidth(mLineWidth);
-        canvas.drawLines(pts, 2, 8, mPaint);
+//        mPaint.setColor(mColor1);
+//        mPaint.setStrokeCap(Paint.Cap.ROUND);
+//        mPaint.setStrokeWidth(mLineWidth);
+//        canvas.drawLines(pts, 2, 8, mPaint);
     }
 }

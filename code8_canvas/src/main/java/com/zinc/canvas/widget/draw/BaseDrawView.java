@@ -66,9 +66,9 @@ public class BaseDrawView extends BaseView {
         canvas.translate(getWidth() / 2, getHeight() / 2);
     }
 
-    protected void setPaint(int width, int color) {
-        mPaint.setStrokeWidth(width);
+    protected void setPaint(int color, int width) {
         mPaint.setColor(color);
+        mPaint.setStrokeWidth(width);
     }
 
 }
