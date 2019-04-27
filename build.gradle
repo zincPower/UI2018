@@ -24,8 +24,8 @@ allprojects {
 
 ext {
     // app 版本信息
-    versionName = '1.0.0'
-    versionCode = 1000
+    versionName = '1.1.0'
+    versionCode = 1100
     minSdkVersion = 19
     targetSdkVersion = 27
     compileSdkVersion = 27
