@@ -14,44 +14,44 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_code1_bezier"
                 style="@style/textview_button"
-                android:text="贝塞尔曲线" />
+                android:onClick="onClip"
+                android:text="0、clip（裁剪）" />
 
             <TextView
-                android:id="@+id/tv_code2_pathmeasure"
                 style="@style/textview_button"
-                android:text="PathMeasure" />
+                android:onClick="onCircle"
+                android:text="1、circle（圆）" />
 
             <TextView
-                android:id="@+id/tv_code3_anim"
                 style="@style/textview_button"
-                android:text="属性动画" />
+                android:onClick="onOval"
+                android:text="2、oval（椭圆）" />
 
             <TextView
-                android:id="@+id/tv_code4_xfermode"
                 style="@style/textview_button"
-                android:text="Xfermode" />
+                android:onClick="onLine"
+                android:text="3、line（线）" />
 
             <TextView
-                android:id="@+id/tv_code5_scroller_velocityTracker"
                 style="@style/textview_button"
-                android:text="Scroller 和 VelocityTracker" />
+                android:onClick="onArc"
+                android:text="4、arc（弧）" />
 
             <TextView
-                android:id="@+id/tv_code6_draw_flow"
                 style="@style/textview_button"
-                android:text="绘制流程" />
+                android:onClick="onPoint"
+                android:text="5、point(点)" />
 
             <TextView
-                android:id="@+id/tv_code7_svg"
                 style="@style/textview_button"
-                android:text="svg 使用" />
+                android:onClick="onRect"
+                android:text="6、rect(矩形)" />
 
             <TextView
-                android:id="@+id/tv_code8_canvas_clip"
                 style="@style/textview_button"
-                android:text="canvas的裁剪函数 clip" />
+                android:onClick="onPathText"
+                android:text="7、pathText(路径绘字)" />
 
         </LinearLayout>
 

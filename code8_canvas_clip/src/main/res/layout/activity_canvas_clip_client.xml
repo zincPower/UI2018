@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onHeart"
+        android:text="老夫的老女心" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onClip"
+        android:text="clipPath(Path path)" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onClipOut"
+        android:text="clipOutPath(Path path)" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onClipPathWithOp"
+        android:text="clipPath(Path path, Region.Op op)" />
+
+</LinearLayout>

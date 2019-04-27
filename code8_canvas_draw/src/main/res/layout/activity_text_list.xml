@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onText"
+        android:text="0、text" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onTextPath"
+        android:text="1、textPath" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onTextRun"
+        android:text="2、textRun" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onTextPos"
+        android:text="3、textPos" />
+
+</LinearLayout>

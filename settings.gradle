@@ -6,7 +6,8 @@ include ':app',
         ':code5_velocitytracker_scroller',
         ':code6_flowlayout',
         ':code7_svg',
-        ':code8_canvas',
-        ':code9_paint',
+        ':code8_canvas_clip',
+//        ':code8_canvas_draw',
+//        ':code9_paint',
         ':lib_base'
 

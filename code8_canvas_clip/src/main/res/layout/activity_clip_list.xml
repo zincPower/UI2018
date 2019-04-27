@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onDifference"
+        android:text="0、DIFFERENCE" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onIntersect"
+        android:text="1、INTERSECT" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onUnion"
+        android:text="2、UNION" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onXor"
+        android:text="3、XOR" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onReverseDifference"
+        android:text="4、REVERSE_DIFFERENCE" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onReplace"
+        android:text="5、REPLACE" />
+
+</LinearLayout>

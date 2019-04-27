@@ -1,0 +1,15 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zinc.code8_canvas_clip">
+
+    <application>
+
+        <activity android:name=".activity.ClientActivity"/>
+        <activity android:name=".activity.HeartActivity" />
+        <activity android:name=".activity.ClipOpContentActivity" />
+        <activity android:name=".activity.ClipOpListActivity" />
+        <activity android:name=".activity.ClipOutActivity"/>
+        <activity android:name=".activity.ClipActivity"/>
+
+    </application>
+
+</manifest>

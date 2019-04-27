@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="canvas_pink_color">#ffe6eb</color>
+    <color name="canvas_light_blue_color">#a6e3e9</color>
+
+    <color name="canvas_red_color">#ca2374</color>
+    <color name="canvas_orange_color">#fe9191</color>
+
+    <color name="canvas_orange_color_alpha">#ccfe9191</color>
+
+    <color name="canvas_highlight_blue_color">#defcfc</color>
+
+</resources>
