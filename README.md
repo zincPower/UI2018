@@ -8,6 +8,7 @@
 >5、VelocityTracker和Scroller<br/>
 >6、绘制流程<br/>
 >7、svg<br/>
+>8、canvas_clip<br/>
 >三、继续整理的章节<br/>
 >四、作者简介<br/>
 >1、个人博客<br/>
