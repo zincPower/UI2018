@@ -119,6 +119,15 @@
 
 ![](https://github.com/zincPower/UI2018/blob/master/img/code7/svgmap.gif)
 
+### 8、canvas_clip
+
+#### 博客：[Canvas中的剪刀手讲解与实战——Android高级UI](https://juejin.im/post/5cc3d0686fb9a031f4160713)
+#### 实战：
+
+**(1)老夫的少女心**
+
+![](https://github.com/zincPower/UI2018/blob/master/img/code8_clip/heart.gif)
+
 ## 三、继续整理的章节
 1. Paint
 2. Canvas
