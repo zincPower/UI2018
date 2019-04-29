@@ -6,11 +6,6 @@
 
     <TextView
         style="@style/textview_button"
-        android:onClick="onHeart"
-        android:text="老夫的少女心" />
-
-    <TextView
-        style="@style/textview_button"
         android:onClick="onClock"
         android:text="时钟与指针" />
 

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">code8_canvas</string>
+
+    <string name="canvas_duration">动画时长(%1$d)</string>
 </resources>

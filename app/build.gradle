@@ -50,8 +50,8 @@ dependencies {
     implementation project(':code6_flowlayout')
     implementation project(':code7_svg')
     implementation project(':code8_canvas_clip')
-//    implementation project(':code8_canvas')
-//    implementation project(':code9_paint')
+    implementation project(':code8_canvas_draw')
+    implementation project(':code9_paint')
 
 //    implementation project(':code_x1_drawable_gravity')
 //    implementation project(':code_x2_recycleview')

@@ -1,4 +1,4 @@
-include ':app',
+include ':app', ':code8_canvas_text_paint',
         ':code1_bezier',
         ':code2_pathmeasure',
         ':code3_animation',
@@ -7,7 +7,7 @@ include ':app',
         ':code6_flowlayout',
         ':code7_svg',
         ':code8_canvas_clip',
-//        ':code8_canvas_draw',
-//        ':code9_paint',
+        ':code8_canvas_draw',
+        ':code9_paint',
         ':lib_base'
 

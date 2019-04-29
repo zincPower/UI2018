@@ -1,14 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zinc.canvas">
+    package="com.zinc.code8_canvas_draw">
 
     <application>
 
-        <activity android:name="com.zinc.canvas.activity.ClientActivity" />
-        <activity android:name=".activity.CommonListActivity" />
-        <activity android:name=".activity.ClockActivity" />
-        <activity android:name=".activity.HeartActivity" />
-        <activity android:name=".activity.CommonOperatorActivity" />
-        <activity android:name=".activity.TextListActivity" />
+        <activity android:name="com.zinc.code8_canvas_draw.activity.ClientActivity" />
+        <activity android:name="com.zinc.code8_canvas_draw.activity.CommonListActivity" />
+        <activity android:name="com.zinc.code8_canvas_draw.activity.ClockActivity" />
+        <activity android:name="com.zinc.code8_canvas_draw.activity.CommonOperatorActivity" />
 
     </application>
 
