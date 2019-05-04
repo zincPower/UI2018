@@ -8,21 +8,28 @@ import android.util.AttributeSet;
 
 /**
  * author       : zinc
- * time         : 2019/4/22 上午9:23
- * desc         : 画线
- * version      :
+ * time         : 2019/5/4 上午11:41
+ * desc         :
+ * version      : 1.2.0
  */
-public class LineView extends BaseDrawView {
+public class LinesOffsetView extends BaseDrawView {
 
-    public LineView(Context context) {
+    private float[] pts = new float[]{
+            0, -400, 200, -400,
+            -300, 0, -300, 300,
+            0, 400, 300, 400
+    };
+
+
+    public LinesOffsetView(Context context) {
         super(context);
     }
 
-    public LineView(Context context, @Nullable AttributeSet attrs) {
+    public LinesOffsetView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public LineView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public LinesOffsetView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -33,8 +40,7 @@ public class LineView extends BaseDrawView {
         mPaint.setColor(mColor1);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(mLineWidth);
-        canvas.drawLine(-200, -200,
-                0, 0, mPaint);
-
+        canvas.drawLines(pts, 2, 9, mPaint);
     }
+
 }

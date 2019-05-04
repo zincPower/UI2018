@@ -13,7 +13,7 @@ import com.zinc.code8_canvas_draw.R;
  * author       : zinc
  * time         : 2019/4/22 上午9:23
  * desc         : 画背景
- * version      :
+ * version      : 1.2.0
  */
 public class BackgroundView extends BaseDrawView {
 

@@ -11,6 +11,8 @@ import com.zinc.code8_canvas_draw.widget.draw.ArcView;
 import com.zinc.code8_canvas_draw.widget.draw.BackgroundView;
 import com.zinc.code8_canvas_draw.widget.draw.CircleView;
 import com.zinc.code8_canvas_draw.widget.draw.LineView;
+import com.zinc.code8_canvas_draw.widget.draw.LinesOffsetView;
+import com.zinc.code8_canvas_draw.widget.draw.LinesView;
 import com.zinc.code8_canvas_draw.widget.draw.OvalView;
 import com.zinc.code8_canvas_draw.widget.draw.PointView;
 import com.zinc.code8_canvas_draw.widget.draw.RectView;
@@ -33,6 +35,8 @@ public class CommonOperatorActivity extends Activity {
     public static final int TEXT = 7;
     public static final int RECT = 8;
     public static final int COLOR = 9;
+    public static final int LINES = 10;
+    public static final int LINES_OFFSET = 11;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +68,12 @@ public class CommonOperatorActivity extends Activity {
                 break;
             case COLOR:
                 view = new BackgroundView(this);
+                break;
+            case LINES:
+                view = new LinesView(this);
+                break;
+            case LINES_OFFSET:
+                view = new LinesOffsetView(this);
                 break;
             default:
                 view = new ArcView(this);

@@ -15,7 +15,7 @@ import com.zinc.lib_base.BaseView;
  * author       : zinc
  * time         : 2019/4/22 上午9:39
  * desc         :
- * version      :
+ * version      : 1.2.0
  */
 public class BaseDrawView extends BaseView {
 

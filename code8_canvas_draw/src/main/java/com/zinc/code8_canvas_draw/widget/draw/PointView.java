@@ -51,7 +51,7 @@ public class PointView extends BaseDrawView {
         setPaint(mColor2, mPointWidth1);
         canvas.drawPoints(pts, mPaint);
 
-//        setPaint(mColor1, mPointWidth2);
-//        canvas.drawPoints(pts, 2, pts.length - 3, mPaint);
+        setPaint(mColor1, mPointWidth2);
+        canvas.drawPoints(pts, 2, pts.length - 3, mPaint);
     }
 }

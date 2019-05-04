@@ -26,7 +26,17 @@
             <TextView
                 style="@style/textview_button"
                 android:onClick="onLine"
-                android:text="3、line（线）" />
+                android:text="3、drawLine（一根线）" />
+
+            <TextView
+                style="@style/textview_button"
+                android:onClick="onLines"
+                android:text="3、drawLines（多根线）" />
+
+            <TextView
+                style="@style/textview_button"
+                android:onClick="onLinesOffset"
+                android:text="3、drawLinesOffset（多根线，带偏移）" />
 
             <TextView
                 style="@style/textview_button"

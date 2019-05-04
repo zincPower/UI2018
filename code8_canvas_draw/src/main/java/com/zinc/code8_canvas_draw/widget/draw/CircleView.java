@@ -9,7 +9,7 @@ import android.util.AttributeSet;
  * author       : zinc
  * time         : 2019/4/22 上午9:23
  * desc         : 画圆
- * version      :
+ * version      : 1.2.0
  */
 public class CircleView extends BaseDrawView {
 

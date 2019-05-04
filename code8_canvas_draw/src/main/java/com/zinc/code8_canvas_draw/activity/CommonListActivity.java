@@ -54,9 +54,18 @@ public class CommonListActivity extends Activity {
         goToAct(CommonOperatorActivity.COLOR);
     }
 
+    public void onLines(View view) {
+        goToAct(CommonOperatorActivity.LINES);
+    }
+
+    public void onLinesOffset(View view) {
+        goToAct(CommonOperatorActivity.LINES_OFFSET);
+    }
+
     private void goToAct(int type) {
         Intent intent = new Intent(this, CommonOperatorActivity.class);
         intent.putExtra(CommonOperatorActivity.TYPE, type);
         startActivity(intent);
     }
+
 }

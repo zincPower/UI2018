@@ -3,6 +3,7 @@ package com.zinc.code8_canvas_draw.widget.draw;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
@@ -36,14 +37,32 @@ public class RectView extends BaseDrawView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        setPaint(mColor1, mLineWidth);
-        canvas.drawRect(mRectF, mPaint);
-
+        // ======================= 圆角矩形 =========================
         canvas.save();
+        canvas.translate(0, -mRectF.height() * 3 / 2 - 100);
+
         setPaint(mColor2, mLineWidth);
         mPaint.setStyle(Paint.Style.STROKE);
-        canvas.translate(0, mRectF.height() + dpToPx(100));
-        canvas.drawRoundRect(mRectF, 50, 150, mPaint);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            canvas.drawRoundRect(-150, -150, 400,
+                    150, 100, 50, mPaint);
+        }
+        canvas.restore();
+
+        // ======================= 直角矩形 =========================
+        canvas.save();
+
+        setPaint(mColor1, mLineWidth);
+        canvas.drawRect(mRectF, mPaint);
+        canvas.restore();
+
+        // ======================= 圆角矩形 =========================
+        canvas.save();
+        canvas.translate(0, mRectF.height() * 3 / 2 + 100);
+
+        setPaint(mColor2, mLineWidth);
+        mPaint.setStyle(Paint.Style.STROKE);
+        canvas.drawRoundRect(mRectF, 80, 100, mPaint);
         canvas.restore();
 
     }
