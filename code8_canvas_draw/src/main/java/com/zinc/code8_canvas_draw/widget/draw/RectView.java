@@ -54,6 +54,7 @@ public class RectView extends BaseDrawView {
 
         setPaint(mColor1, mLineWidth);
         canvas.drawRect(mRectF, mPaint);
+        
         canvas.restore();
 
         // ======================= 圆角矩形 =========================

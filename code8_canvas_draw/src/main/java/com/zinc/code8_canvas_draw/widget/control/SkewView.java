@@ -16,20 +16,20 @@ import com.zinc.code8_canvas_draw.widget.draw.BaseDrawView;
  * desc         :
  * version      :
  */
-public class TranslateView extends BaseDrawView {
+public class SkewView extends BaseDrawView {
 
     protected Paint mPaint;
     protected RectF mRectF;
 
-    public TranslateView(Context context) {
+    public SkewView(Context context) {
         super(context);
     }
 
-    public TranslateView(Context context, @Nullable AttributeSet attrs) {
+    public SkewView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public TranslateView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SkewView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -59,9 +59,10 @@ public class TranslateView extends BaseDrawView {
         mPaint.setColor(Color.RED);
         canvas.drawRect(mRectF, mPaint);
 
-        canvas.translate(100, 200);
+        canvas.skew(1, 0.5f);
         mPaint.setColor(Color.BLUE);
         canvas.drawRect(mRectF, mPaint);
 
     }
+
 }

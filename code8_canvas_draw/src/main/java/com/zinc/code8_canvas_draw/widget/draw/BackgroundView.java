@@ -4,6 +4,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.PorterDuff;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
@@ -18,6 +21,8 @@ import com.zinc.code8_canvas_draw.R;
 public class BackgroundView extends BaseDrawView {
 
     protected Bitmap mBitmap;
+
+    private Matrix mMatrix;
 
     public BackgroundView(Context context) {
         super(context);
@@ -35,13 +40,18 @@ public class BackgroundView extends BaseDrawView {
     protected void init(Context context) {
         super.init(context);
         mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
+
+        mMatrix = new Matrix();
+        mMatrix.setScale(0.25f, 0.25f);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
 
-        canvas.drawARGB(200, 255, 217, 142);
+        canvas.drawBitmap(mBitmap, mMatrix, mPaint);
+
+        canvas.drawColor(Color.parseColor("#88880000"),
+                PorterDuff.Mode.DST_ATOP);
 
     }
 }

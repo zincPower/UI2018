@@ -3,10 +3,12 @@
 
     <application>
 
-        <activity android:name="com.zinc.code8_canvas_draw.activity.ClientActivity" />
-        <activity android:name="com.zinc.code8_canvas_draw.activity.CommonListActivity" />
-        <activity android:name="com.zinc.code8_canvas_draw.activity.ClockActivity" />
-        <activity android:name="com.zinc.code8_canvas_draw.activity.CommonOperatorActivity" />
+        <activity android:name="com.zinc.code8_canvas_draw.ControlListActivity.ClientActivity" />
+        <activity android:name="com.zinc.code8_canvas_draw.ControlListActivity.DrawListActivity" />
+        <activity android:name="com.zinc.code8_canvas_draw.ControlListActivity.ClockActivity" />
+        <activity android:name="com.zinc.code8_canvas_draw.ControlListActivity.DrawOperatorActivity" />
+        <activity android:name="com.zinc.code8_canvas_draw.ControlListActivity.ControlListActivity" />
+        <activity android:name="com.zinc.code8_canvas_draw.ControlListActivity.ControlOperatorActivity" />
 
     </application>
 

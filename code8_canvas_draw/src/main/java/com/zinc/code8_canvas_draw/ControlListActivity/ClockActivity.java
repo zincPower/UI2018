@@ -1,17 +1,14 @@
-package com.zinc.code8_canvas_draw.activity;
+package com.zinc.code8_canvas_draw.ControlListActivity;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.zinc.code8_canvas_draw.R;
 import com.zinc.code8_canvas_draw.widget.ClockView;
-
-import javax.xml.datatype.Duration;
 
 /**
  * author       : zinc

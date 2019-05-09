@@ -1,4 +1,4 @@
-package com.zinc.code8_canvas_draw.activity;
+package com.zinc.code8_canvas_draw.ControlListActivity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -14,7 +14,10 @@ import com.zinc.code8_canvas_draw.widget.draw.LineView;
 import com.zinc.code8_canvas_draw.widget.draw.LinesOffsetView;
 import com.zinc.code8_canvas_draw.widget.draw.LinesView;
 import com.zinc.code8_canvas_draw.widget.draw.OvalView;
+import com.zinc.code8_canvas_draw.widget.draw.PathView;
+import com.zinc.code8_canvas_draw.widget.draw.PointOffsetView;
 import com.zinc.code8_canvas_draw.widget.draw.PointView;
+import com.zinc.code8_canvas_draw.widget.draw.PointsView;
 import com.zinc.code8_canvas_draw.widget.draw.RectView;
 
 /**
@@ -23,20 +26,27 @@ import com.zinc.code8_canvas_draw.widget.draw.RectView;
  * desc         : 普通操作
  * version      :
  */
-public class CommonOperatorActivity extends Activity {
+public class DrawOperatorActivity extends Activity {
 
     public static final String TYPE = "TYPE";
 
-    public static final int ARC = 2;
-    public static final int CIRCLE = 3;
-    public static final int LINE = 4;
-    public static final int OVAL = 5;
-    public static final int POINT = 6;
-    public static final int TEXT = 7;
-    public static final int RECT = 8;
-    public static final int COLOR = 9;
-    public static final int LINES = 10;
-    public static final int LINES_OFFSET = 11;
+    public static final int ARC = 1;
+    public static final int CIRCLE = 2;
+    public static final int OVAL = 3;
+    public static final int RECT = 4;
+//    public static final int COLOR = 5;
+
+    public static final int LINE = 6;
+    public static final int LINES = 7;
+    public static final int LINES_OFFSET = 8;
+
+    public static final int POINT = 9;
+    public static final int POINTS = 10;
+    public static final int POINTS_OFFSET = 11;
+
+    public static final int COLOR_X_FERMODE = 12;
+
+    public static final int PATH = 13;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,20 +64,19 @@ public class CommonOperatorActivity extends Activity {
             case CIRCLE:
                 view = new CircleView(this);
                 break;
-            case LINE:
-                view = new LineView(this);
-                break;
             case OVAL:
                 view = new OvalView(this);
                 break;
-            case POINT:
-                view = new PointView(this);
-                break;
+
             case RECT:
                 view = new RectView(this);
                 break;
-            case COLOR:
-                view = new BackgroundView(this);
+//            case COLOR:
+//                view = new BackgroundView(this);
+//                break;
+
+            case LINE:
+                view = new LineView(this);
                 break;
             case LINES:
                 view = new LinesView(this);
@@ -75,6 +84,25 @@ public class CommonOperatorActivity extends Activity {
             case LINES_OFFSET:
                 view = new LinesOffsetView(this);
                 break;
+
+            case POINT:
+                view = new PointView(this);
+                break;
+            case POINTS:
+                view = new PointsView(this);
+                break;
+            case POINTS_OFFSET:
+                view = new PointOffsetView(this);
+                break;
+
+            case COLOR_X_FERMODE:
+                view = new BackgroundView(this);
+                break;
+
+            case PATH:
+                view = new PathView(this);
+                break;
+
             default:
                 view = new ArcView(this);
                 break;
@@ -83,4 +111,5 @@ public class CommonOperatorActivity extends Activity {
         frameLayout.addView(view);
 
     }
+
 }

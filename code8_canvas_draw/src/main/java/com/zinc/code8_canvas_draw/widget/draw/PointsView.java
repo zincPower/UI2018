@@ -11,17 +11,23 @@ import android.util.AttributeSet;
  * desc         : 画点
  * version      :
  */
-public class PointView extends BaseDrawView {
+public class PointsView extends BaseDrawView {
 
-    public PointView(Context context) {
+    private float[] pts = new float[]{
+            0, -400,
+            200, -400,
+            -300, 0
+    };
+
+    public PointsView(Context context) {
         super(context);
     }
 
-    public PointView(Context context, @Nullable AttributeSet attrs) {
+    public PointsView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public PointView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public PointsView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -33,8 +39,10 @@ public class PointView extends BaseDrawView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        mPaint.setColor(mColor1);
+
+        mPaint.setColor(mColor2);
         mPaint.setStrokeWidth(dpToPx(5));
-        canvas.drawPoint(100, 100, mPaint);
+        canvas.drawPoints(pts, mPaint);
+
     }
 }

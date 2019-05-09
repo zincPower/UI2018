@@ -14,14 +14,26 @@
             android:orientation="vertical">
 
             <TextView
+                style="@style/textview_title"
+                android:text="画圆" />
+
+            <TextView
                 style="@style/textview_button"
                 android:onClick="onCircle"
                 android:text="1、circle（圆）" />
 
             <TextView
+                style="@style/textview_title"
+                android:text="画椭圆" />
+
+            <TextView
                 style="@style/textview_button"
                 android:onClick="onOval"
                 android:text="2、oval（椭圆）" />
+
+            <TextView
+                style="@style/textview_title"
+                android:text="画线" />
 
             <TextView
                 style="@style/textview_button"
@@ -39,9 +51,17 @@
                 android:text="3、drawLinesOffset（多根线，带偏移）" />
 
             <TextView
+                style="@style/textview_title"
+                android:text="画弧" />
+
+            <TextView
                 style="@style/textview_button"
                 android:onClick="onArc"
                 android:text="4、arc（弧）" />
+
+            <TextView
+                style="@style/textview_title"
+                android:text="画点" />
 
             <TextView
                 style="@style/textview_button"
@@ -50,8 +70,40 @@
 
             <TextView
                 style="@style/textview_button"
+                android:onClick="onPoints"
+                android:text="5、points(多个点)" />
+
+            <TextView
+                style="@style/textview_button"
+                android:onClick="onPointsOffset"
+                android:text="5、points(多个点，带偏移)" />
+
+            <TextView
+                style="@style/textview_title"
+                android:text="画矩形和圆角矩形" />
+
+            <TextView
+                style="@style/textview_button"
                 android:onClick="onRect"
                 android:text="6、rect(矩形)" />
+
+            <TextView
+                style="@style/textview_title"
+                android:text="给画布点颜色" />
+
+            <TextView
+                style="@style/textview_button"
+                android:onClick="onColorXfermode"
+                android:text="7、color" />
+
+            <TextView
+                style="@style/textview_title"
+                android:text="画路径" />
+
+            <TextView
+                style="@style/textview_button"
+                android:onClick="onPath"
+                android:text="8、path" />
 
 
         </LinearLayout>

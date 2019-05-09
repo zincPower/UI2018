@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onRotate"
+        android:text="1、rotate(原点)" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onRotatePoint"
+        android:text="2、rotate(指定旋转中心)" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onScale"
+        android:text="3、scale(原点)" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onScalePoint"
+        android:text="4、scale(指定旋转中心)" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onSkew"
+        android:text="5、skew(原点)" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onTranslate"
+        android:text="6、translate" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onMatrix"
+        android:text="7、matrix" />
+
+</LinearLayout>

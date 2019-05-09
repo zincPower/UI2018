@@ -8,7 +8,7 @@ import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
-import com.zinc.code8_canvas_draw.widget.draw.BaseDrawView;
+import com.zinc.lib_base.BaseView;
 
 /**
  * author       : zinc
@@ -16,20 +16,20 @@ import com.zinc.code8_canvas_draw.widget.draw.BaseDrawView;
  * desc         :
  * version      :
  */
-public class TranslateView extends BaseDrawView {
+public class ScalePointView extends BaseView {
 
     protected Paint mPaint;
     protected RectF mRectF;
 
-    public TranslateView(Context context) {
+    public ScalePointView(Context context) {
         super(context);
     }
 
-    public TranslateView(Context context, @Nullable AttributeSet attrs) {
+    public ScalePointView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public TranslateView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ScalePointView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -59,9 +59,11 @@ public class TranslateView extends BaseDrawView {
         mPaint.setColor(Color.RED);
         canvas.drawRect(mRectF, mPaint);
 
-        canvas.translate(100, 200);
+        canvas.scale(0.5f, 0.33f, 200, 300);
         mPaint.setColor(Color.BLUE);
         canvas.drawRect(mRectF, mPaint);
 
     }
+
+
 }
