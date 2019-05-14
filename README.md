@@ -9,7 +9,8 @@
 >5、VelocityTracker和Scroller<br/>
 >6、绘制流程<br/>
 >7、svg<br/>
->8、canvas_clip<br/>
+>8-1、canvas_clip<br/>
+>8-2、canvas_draw<br/>
 >四、继续整理的章节<br/>
 >五、作者简介<br/>
 >1、个人博客<br/>
@@ -127,7 +128,7 @@
 
 ![](https://github.com/zincPower/UI2018/blob/master/img/code7/svgmap.gif)
 
-### 8、canvas_clip
+### 8-1、canvas_clip
 
 #### 博客：[Canvas中的剪刀手讲解与实战——Android高级UI](https://juejin.im/post/5cc3d0686fb9a031f4160713)
 #### 实战：
@@ -136,7 +137,7 @@
 
 ![](https://github.com/zincPower/UI2018/blob/master/img/code8_clip/heart.gif)
 
-### 8、canvas_draw
+### 8-2、canvas_draw
 
 #### 博客：[Canvas中的绘图师讲解与实战——Android高级UI](https://juejin.im/post/5cda4c1151882568666dfb39)
 #### 实战：
