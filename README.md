@@ -1,6 +1,7 @@
 >目录<br/>
 >一、本项目的作用<br/>
->二、已经整理完成的章节<br/>
+>二、下载试试<br/>
+>三、已经整理完成的章节<br/>
 >1、贝塞尔曲线<br/>
 >2、PathMeasure<br/>
 >3、属性动画<br/>
@@ -9,8 +10,8 @@
 >6、绘制流程<br/>
 >7、svg<br/>
 >8、canvas_clip<br/>
->三、继续整理的章节<br/>
->四、作者简介<br/>
+>四、继续整理的章节<br/>
+>五、作者简介<br/>
 >1、个人博客<br/>
 >2、联系方式<br/>
 >3、赞赏
@@ -144,14 +145,14 @@
 
 ![](https://github.com/zincPower/UI2018/blob/master/img/code8_draw/clock.gif)
 
-## 三、继续整理的章节
+## 四、继续整理的章节
 1. Paint
 2. Canvas
 3. 事件分发机制
 4. 屏幕适配
 5. 更多精彩
 
-## 四、作者简介
+## 五、作者简介
 ### 1、个人博客
 掘金：https://juejin.im/user/5c3033ef51882524ec3a88ba/posts
 
