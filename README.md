@@ -18,7 +18,13 @@
 ## 一、本项目的作用
 本项目主要用于**Android高级UI**[博客](https://juejin.im/user/5c3033ef51882524ec3a88ba/posts)配合讲解，同时整理平常小盆友在工作中的自定义UI控件。
 
-## 二、已经整理完成的章节
+## 二、下载试试
+
+![](https://github.com/zincPower/UI2018/blob/master/img/download.png)
+
+> 借助的是蒲公英平台，每天下载次数有限制，请见谅
+
+## 三、已经整理完成的章节
 
 ### 1、贝塞尔曲线
 
