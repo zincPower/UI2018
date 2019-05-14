@@ -129,6 +129,15 @@
 
 ![](https://github.com/zincPower/UI2018/blob/master/img/code8_clip/heart.gif)
 
+### 8、canvas_draw
+
+#### 博客：[Canvas中的绘图师讲解与实战——Android高级UI](https://juejin.im/post/5cda4c1151882568666dfb39)
+#### 实战：
+
+**(1)时钟与指针**
+
+![](https://github.com/zincPower/UI2018/blob/master/img/code8_draw/clock.gif)
+
 ## 三、继续整理的章节
 1. Paint
 2. Canvas
