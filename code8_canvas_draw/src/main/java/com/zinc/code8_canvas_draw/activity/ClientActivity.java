@@ -1,4 +1,4 @@
-package com.zinc.code8_canvas_draw.ControlListActivity;
+package com.zinc.code8_canvas_draw.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,8 +28,15 @@ public class ClientActivity extends AppCompatActivity {
         startActivity(new Intent(this, ClockActivity.class));
     }
 
-    public void onCommon(View view) {
-        startActivity(new Intent(this, DrawListActivity.class));
+    public void onControl(View view) {
+        startActivity(new Intent(this, ControlListActivity.class));
     }
 
+    public void onCanvas(View view) {
+        startActivity(new Intent(this, CanvasActivity.class));
+    }
+
+    public void onDraw(View view) {
+        startActivity(new Intent(this, DrawListActivity.class));
+    }
 }

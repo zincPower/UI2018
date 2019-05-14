@@ -1,4 +1,4 @@
-package com.zinc.code8_canvas_draw.ControlListActivity;
+package com.zinc.code8_canvas_draw.activity;
 
 import android.app.Activity;
 import android.content.Intent;

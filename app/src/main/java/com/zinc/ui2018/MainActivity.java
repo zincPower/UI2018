@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.tv_code6_draw_flow).setOnClickListener(this);
         findViewById(R.id.tv_code7_svg).setOnClickListener(this);
         findViewById(R.id.tv_code8_canvas_clip).setOnClickListener(this);
+        findViewById(R.id.tv_code8_canvas_draw).setOnClickListener(this);
     }
 
     @Override
@@ -48,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.tv_code8_canvas_clip:
                 startActivity(new Intent(this, com.zinc.code8_canvas_clip.activity.ClientActivity.class));
+                break;
+            case R.id.tv_code8_canvas_draw:
+                startActivity(new Intent(this, com.zinc.code8_canvas_draw.activity.ClientActivity.class));
                 break;
         }
     }

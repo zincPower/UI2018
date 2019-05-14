@@ -11,7 +11,17 @@
 
     <TextView
         style="@style/textview_button"
-        android:onClick="onCommon"
-        android:text="基础操作" />
+        android:onClick="onDraw"
+        android:text="绘制API" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onControl"
+        android:text="控制API" />
+
+    <TextView
+        style="@style/textview_button"
+        android:onClick="onCanvas"
+        android:text="画布" />
 
 </LinearLayout>

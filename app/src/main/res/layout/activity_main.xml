@@ -16,42 +16,47 @@
             <TextView
                 android:id="@+id/tv_code1_bezier"
                 style="@style/textview_button"
-                android:text="贝塞尔曲线" />
+                android:text="1、贝塞尔曲线" />
 
             <TextView
                 android:id="@+id/tv_code2_pathmeasure"
                 style="@style/textview_button"
-                android:text="PathMeasure" />
+                android:text="2、PathMeasure" />
 
             <TextView
                 android:id="@+id/tv_code3_anim"
                 style="@style/textview_button"
-                android:text="属性动画" />
+                android:text="3、属性动画" />
 
             <TextView
                 android:id="@+id/tv_code4_xfermode"
                 style="@style/textview_button"
-                android:text="Xfermode" />
+                android:text="4、Xfermode" />
 
             <TextView
                 android:id="@+id/tv_code5_scroller_velocityTracker"
                 style="@style/textview_button"
-                android:text="Scroller 和 VelocityTracker" />
+                android:text="5、Scroller 和 VelocityTracker" />
 
             <TextView
                 android:id="@+id/tv_code6_draw_flow"
                 style="@style/textview_button"
-                android:text="绘制流程" />
+                android:text="6、绘制流程" />
 
             <TextView
                 android:id="@+id/tv_code7_svg"
                 style="@style/textview_button"
-                android:text="svg 使用" />
+                android:text="7、svg 使用" />
 
             <TextView
                 android:id="@+id/tv_code8_canvas_clip"
                 style="@style/textview_button"
-                android:text="canvas的裁剪函数 clip" />
+                android:text="8-1、canvas的裁剪函数 clip" />
+
+            <TextView
+                android:id="@+id/tv_code8_canvas_draw"
+                style="@style/textview_button"
+                android:text="8-2、canvas的绘制函数" />
 
         </LinearLayout>
 
