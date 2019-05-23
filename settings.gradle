@@ -8,5 +8,6 @@ include ':app',
         ':code7_svg',
         ':code8_canvas_clip',
         ':code8_canvas_draw',
+        ':code8_canvas_text_paint',
         ':lib_base'
 

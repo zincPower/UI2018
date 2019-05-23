@@ -51,12 +51,17 @@
             <TextView
                 android:id="@+id/tv_code8_canvas_clip"
                 style="@style/textview_button"
-                android:text="8-1、canvas的裁剪函数 clip" />
+                android:text="8-1、canvas的裁剪师" />
 
             <TextView
                 android:id="@+id/tv_code8_canvas_draw"
                 style="@style/textview_button"
-                android:text="8-2、canvas的绘制函数" />
+                android:text="8-2、canvas的绘图师" />
+
+            <TextView
+                android:id="@+id/tv_code8_canvas_text"
+                style="@style/textview_button"
+                android:text="8-3、canvas的书法家" />
 
         </LinearLayout>
 

@@ -1,2 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zinc.code8_canvas_text_paint" />
+    package="com.zinc.code8_canvas_text_paint" >
+    <application>
+        <activity android:name=".TextListActivity"/>
+        <activity android:name=".CommonOperatorActivity"/>
+        <activity android:name=".ClientActivity"/>
+        <activity android:name=".WaveTextActivity"/>
+    </application>
+</manifest>
