@@ -23,9 +23,9 @@ import com.zinc.lib_base.UIUtils;
  */
 public class WaveTextView extends BaseView {
 
-    private static final int LENGTH_TIMES = 2;
+    private static final int LENGTH_TIMES = 3;
     private static final int POINT_COUNT = 200;
-    private static final float A = 100;
+    private static final float A = 200;
 
     private String mContent;
 
@@ -162,7 +162,7 @@ public class WaveTextView extends BaseView {
      * 三角函数：A*sin(w*x+m)+k
      */
     private float calculateY(float x) {
-        double a = Math.pow(4 / (4 + Math.pow(x / 225, 4)), 2.5f) * mA;
+        double a = Math.pow(4 / (4 + Math.pow(4 * x / mLength, 4)), 2.5f) * mA;
         return (float) (a * Math.sin(Math.PI * x / 200 - m));
     }
 

@@ -11,6 +11,7 @@
 >7、svg<br/>
 >8-1、canvas_clip<br/>
 >8-2、canvas_draw<br/>
+>8-3、canvas_text<br/>
 >四、继续整理的章节<br/>
 >五、作者简介<br/>
 >1、个人博客<br/>
@@ -145,6 +146,16 @@
 **(1)时钟与指针**
 
 ![](https://github.com/zincPower/UI2018/blob/master/img/code8_draw/clock.gif)
+
+### 8-3、canvas_text
+
+#### 博客：[Canvas中的书法家讲解与实战——Android高级UI](https://juejin.im/post/5ce8d20df265da1bc37eea07)
+#### 实战：
+
+**(1)抖动的字符**
+
+![](https://github.com/zincPower/UI2018/blob/master/img/code8_draw/clock.gif)
+
 
 ## 四、继续整理的章节
 1. Paint
