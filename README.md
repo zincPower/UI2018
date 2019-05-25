@@ -154,7 +154,7 @@
 
 **(1)抖动的字符**
 
-![](https://github.com/zincPower/UI2018/blob/master/img/code8_draw/clock.gif)
+![](https://github.com/zincPower/UI2018/blob/master/img/code8_text/wave_string.gif)
 
 
 ## 四、继续整理的章节
