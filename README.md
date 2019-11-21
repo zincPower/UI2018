@@ -170,12 +170,7 @@
 
 csdn：https://blog.csdn.net/weixin_37625173
 
-### 2、联系方式
-微信 
-
-![](https://github.com/zincPower/UI2018/blob/master/img/weixin.png)
-
-### 3、赞赏
+### 2、赞赏
 如果觉得所写文章和博客对您有所帮助，走过路过就赞赏一下吧😄
 
 ![](https://github.com/zincPower/UI2018/blob/master/img/alipay.jpg)

@@ -17,4 +17,5 @@
         <item name="android:statusBarColor">@color/color_gray_alpha</item>
         <item name="android:colorPrimaryDark">@color/color_gray_alpha</item>
     </style>
+
 </resources>
