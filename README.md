@@ -1,7 +1,6 @@
 >目录<br/>
 >一、本项目的作用<br/>
->二、下载试试<br/>
->三、已经整理完成的章节<br/>
+>二、已经整理完成的章节<br/>
 >1、贝塞尔曲线<br/>
 >2、PathMeasure<br/>
 >3、属性动画<br/>
@@ -12,26 +11,20 @@
 >8-1、canvas_clip<br/>
 >8-2、canvas_draw<br/>
 >8-3、canvas_text<br/>
->四、继续整理的章节<br/>
->五、作者简介<br/>
+>三、继续整理的章节<br/>
+>四、作者简介<br/>
 >1、个人博客<br/>
->2、联系方式<br/>
->3、赞赏
+>2、赞赏
 
 ## 一、本项目的作用
-本项目主要用于**Android高级UI**[博客](https://juejin.im/user/5c3033ef51882524ec3a88ba/posts)配合讲解，同时整理平常小盆友在工作中的自定义UI控件。
 
-## 二、下载试试
+本项目主要用于**Android高级UI**[博客](https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg2MzQ0MDA1OA==&action=getalbum&album_id=3071465567104319491#wechat_redirect)配合讲解，同时整理平常小盆友在工作中的自定义UI控件。
 
-![](https://github.com/zincPower/UI2018/blob/master/img/download.png)
-
-> 借助的是蒲公英平台，每天下载次数有限制，请见谅
-
-## 三、已经整理完成的章节
+## 二、已经整理完成的章节
 
 ### 1、贝塞尔曲线
 
-#### 博客：[自带美感的贝塞尔曲线原理与实战——Android高级UI](https://juejin.im/post/5c3988516fb9a049d1325c83)
+#### 博客：[自带美感的贝塞尔曲线原理与实战——Android高级UI](https://mp.weixin.qq.com/s?__biz=Mzg2MzQ0MDA1OA==&mid=2247483767&idx=1&sn=3c66048b182045c7c14e02557451cd4d&chksm=ce79dca2f90e55b4ddc0d0d94cee18a13449079dd9f99ff2eb5e2f9458c32c6c5b0eb2d8e606&scene=178&cur_album_id=3071465567104319491#rd)
 #### 实战：
 **（1）多阶贝塞尔曲线工具**
 
@@ -51,7 +44,7 @@
 
 ### 2、PathMeasure
 
-#### 博客：[PathMeasure的API讲解与实战——Android高级UI](https://juejin.im/post/5c3039356fb9a049c15f5c5b)
+#### 博客：[PathMeasure的API讲解与实战——Android高级UI](https://mp.weixin.qq.com/s?__biz=Mzg2MzQ0MDA1OA==&mid=2247483860&idx=1&sn=70679adebebc148321c509885afb2205&chksm=ce79dc01f90e55176eaa944c92e563998f91e7386072513953ae80705bac4bc7d4169f425a2b&scene=178&cur_album_id=3071465567104319491#rd)
 #### 实战：
 **（1）乘风破浪的小船**
 
@@ -67,7 +60,7 @@
 
 ### 3、属性动画
 
-#### 博客：[带有活力的属性动画源码分析与实战——Android高级UI](https://juejin.im/post/5c595158f265da2d9710cb6e)
+#### 博客：[带有活力的属性动画源码分析与实战——Android高级UI](https://mp.weixin.qq.com/s?__biz=Mzg2MzQ0MDA1OA==&mid=2247483865&idx=1&sn=2ee5f6a333747583946151ab66398301&chksm=ce79dc0cf90e551a580cd0e38ada4b603bf7165901f58087bd1b66ed9744cdad34ea8bdcec7c&scene=178&cur_album_id=3071465567104319491#rd)
 #### 实战：
 **（1）插值器工具**
 
@@ -87,7 +80,7 @@
 
 ### 4、Xfermode
 
-#### 博客：[图像操纵大师Xfermode讲解与实战——Android高级UI](https://juejin.im/post/5c6c20556fb9a04a0e2dc490)
+#### 博客：[图像操纵大师Xfermode讲解与实战——Android高级UI](https://mp.weixin.qq.com/s?__biz=Mzg2MzQ0MDA1OA==&mid=2247483863&idx=1&sn=22ea15d5a15da4ce0668f7c653153dbe&chksm=ce79dc02f90e551416088fd42d98deb65f46c187b8005b639fb60c215f1ad51e0e0ba503e8ae&scene=178&cur_album_id=3071465567104319491#rd)
 #### 实战：
 **（1）Xfermode工具**
 
@@ -103,7 +96,7 @@
 
 ### 5、VelocityTracker和Scroller
 
-#### 博客：[让控件如此丝滑Scroller和VelocityTracker的API讲解与实战——Android高级UI](https://juejin.im/post/5c7f4f0351882562ed516ab6)
+#### 博客：[让控件如此丝滑Scroller和VelocityTracker的API讲解与实战——Android高级UI](https://mp.weixin.qq.com/s?__biz=Mzg2MzQ0MDA1OA==&mid=2247483864&idx=1&sn=3685a45f3f5da2deb7034805744ac782&chksm=ce79dc0df90e551b893e187fe3ce58949d80bfb31d3afd38f444ad1b05e76aa549374465648d&scene=178&cur_album_id=3071465567104319491#rd)
 #### 实战：
 **（1）带惯性滑动的柱状图**
 
@@ -111,7 +104,7 @@
 
 ### 6、绘制流程
 
-#### 博客：[灵魂画师，Android绘制流程——Android高级UI](https://juejin.im/post/5c9adb5ff265da60c76ceb1c)
+#### 博客：[灵魂画师，Android绘制流程——Android高级UI](https://mp.weixin.qq.com/s?__biz=Mzg2MzQ0MDA1OA==&mid=2247483861&idx=1&sn=f75c572fd63cdfc92e5a87c0143e7a91&chksm=ce79dc00f90e5516c2222a4a806197f28b35a77b8bc2c2cd865f245be38732a1e2e57211d043&scene=178&cur_album_id=3071465567104319491#rd)
 #### 实战：
 **（1）标签布局**
 
@@ -119,7 +112,7 @@
 
 ### 7、svg
 
-#### 博客：[放荡不羁SVG讲解与实战——Android高级UI](https://juejin.im/post/5ca9f65e6fb9a05e472b9cab)
+#### 博客：[放荡不羁SVG讲解与实战——Android高级UI](https://mp.weixin.qq.com/s?__biz=Mzg2MzQ0MDA1OA==&mid=2247483986&idx=1&sn=5f31ff11a056350ca97b3c243dbfecdd&chksm=ce79df87f90e56912c608e0ca70794eafdb7da399c7dd521c0377f706ffff05b334ed51abb82&scene=178&cur_album_id=3071465567104319491#rd)
 #### 实战：
 **（1）"手写"掘金**
 
@@ -131,7 +124,7 @@
 
 ### 8-1、canvas_clip
 
-#### 博客：[Canvas中的剪刀手讲解与实战——Android高级UI](https://juejin.im/post/5cc3d0686fb9a031f4160713)
+#### 博客：[Canvas中的裁剪师讲解与实战——Android高级UI](https://mp.weixin.qq.com/s?__biz=Mzg2MzQ0MDA1OA==&mid=2247483940&idx=1&sn=581a9eed0dbe223de099c6e2d86b4d9f&chksm=ce79dff1f90e56e75fdb534f815cc0a58d960a264467378557c674b46085627a91989a11bd0f&scene=178&cur_album_id=3071465567104319491#rd)
 #### 实战：
 
 **(1)老夫的少女心**
@@ -140,7 +133,7 @@
 
 ### 8-2、canvas_draw
 
-#### 博客：[Canvas中的绘图师讲解与实战——Android高级UI](https://juejin.im/post/5cda4c1151882568666dfb39)
+#### 博客：[Canvas中的绘图师讲解与实战——Android高级UI](https://mp.weixin.qq.com/s?__biz=Mzg2MzQ0MDA1OA==&mid=2247483941&idx=1&sn=7c2434266ab7ed9eb089b220e5d47020&chksm=ce79dff0f90e56e614a7ec4ad3375c7052580cb5c0e260e7d2e4d4312ee3306ea633131f9249&scene=178&cur_album_id=3071465567104319491#rd)
 #### 实战：
 
 **(1)时钟与指针**
@@ -149,29 +142,35 @@
 
 ### 8-3、canvas_text
 
-#### 博客：[Canvas中的书法家讲解与实战——Android高级UI](https://juejin.im/post/5ce8d20df265da1bc37eea07)
+#### 博客：[Canvas中的书法家讲解与实战——Android高级UI](https://mp.weixin.qq.com/s?__biz=Mzg2MzQ0MDA1OA==&mid=2247483942&idx=1&sn=96e5d1be59988f719f6dca2c549e574a&chksm=ce79dff3f90e56e5954d901c4dfddb3541abeb49174e73b8a84ce7c65563dc0f0a8ecf9e018e&scene=178&cur_album_id=3071465567104319491#rd)
 #### 实战：
 
 **(1)抖动的字符**
 
 ![](https://github.com/zincPower/UI2018/blob/master/img/code8_text/wave_string.gif)
 
-
-## 四、继续整理的章节
+## 三、继续整理的章节
 1. Paint
 2. Canvas
 3. 事件分发机制
 4. 屏幕适配
 5. 更多精彩
 
-## 五、作者简介
+## 四、作者简介
+
 ### 1、个人博客
+
 掘金：https://juejin.im/user/5c3033ef51882524ec3a88ba/posts
 
 csdn：https://blog.csdn.net/weixin_37625173
 
+公众号：微信搜索 "江澎涌" ，或扫描二维码
+
+![](https://github.com/zincPower/UI2018/blob/master/img/公众号.png)
+
 ### 2、赞赏
-如果觉得所写文章和博客对您有所帮助，走过路过就赞赏一下吧😄
+
+如果觉得所写文章和对您有所帮助，请我喝杯水果茶吧 😄
 
 ![](https://github.com/zincPower/UI2018/blob/master/img/alipay.jpg)
 ![](https://github.com/zincPower/UI2018/blob/master/img/wxpay.png)
