@@ -1,8 +1,18 @@
 > 目录<br/>
 > 一、本项目的作用<br/>
 > 二、已经整理完成的章节<br/>
+> 1、贝塞尔曲线<br/>
+> 2、PathMeasure<br/>
+> 3、属性动画<br/>
+> 4、Xfermode<br/>
+> 5、VelocityTracker和Scroller<br/>
+> 6、绘制流程<br/>
+> 7、svg<br/>
+> 8-1、canvas_clip<br/>
+> 8-2、canvas_draw<br/>
+> 8-3、canvas_text<br/>
 > 三、继续整理的章节<br/>
-> 四、
+> 四、推荐<br/>
 > 五、作者简介<br/>
 
 ## 一、本项目的作用
